@@ -9,6 +9,9 @@ public class GameLaunch : MonoSingleton<GameLaunch>
 {
     private string appversionPath = "app_version.bytes";
     private string launchUIName = "UILaunch";
+    private string noticeTipsUIName = "UINoticeTip";
+    //更新器
+    private AssetBundleUpdater bundleUpdater=null;
     public override void Awake()
     {
         base.Awake();
@@ -16,9 +19,9 @@ public class GameLaunch : MonoSingleton<GameLaunch>
     IEnumerator Start()
     {
         var start = DateTime.Now;
-        yield return InitAppVersion();
-        Debug.Log(string.Format("InitAppVersion use {0}ms", (DateTime.Now - start).Milliseconds));
-        start = DateTime.Now;
+        //yield return InitAppVersion();
+        //Debug.Log(string.Format("InitAppVersion use {0}ms", (DateTime.Now - start).Milliseconds));
+        //start = DateTime.Now;
         yield return AssetBundleManager.Instance.Initialize();
         Debug.Log(string.Format("AssetBundleManager Initialize use {0}ms", (DateTime.Now - start).Milliseconds));
         Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
@@ -33,36 +36,41 @@ public class GameLaunch : MonoSingleton<GameLaunch>
         //XLuaManager.Instance.StartHotFix();暂不开启热修复
         Debug.Log(string.Format("XLuaManager init use {0}ms", (DateTime.Now - start).Milliseconds));
         InitLaunchUI();
+        InitNoticeTipUI();
+        if (bundleUpdater!=null) {
+            AssetBundleUpdater.Instance.CheckUpdate();
+        }
+       
+        yield break;
     }
 
-    IEnumerator InitAppVersion() {
-        var creater = AssetBundleManager.Instance.RequestAssetFileAsync(appversionPath);
-        yield return creater;//当creater.MoveNext()等于true时会挂起这里的代码，等于false时继续执行后面的代码
-        string currentVersionCode = creater.text;
-        //string lastedVersionCode = creater.text;
-        creater.Dispose();
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-        //get version code for server
-#endif
-        //check version code
-        //if (!currentVersionCode.CheckIsNewVersion(lastedVersionCode)) { 
-
-        //}
-        print(creater.url + ",,," + creater.MoveNext());
-        yield break;//相当于return，直接结束当前方法
-    }
     private void InitLaunchUI() {
         var ui = AssetBundleManager.Instance.LoadAssets<GameObject>(launchUIName);
-        InstantiateUI(ui);
+        GameObject obj = InstantiateUI(ui);
+        if (obj.GetComponent<AssetBundleUpdater>() == null)
+        {
+            bundleUpdater = obj.AddComponent<AssetBundleUpdater>();
+        }
+        else
+        {
+            bundleUpdater = obj.GetComponent<AssetBundleUpdater>();
+        }
     }
-    public void InstantiateUI(GameObject prefab_ui) {
+    private void InitNoticeTipUI() {
+        var ui = AssetBundleManager.Instance.LoadAssets<GameObject>(noticeTipsUIName);
+        GameObject obj = InstantiateUI(ui);
+        obj.AddComponent<UINoticeTip>();
+    }
+    public GameObject InstantiateUI(GameObject prefab_ui) {
         GameObject obj = Instantiate(prefab_ui);
         var launchLayer = GameObject.Find("UIRoot/LaunchLayer");
         obj.transform.SetParent(launchLayer.transform);
+       
         var rectTransform = obj.GetComponent<RectTransform>();
         rectTransform.offsetMax = Vector2.zero;
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.localScale = Vector3.one;
         rectTransform.localPosition = Vector3.zero;
+        return obj;
     }
 }

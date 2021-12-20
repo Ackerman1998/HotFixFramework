@@ -33,5 +33,19 @@ public class EditorConfig
             UnityEditor.EditorPrefs.SetString("AppVersion", value);
         }
     }
+    /// <summary>
+    /// 资源版本号
+    /// </summary>
+    public static string ResVersion
+    {
+        get
+        {
+            return UnityEditor.EditorPrefs.GetString("ResVersion");
+        }
+        set
+        {
+            UnityEditor.EditorPrefs.SetString("ResVersion", value);
+        }
+    }
 #endif
 }

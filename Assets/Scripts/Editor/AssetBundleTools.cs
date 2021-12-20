@@ -15,7 +15,8 @@ public class AssetBundleTools : IEditorWindow
     private static string endName = "bytes";
     private static string assetbundleEndName = "assetbundle";
     private static string assetsMappingFilePath = Application.dataPath + "/AssetPackage/AssetsMapping.bytes";
-    private static string appversionPath = Application.streamingAssetsPath + "/Assetbundle/app_version.bytes";
+    private static string appversionPath =  "app_version.bytes";
+    private static string resversionPath = "res_version.bytes";
     private static string assetbundleOutputPath = Application.streamingAssetsPath + "/Assetbundle";
     private static List<string> unUsedExtension = new List<string>() {".meta" };//ignore extension 
     private string[] modes = new string[] {"Editor Mode","Real Mode" };
@@ -32,6 +33,7 @@ public class AssetBundleTools : IEditorWindow
         VerticalLayout(()=> {
             EditorConfig.SelectMode = CreateSelectMenu("Mode Select",EditorConfig.SelectMode, modes);
             EditorConfig.AppVersion = CreateTextField("App Version Code",EditorConfig.AppVersion);
+            EditorConfig.ResVersion = CreateTextField("Res Version Code",EditorConfig.ResVersion);
         });
     }
 
@@ -175,7 +177,8 @@ public class AssetBundleTools : IEditorWindow
     [MenuItem("AssetBundle/Build Assetbundle")]
     public static void PackageAbs()
     {
-        string directory = assetbundleOutputPath;
+        string directory = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundles");
+        //string directory = assetbundleOutputPath;
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
@@ -197,7 +200,8 @@ public class AssetBundleTools : IEditorWindow
                 File.Delete(file.FullName);
             }
         }
-        FileTools.WriteText(appversionPath, EditorConfig.AppVersion);
+        FileTools.WriteText(Path.Combine(directory, appversionPath), EditorConfig.AppVersion);
+        FileTools.WriteText(Path.Combine(directory, resversionPath), EditorConfig.ResVersion);
         EditorUtility.DisplayDialog("AssetBundle", "Build Assetbundle Success...","OK");
         //AssetDatabase.Refresh();
     }
@@ -214,7 +218,13 @@ public class AssetBundleTools : IEditorWindow
         AssetDatabase.Refresh();
         Debug.Log("Clear AssetBundle Success...");
     }
-  
-
+    [MenuItem("AssetBundle/Copy AssetBundle To StreamingAsset")]
+    public static void CopyAssetBundleToStreamingAsset() {
+        string targetPath = assetbundleOutputPath;
+        string sourcePath = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundles");
+        GameUtility.SafeDeleteDir(targetPath);
+        FileUtil.CopyFileOrDirectoryFollowSymlinks(sourcePath, targetPath);
+        AssetDatabase.Refresh();
+    }
     #endregion
 }

@@ -136,4 +136,17 @@ public static partial class CSharpExtension
     {
         return o == null;
     }
+
+    public static Transform FindAll(this Transform root, string objName)
+    {
+        if (root == null) return null;
+        Transform target = root.Find(objName);
+        if (target != null) return target;
+        for (int i = 0; i < root.childCount; i++)
+        {
+            Transform tt = root.GetChild(i).FindAll(objName);
+            if (tt != null) return tt;
+        }
+        return target;
+    }
 }

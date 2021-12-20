@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AssetBundleManager.cs" />
+    <Compile Include="Assets\Scripts\AssetBundleUpdater.cs" />
     <Compile Include="Assets\Scripts\CSharpExtension.cs" />
     <Compile Include="Assets\Scripts\EditorConfig.cs" />
     <Compile Include="Assets\Scripts\FileTools.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Assets\Scripts\ResourceAsyncOperation.cs" />
     <Compile Include="Assets\Scripts\ResourceWebRequester.cs" />
     <Compile Include="Assets\Scripts\StructData.cs" />
+    <Compile Include="Assets\Scripts\UI\UINoticeTip.cs" />
     <Compile Include="Assets\Scripts\XLuaManager.cs" />
     <Compile Include="Assets\Scripts\XLuaMenu.cs" />
     <Compile Include="Assets\Test.cs" />

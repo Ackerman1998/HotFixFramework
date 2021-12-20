@@ -96,10 +96,8 @@ public class XLuaManager : MonoSingleton<XLuaManager>
             return System.Text.Encoding.UTF8.GetBytes(content);
         }
 #endif
-      
         TextAsset ts = AssetBundleManager.Instance.LoadAssets<TextAsset>(path + ".lua");
         return ts.bytes;
-        
     }
     /// <summary>
     /// 开始执行主方法,游戏开始运行

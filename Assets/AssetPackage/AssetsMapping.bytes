@@ -1,4 +1,5 @@
 ui.assetbundle,UI/Prefab/UILaunch.prefab
+ui.assetbundle,UI/Prefab/UINoticeTip.prefab
 ui.assetbundle,UI/Loading/ui_role_10.png
 ui.assetbundle,UI/Loading/ui_role_11.png
 scripts.assetbundle,Scripts/UI/UILoading/View/UILoadingView.lua.bytes
@@ -77,3 +78,4 @@ scripts.assetbundle,Scripts/Common/Tools/socket.lua.bytes
 scripts.assetbundle,Scripts/Common/Tools/utf8.lua.bytes
 scripts.assetbundle,Scripts/GameMain.lua.bytes
 scripts.assetbundle,Scripts/HotfixMain.lua.bytes
+font.assetbundle,Font/BenMoZhuHei-2.ttf
