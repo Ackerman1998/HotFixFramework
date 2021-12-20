@@ -184,11 +184,11 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             mapping_List.Add(assetMapping);
         }
         assetbundle_Mapping.Unload(true);
-        print("mapping_List.Count:" + mapping_List.Count);
-        foreach (AssetMapping assetMapping in mapping_List)
-        {
-            print(assetMapping.assetbundleName + ",,," + assetMapping.assetName + "..." + assetMapping.loadPath);
-        }
+        //print("mapping_List.Count:" + mapping_List.Count);
+        //foreach (AssetMapping assetMapping in mapping_List)
+        //{
+        //    print(assetMapping.assetbundleName + ",,," + assetMapping.assetName + "..." + assetMapping.loadPath);
+        //}
     }
     static string GetMD5(byte[] data)
     {

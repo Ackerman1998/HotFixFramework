@@ -177,7 +177,7 @@ public class AssetBundleTools : IEditorWindow
     [MenuItem("AssetBundle/Build Assetbundle")]
     public static void PackageAbs()
     {
-        string directory = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundles");
+        string directory = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundle");
         //string directory = assetbundleOutputPath;
         if (!Directory.Exists(directory))
         {
@@ -221,7 +221,7 @@ public class AssetBundleTools : IEditorWindow
     [MenuItem("AssetBundle/Copy AssetBundle To StreamingAsset")]
     public static void CopyAssetBundleToStreamingAsset() {
         string targetPath = assetbundleOutputPath;
-        string sourcePath = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundles");
+        string sourcePath = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundle");
         GameUtility.SafeDeleteDir(targetPath);
         FileUtil.CopyFileOrDirectoryFollowSymlinks(sourcePath, targetPath);
         AssetDatabase.Refresh();

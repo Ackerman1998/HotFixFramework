@@ -13,6 +13,7 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
     private Button Button_Exit;
     private Button Button_Update;
     private Text TipsText;
+    int LastIndex = -1;
     public override void Awake()
     {
         base.Awake();
@@ -26,13 +27,18 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
         Show();
         switch (tipsType) {
             case TipsType.AppUpdate:
-                Button_Download.onClick.AddListener(callback1);
+                Button_Download.onClick.AddListener(()=> {
+                    callback1?.Invoke();
+                    LastIndex = 1;
+                });
                 Button_Exit.onClick.AddListener(callbackClose);
+
                 TipsText.text = "App Version is Oldest,Please Update App...";
                 break;
             case TipsType.ResUpdate:
-                Button_Update.onClick.AddListener(()=> {
-                    callback1();
+                Button_Update.onClick.AddListener(() => {
+                    callback1?.Invoke();
+                    LastIndex = 1;
                     Hide();
                 });
                 Button_Exit.onClick.AddListener(callbackClose);
@@ -50,6 +56,17 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
         Button_Download.onClick.RemoveAllListeners();
         Button_Exit.onClick.RemoveAllListeners();
         Button_Update.onClick.RemoveAllListeners();
+    }
+    public void Destroy() {
+        mInstance = null;
+        Destroy(gameObject);
+    }
+
+    public IEnumerator Response() {
+        yield return new WaitUntil(()=> {
+            return LastIndex != -1;
+        });
+        yield break;
     }
 }
 /// <summary>

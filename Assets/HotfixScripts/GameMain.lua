@@ -26,7 +26,7 @@ local function Initilize()
 end
 
 local function EnterGame()
-	SceneManager:GetInstance():SwitchScene(SceneConfig.LuanchScene)
+	SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
 end
 
 
@@ -73,10 +73,11 @@ local function Start()
 	UIManager:GetInstance():StartUp()
 	--foo(1,2,3,4)
 	--TestCoroutine()
-	-- coroutine.start(function()
-	-- 	Log.Print("start coroutine ...")
-	-- end)
-	Log.Print("******************************")
+	coroutine.start(function()
+		Log.Print("******************************Enter Game ...")
+		EnterGame()
+	end)
+	
 	--LuaTest.TestFunction()
 	--TestDeepCopy()
 end

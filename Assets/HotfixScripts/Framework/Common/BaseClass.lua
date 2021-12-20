@@ -9,7 +9,7 @@ ClassType={
 }
 
 function BaseClass(className,super)
-	Log.Print("BaseClass Run..." .. className)
+	--Log.Print("BaseClass Run..." .. className)
 	--生成一个类类型
 	local class_type = {}
 	class_type._init=false

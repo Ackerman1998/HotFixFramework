@@ -32,7 +32,7 @@ public class GameLaunch : MonoSingleton<GameLaunch>
             Debug.Log(string.Format("Load AssetBundle {0} use {1}ms", assetbundle, (DateTime.Now - start).Milliseconds));
             request.Dispose();
         }
-        XLuaManager.Instance.StartRun();
+        XLuaManager.Instance.Init();
         //XLuaManager.Instance.StartHotFix();暂不开启热修复
         Debug.Log(string.Format("XLuaManager init use {0}ms", (DateTime.Now - start).Milliseconds));
         InitLaunchUI();
