@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 [XLua.ReflectionUse]
 [XLua.LuaCallCSharp]
@@ -148,5 +149,25 @@ public static partial class CSharpExtension
             if (tt != null) return tt;
         }
         return target;
+    }
+    /// <summary>
+    /// byte转为文件大小
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static string ParseFileSize(this float size) {
+        StringBuilder total = new StringBuilder();
+        if (size < 1024) {
+            total.Append(size + " bytes");
+        } else if (size >= 1024&&size<1024*1024) {
+            int kb = (int)(size / 1024);
+            total.Append(kb + " kb");
+        }
+        else if (size >= 1024 * 1024 && size < 1024 * 1024 * 1024)
+        {
+            int kb = (int)(size / 1024);
+            total.Append(kb + " mb");
+        }
+        return total.ToString();
     }
 }

@@ -1,8 +1,10 @@
+ui.assetbundle,UI/Prefab/LaunchLayer.prefab
 ui.assetbundle,UI/Prefab/UILaunch.prefab
 ui.assetbundle,UI/Prefab/UILogin.prefab
 ui.assetbundle,UI/Prefab/UINoticeTip.prefab
 ui.assetbundle,UI/Loading/ui_role_10.png
 ui.assetbundle,UI/Loading/ui_role_11.png
+ui.assetbundle,UI/Loading/退出按钮.png
 scripts.assetbundle,Scripts/UI/UILoading/View/UILoadingView.lua.bytes
 scripts.assetbundle,Scripts/UI/UILoading/Model/UILoadingModel.lua.bytes
 scripts.assetbundle,Scripts/UI/UILoading/UILoadingConfig.lua.bytes

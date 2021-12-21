@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+
 public class FileTools 
 {
     /// <summary>
@@ -102,13 +105,41 @@ public class FileTools
         Debug.LogError("Content : ["+content+"] not exist...");
         return false;
     }
-    /// <summary>
-    /// check rootcontent all files md5 value 
-    /// </summary>
-    public static void GetAllFileMD5(string rootContent) {
-        if (!CheckContentExist(rootContent)) {
-            return;
+    
+    public static string GetFileMD5Value(string filepath)
+    {
+        if (File.Exists(filepath))
+        {
+            byte[] data = File.ReadAllBytes(filepath);
+            MD5 md5 = MD5.Create();
+            md5 = new MD5CryptoServiceProvider();
+            byte[] targetData = md5.ComputeHash(data);
+            StringBuilder strBuilder = new StringBuilder();
+            for (int i = 0; i < targetData.Length; i++)
+            {
+                strBuilder.AppendFormat("{0:x2}", targetData[i]);
+            }
+            return strBuilder.ToString();
         }
+        else {
+            return null;
+        }
+    }
+    /// <summary>
+    /// 获取文件列表所有文件的大小
+    /// </summary>
+    /// <param name="fileList"></param>
+    public static string GetFileListSize(List<string> fileList) {
+        float totalSize = 0;
+        foreach (string str in fileList) {
+            totalSize+= File.ReadAllBytes(str).Length;
+        }
+        return totalSize.ParseFileSize();
+    }
 
+    public static void UpdateLocalVersionCode(string path,string versioncode) {
+        FileStream fs = new FileStream(path,FileMode.OpenOrCreate,FileAccess.ReadWrite);
+        byte[] buff = Encoding.UTF8.GetBytes(versioncode);
+        fs.Write(buff,0, buff.Length);
     }
 }

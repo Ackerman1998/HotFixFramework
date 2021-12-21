@@ -23,7 +23,8 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
         TipsText = transform.FindAll("TipsText").GetComponent<Text>();
         Hide();
     }
-    public void ShowTips(TipsType tipsType, UnityAction callback1, UnityAction callbackClose) {
+    public void ShowTips(TipsType tipsType, UnityAction callback1, UnityAction callbackClose,string tips) {
+        RemoveAllListenerForButton();
         Show();
         switch (tipsType) {
             case TipsType.AppUpdate:
@@ -33,7 +34,7 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
                 });
                 Button_Exit.onClick.AddListener(callbackClose);
 
-                TipsText.text = "App Version is Oldest,Please Update App...";
+                TipsText.text = tips;
                 break;
             case TipsType.ResUpdate:
                 Button_Update.onClick.AddListener(() => {
@@ -42,7 +43,7 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
                     Hide();
                 });
                 Button_Exit.onClick.AddListener(callbackClose);
-                TipsText.text = "Res Version is Oldest,Please Download Res...";
+                TipsText.text = tips;
                 break;
         }
     }
@@ -61,7 +62,10 @@ public class UINoticeTip : MonoSingleton<UINoticeTip>
         mInstance = null;
         Destroy(gameObject);
     }
-
+    /// <summary>
+    /// 按钮响应
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator Response() {
         yield return new WaitUntil(()=> {
             return LastIndex != -1;

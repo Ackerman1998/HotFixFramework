@@ -190,19 +190,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         //    print(assetMapping.assetbundleName + ",,," + assetMapping.assetName + "..." + assetMapping.loadPath);
         //}
     }
-    static string GetMD5(byte[] data)
-    {
-        MD5 md5 = MD5.Create();
-        md5 = new MD5CryptoServiceProvider();
-        byte[] targetData = md5.ComputeHash(data);
-        StringBuilder strBuilder = new StringBuilder();
-        for (int i = 0; i < targetData.Length; i++)
-        {
-            strBuilder.AppendFormat("{0:x2}", targetData[i]);
-        }
-        Debug.Log(strBuilder.ToString());
-        return strBuilder.ToString();
-    }
+    
     #region Load Assets
     /// <summary>
     /// 异步请求常规资源(非Assetbundle资源) 如：文本文件
