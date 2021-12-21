@@ -1,31 +1,39 @@
 --[[
 -- 场景配置
 --]]
-local SceneConfig={
+local SceneConfig = {
+	-- 启动场景
 	LaunchScene = {
-		Level=0,
-		Name = "LuanchScene",
-		Type=nil
+		-- level、name对应于BuldSetting中添加的场景
+		Level = 0,
+		Name = "LaunchScene",
+		Type = nil,
 	},
-    StartScene = {
-		Level=1,
-		Name = "StartScene",
-		Type=nil
+	-- 加载场景
+	LoadingScene = {
+		Level = 1,
+		Name = "LoadingScene",
+		Type = nil,
 	},
+	-- 登陆场景
 	LoginScene = {
-		Level=2,
+		Level = 2,
 		Name = "LoginScene",
-		Type=nil
+		Type = nil,
+		--Type = require "Scenes.LoginScene",
 	},
+	-- 主页场景
 	HomeScene = {
-		Level=3,
+		Level = 3,
 		Name = "HomeScene",
-		Type=nil
+		--Type = require "Scenes.HomeScene",
 	},
-	GameScene = {
-		Level=4,
-		Name = "GameScene",
-		Type=nil
+	-- 战斗场景
+	BattleScene = {
+		Level = 4,
+		Name = "BattleScene",
+		--Type = require "Scenes.BattleScene",
 	},
 }
-return SceneConfig
+
+return ConstClass("SceneConfig", SceneConfig)

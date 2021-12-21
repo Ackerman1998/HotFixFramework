@@ -74,7 +74,7 @@ local function Start()
 	--foo(1,2,3,4)
 	--TestCoroutine()
 	coroutine.start(function()
-		Log.Print("******************************Enter Game ...")
+		Log.Print("******************************Enter Game******************************")
 		EnterGame()
 	end)
 	

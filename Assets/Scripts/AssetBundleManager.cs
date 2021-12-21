@@ -4,6 +4,8 @@ using System.IO;
 using UnityEngine;
 using System.Security.Cryptography;
 using System.Text;
+using XLua;
+
 
 public class AssetBundleManager : MonoSingleton<AssetBundleManager>
 {
@@ -41,6 +43,15 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         }
         private set { }
     }
+    //引用是否清理完成
+    public bool ClearCompleted
+    {
+        get {
+            return webRequesterQueue.Count == 0 && prosessingWebRequester.Count == 0 && residentAssetBundle.Count == 0 &&
+                mapping_List.Count == 0 && assetBundle_Container.Count== 0;
+        }
+    }
+
     public override void Awake()
     {
         base.Awake();
@@ -74,6 +85,25 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         //}
         yield break;
     }
+    //clear all assetbundle
+    public IEnumerator Clear() {
+        yield return new WaitUntil(()=> {
+            return !ClearCompleted;
+        });
+        //clear assetbundle and unload
+        foreach (AssetBundle val in assetBundle_Container.Values) {
+            if (val!=null) {
+                val.Unload(false);
+            }
+        }
+        assetBundle_Container.Clear();
+        webRequesterQueue.Clear();
+        prosessingWebRequester.Clear();
+        residentAssetBundle.Clear();
+        mapping_List.Clear();
+
+        yield break;
+    }
     public void AddResidentAssetBundle(string abName) {
         if (!residentAssetBundle.Contains(abName)) {
             residentAssetBundle.Add(abName);
@@ -90,6 +120,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             assetBundle_Container.Add(key, obj);
         });
     }
+   
     /// <summary>
     /// 加载 Object类型
     /// </summary>

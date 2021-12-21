@@ -62,11 +62,11 @@ end
 
 local function InitWindow(self, ui_name, window)
 	--先获取UI的配置表
-	local ui_config = UIConfig
-	assert(config, "No window named : "..ui_name..".You should add it to UIConfig first!")
+	local ui_config = UIConfig[ui_name]
+	assert(ui_config, "No window named : "..ui_name..".You should add it to UIConfig first!")
 
-	local layer = self.layers[config.Layer.Name]
-	assert(layer, "No layer named : "..config.Layer.Name..".You should create it first!")
+	local layer = self.layers[ui_config.Layer.Name]
+	assert(layer, "No layer named : "..ui_config.Layer.Name..".You should create it first!")
 
 	window.Name = ui_name
 	if self.keep_model[ui_name] then
@@ -115,7 +115,7 @@ end
 local function InnerOpenWindow(self, target, ...)
 	assert(target)
 	assert(target.Model)
-	assert(target.Ctrl)
+	--assert(target.Ctrl)
 	assert(target.View)
 	assert(target.Active == false, "You should close window before open again!")
 
@@ -149,7 +149,7 @@ end
 local function InnerCloseWindow(self, target)
 	assert(target)
 	assert(target.Model)
-	assert(target.Ctrl)
+	--assert(target.Ctrl)
 	assert(target.View)
 	if target.Active then
 		Deactivate(self,target)

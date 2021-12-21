@@ -44,7 +44,7 @@ end
 
 local function CheckHasCached(self, path)
     assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
-	assert(string.endswith(path, ".prefab", true), "GameObject must be prefab : "..path)
+	--assert(string.endswith(path, ".prefab", true), "GameObject must be prefab : "..path)
 	
 	local cachedInst = __instCache[path]
 	if cachedInst ~= nil and table.length(cachedInst) > 0 then
@@ -101,9 +101,12 @@ local function GetGameObjectAsync(self, path, callback, ...)
         InitInst(go)
         callback(go,...)
     end
+	Log.Print("Output:")
+	Log.Print(...)
     PreLoadGameObjectAsync(self,path,1,function(callback, ...)
         local go = TryGetFromCache(self, path)
         InitInst(go)
+		Log.Print("go.name:"..go.name)
         callback(go,...)
     end)
 end

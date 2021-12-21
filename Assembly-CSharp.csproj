@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\FileTools.cs" />
     <Compile Include="Assets\Scripts\GameLaunch.cs" />
     <Compile Include="Assets\Scripts\GameUtility.cs" />
+    <Compile Include="Assets\Scripts\LuaCallCsharpFunc.cs" />
     <Compile Include="Assets\Scripts\MD5Tools.cs" />
     <Compile Include="Assets\Scripts\Manifest.cs" />
     <Compile Include="Assets\Scripts\MonoSingleton.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Assets\XLua\Gen\CSharpExtensionWrap.cs" />
     <Compile Include="Assets\XLua\Gen\DelegatesGensBridge.cs" />
     <Compile Include="Assets\XLua\Gen\EnumWrap.cs" />
+    <Compile Include="Assets\XLua\Gen\LuaCallCsharpFuncWrap.cs" />
     <Compile Include="Assets\XLua\Gen\PackUnpack.cs" />
     <Compile Include="Assets\XLua\Gen\Tutorial_BaseClassWrap.cs" />
     <Compile Include="Assets\XLua\Gen\Tutorial_CSCallLua_ItfDBridge.cs" />
@@ -313,14 +315,14 @@
     <Reference Include="UnityEditor">
       <HintPath>D:/Unity/Unity2019.4.14f1/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Analytics.Editor">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.Editor">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>D:/Unity/Unity2019.4.14f1/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -685,8 +687,23 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Monetization">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Editor">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -700,38 +717,17 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Monetization">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Editor">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Purchasing">
-      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rider.Editor">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
@@ -745,11 +741,17 @@
     <Reference Include="UnityEngine.Advertisements.Editor">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>D:/Ackerman/GProject/HotFixFramework/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>

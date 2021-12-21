@@ -56,13 +56,19 @@ end
 -- 异步加载Asset：协程形式
 local function CoLoadAsync(self, path, res_type, progress_callback)
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
-	local loader = AssetBundleManager:LoadAssetAsync(path, res_type)
-	coroutine.waitforasyncop(loader, progress_callback)
-	local asset = loader.asset
-    loader:Dispose()
-	if IsNull(asset) then
-		Logger.LogError("Asset load err : "..path)
-	end
+	-- local loader = AssetBundleManager:LoadAssetAsync(path, res_type)
+	-- coroutine.waitforasyncop(loader, progress_callback)
+	-- local asset = loader.asset
+    -- loader:Dispose()
+	-- if IsNull(asset) then
+	-- 	Logger.LogError("Asset load err : "..path)
+	-- end
+	-- return asset
+	--progress_callback()
+	--coroutine.waitforasyncop(loader, progress_callback)
+	Log.Print("path:"..type(path))
+	local asset = CS.LuaCallCsharpFunc.GetAsset(path)
+	Log.Print("asset:"..(asset.name))
 	return asset
 end
 

@@ -152,7 +152,18 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
     }
     IEnumerator StartGame() {
         transform.FindAll(loadTextPath).GetComponent<Text>().text = "Loading core data....";
-        XLuaManager.Instance.StartRun();
+        yield return AssetBundleManager.Instance.Clear();
+        Debug.Log("clear assetbundle completed...");
+        yield return AssetBundleManager.Instance.Initialize();
+        Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
+        foreach (string assetbundle in manifest.GetAllAssetBundleNames())
+        {
+            var request = AssetBundleManager.Instance.RequestAssetBundleAsync(assetbundle, true);
+            yield return request;
+            request.Dispose();
+        }
+        XLuaManager.Instance.Restart();
+        XLuaManager.Instance.StartGame();
         UINoticeTip.Instance.Destroy();
         Destroy(gameObject,0.5f);
         yield break;

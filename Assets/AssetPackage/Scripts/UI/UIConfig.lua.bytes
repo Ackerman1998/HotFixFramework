@@ -4,23 +4,24 @@
 local UIModule = {
 	-- 模块 = 模块配置表
 	--UILogin = require "UI.UILogin.UILoginConfig",
-	UILoading = require "UI.UILoading.UILoadingConfig",
+	UILoading = require "UILoadingConfig",
 	--UINoticeTip = require "UI.UINoticeTip.UINoticeTipConfig",
 	--UITestMain = require "UI.UITestMain.UITestMainConfig",
 	--UIBattle = require "UI.UIBattle.UIBattleConfig",
 }
 
 local UIConfig={}
-for _,ui_module in pairs(UIModule) do 
-	for _,ui_config in pairs(ui_module) do
+--for _,ui_module in pairs(UIModule) do 
+	for _,ui_config in pairs(UIModule) do
 		local ui_name = ui_config.Name
-        assert(UIConfig.ui_name == nil, "Aready exsits : "..ui_name)
+		Log.Print("ui_name："..ui_name)
+        assert(UIConfig.ui_name == nil, "Already exsits : "..ui_name)
 		if ui_config.View then
 			assert(ui_config.PrefabPath ~= nil and #ui_config.PrefabPath > 0, ui_name.." PrefabPath empty.")
 		end
         UIConfig[ui_name]=ui_config
 	end
-end
+--end
 
 
-return ConstClass(UIConfig,"UIConfig")
+return ConstClass("UIConfig",UIConfig)

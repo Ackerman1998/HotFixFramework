@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// CSharp拓展方法
 /// </summary>
-public static partial class CSharpExtension 
+public static partial class CSharpExtension
 {
     /// <summary>
     /// 加后缀 
@@ -47,7 +47,7 @@ public static partial class CSharpExtension
     /// <param name="name"></param>
     /// <returns></returns>
     public static T ToEnum<T>(this string name) {
-        return (T)Enum.Parse(typeof(T),name);
+        return (T)Enum.Parse(typeof(T), name);
     }
     /// <summary>
     /// 返回字符第一次出现的下标
@@ -55,13 +55,13 @@ public static partial class CSharpExtension
     /// <param name="nums"></param>
     /// <param name="_cstr"></param>
     /// <returns></returns>
-    public static int FirstIndexOf(this string nums,char _cstr) {
-        if (nums.Length==0||string.IsNullOrEmpty(nums)) {
+    public static int FirstIndexOf(this string nums, char _cstr) {
+        if (nums.Length == 0 || string.IsNullOrEmpty(nums)) {
             return 0;
         }
-        char [] cc_Arr = nums.ToCharArray();
-        for (int i=0;i<cc_Arr.Length;i++) {
-            if (char.Equals(_cstr,cc_Arr[i])) {
+        char[] cc_Arr = nums.ToCharArray();
+        for (int i = 0; i < cc_Arr.Length; i++) {
+            if (char.Equals(_cstr, cc_Arr[i])) {
                 return i;
             }
         }
@@ -159,7 +159,7 @@ public static partial class CSharpExtension
         StringBuilder total = new StringBuilder();
         if (size < 1024) {
             total.Append(size + " bytes");
-        } else if (size >= 1024&&size<1024*1024) {
+        } else if (size >= 1024 && size < 1024 * 1024) {
             int kb = (int)(size / 1024);
             total.Append(kb + " kb");
         }
@@ -170,4 +170,5 @@ public static partial class CSharpExtension
         }
         return total.ToString();
     }
+    
 }

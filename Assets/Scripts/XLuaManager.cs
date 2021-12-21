@@ -8,7 +8,7 @@ using XLua;
 public class XLuaManager : MonoSingleton<XLuaManager>
 {
     private LuaEnv _luaEnv = null;
-    private string mainLuaName = "GameMain";
+    private string mainLuaName = "GameMain";//主入口
     private string hotFixLuaName = "HotfixMain";
     public override void Awake()
     {
@@ -21,6 +21,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
     {
         base.Init();
         InitLuaEnv();
+        StartLoad();
     }
     private void InitLuaEnv() {
         _luaEnv = new LuaEnv();
@@ -100,12 +101,34 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         return ts.bytes;
     }
     /// <summary>
-    /// 开始执行主方法,游戏开始运行
+    /// 初始化GameMain，加载全局类
     /// </summary>
-    public void StartRun() {
+    public void StartLoad() {
         if (_luaEnv != null) {
             DoRequire(mainLuaName);
+        }
+    }
+
+    public void Restart() {
+        Dispose();
+        InitLuaEnv();
+        StartLoad();
+    }
+    /// <summary>
+    /// 开始执行主方法,游戏开始运行
+    /// </summary>
+    public void StartGame() {
+        if (_luaEnv!=null) {
             DoString("GameMain.Start()");
+        }
+    }
+    
+    //析构方法
+    public override void Dispose() {
+        if (_luaEnv != null)
+        {
+            _luaEnv.Dispose();
+            _luaEnv = null;
         }
     }
 }

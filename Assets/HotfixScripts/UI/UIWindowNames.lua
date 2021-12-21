@@ -16,4 +16,4 @@ local UIWindowNames = {
 	UIBattleMain = "UIBattleMain",
 }
 
-return UIWindowNames
+return ConstClass("UIWindowNames", UIWindowNames)

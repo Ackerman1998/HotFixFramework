@@ -25,6 +25,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(CSharpExtension), CSharpExtensionWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaCallCsharpFunc), LuaCallCsharpFuncWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(Tutorial.BaseClass), TutorialBaseClassWrap.__Register);
         
         
@@ -90,19 +93,27 @@ namespace XLua
 		
 		delegate bool __GEN_DELEGATE6( UnityEngine.Object o);
 		
-		delegate string __GEN_DELEGATE7( string path,  string endName);
+		delegate UnityEngine.Transform __GEN_DELEGATE7( UnityEngine.Transform root,  string objName);
 		
-		delegate string __GEN_DELEGATE8( string path);
+		delegate string __GEN_DELEGATE8( float size);
 		
-		delegate int __GEN_DELEGATE9( string nums);
+		delegate string __GEN_DELEGATE9( string path,  string endName);
 		
-		delegate int __GEN_DELEGATE10( string nums,  char _cstr);
+		delegate string __GEN_DELEGATE10( string path);
 		
-		delegate string __GEN_DELEGATE11( string msg);
+		delegate int __GEN_DELEGATE11( string nums);
 		
-		delegate bool __GEN_DELEGATE12( string sourceVersion,  string targetVersion);
+		delegate int __GEN_DELEGATE12( string nums,  char _cstr);
 		
-		delegate bool __GEN_DELEGATE13( UnityEngine.Object o);
+		delegate string __GEN_DELEGATE13( string msg);
+		
+		delegate bool __GEN_DELEGATE14( string sourceVersion,  string targetVersion);
+		
+		delegate bool __GEN_DELEGATE15( UnityEngine.Object o);
+		
+		delegate UnityEngine.Transform __GEN_DELEGATE16( UnityEngine.Transform root,  string objName);
+		
+		delegate string __GEN_DELEGATE17( float size);
 		
 	    static InternalGlobals()
 		{
@@ -153,42 +164,42 @@ namespace XLua
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE7(CSharpExtension.AddEndName)
+				  new __GEN_DELEGATE9(CSharpExtension.AddEndName)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE8(CSharpExtension.CheckEnvironmentPath)
+				  new __GEN_DELEGATE10(CSharpExtension.CheckEnvironmentPath)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE9(CSharpExtension.IntParse)
+				  new __GEN_DELEGATE11(CSharpExtension.IntParse)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE10(CSharpExtension.FirstIndexOf)
+				  new __GEN_DELEGATE12(CSharpExtension.FirstIndexOf)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE11(CSharpExtension.ReplaceSpecial)
+				  new __GEN_DELEGATE13(CSharpExtension.ReplaceSpecial)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE12(CSharpExtension.CheckIsNewVersion)
+				  new __GEN_DELEGATE14(CSharpExtension.CheckIsNewVersion)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
@@ -206,7 +217,43 @@ namespace XLua
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE13(CSharpExtension.IsNull)
+				  new __GEN_DELEGATE15(CSharpExtension.IsNull)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				}},
+				
+				{typeof(UnityEngine.Transform), new List<MethodInfo>(){
+				
+				  new __GEN_DELEGATE7(CSharpExtension.FindAll)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				  new __GEN_DELEGATE16(CSharpExtension.FindAll)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				}},
+				
+				{typeof(float), new List<MethodInfo>(){
+				
+				  new __GEN_DELEGATE8(CSharpExtension.ParseFileSize)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				  new __GEN_DELEGATE17(CSharpExtension.ParseFileSize)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
