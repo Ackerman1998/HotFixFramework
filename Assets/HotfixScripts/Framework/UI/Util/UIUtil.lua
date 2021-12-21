@@ -19,6 +19,7 @@ local function FindComponent(trans,ctype,path)
     end
     local componet = transtarget:GetComponent(ctype)
     if componet~=nil then
+        Log.Print(trans.name.."GetCompnent")
         return componet
     end
     return transtarget:GetComponentInChildren(ctype)

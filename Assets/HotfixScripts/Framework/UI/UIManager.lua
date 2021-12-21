@@ -80,7 +80,7 @@ local function InitWindow(self, ui_name, window)
 	end
 
 	if ui_config.View then
-		window.View = ui_config.View:New(layer,window.Name,window.Model,window.Ctrl)
+		window.View = ui_config.View.New(layer,window.Name,window.Model,window.Ctrl)
 	end
 
 	window.Active =false
@@ -101,8 +101,8 @@ local function GetWindow(self, ui_name, active)
 end
 --激活
 local function ActivateWindow(self,window,...)
-	window.Model:Activate(...)
-	window.View:SetActive(true)
+	-- window.Model:Activate(...)
+	-- window.View:SetActive(true)
 end
 
 --反激活窗口
@@ -130,13 +130,14 @@ local function InnerOpenWindow(self, target, ...)
 		target.IsLoading = true
 		local params = SafePack(...)
 		GameObjectPool:GetInstance():GetGameObjectAsync(target.PrefabPath,function(go)
+			Log.Print("生成ui的回调执行...")
 			if IsNull(go) then
 				return
 			end
-
+			Log.Print("初始化ui prefab ui.name :"..target.Name)
 			local tran_go = go.transform
 			tran_go:SetParent(target.Layer.transform)
-			tran_go.name =target.name
+			tran_go.name =target.Name
 			target.IsLoading=false
 			target.View:OnCreate()
 			if target.Active then

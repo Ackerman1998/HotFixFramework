@@ -46,11 +46,12 @@ local function LoadAsync(self, path, res_type, callback, ...)
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
 	assert(callback ~= nil and type(callback) == "function", "Need to provide a function as callback")
 	local args = SafePack(nil, ...)
-	coroutine.start(function()
+
+    --coroutine.start(function()
 		local asset = self:CoLoadAsync(path, res_type, nil)
 		args[1] = asset
 		callback(SafeUnpack(args))
-	end)
+	--end)
 end
 
 -- 异步加载Asset：协程形式
@@ -64,10 +65,11 @@ local function CoLoadAsync(self, path, res_type, progress_callback)
 	-- 	Logger.LogError("Asset load err : "..path)
 	-- end
 	-- return asset
-	--progress_callback()
+
 	--coroutine.waitforasyncop(loader, progress_callback)
 	Log.Print("path:"..type(path))
 	local asset = CS.LuaCallCsharpFunc.GetAsset(path)
+	--progress_callback(asset)
 	Log.Print("asset:"..(asset.name))
 	return asset
 end

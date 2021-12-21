@@ -101,14 +101,14 @@ local function GetGameObjectAsync(self, path, callback, ...)
         InitInst(go)
         callback(go,...)
     end
-	Log.Print("Output:")
-	Log.Print(...)
+
     PreLoadGameObjectAsync(self,path,1,function(callback, ...)
         local go = TryGetFromCache(self, path)
         InitInst(go)
 		Log.Print("go.name:"..go.name)
+		Log.Print("Output:"..type(callback))
         callback(go,...)
-    end)
+    end, callback, ...)
 end
 
 -- 回收

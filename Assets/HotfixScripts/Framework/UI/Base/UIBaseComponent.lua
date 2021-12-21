@@ -64,6 +64,7 @@ local function OnCreate(self)
 	if type((self.__var_arg)) == "string" then
 		--根据路径名获取
 		self.transform = UIUtil.FindTransform(self.holder.transform,self.__var_arg)
+
 		self.gameObject = self.transform.gameObject
 	elseif type((self.__var_arg)) == "number" then
 		self.transform = UIUtil.GetChild(self.holder.transform, self.__var_arg)
@@ -76,6 +77,7 @@ local function OnCreate(self)
 	end
 	self.__name = self.gameObject.name
 	self.rectTransform=UIUtil.FindComponent(self.transform,typeof(CS.UnityEngine.RectTransform))
+	--Log.Print("OnCreate string void run :"..self.transform.name)
 	self.__var_arg = nil
 end
 
