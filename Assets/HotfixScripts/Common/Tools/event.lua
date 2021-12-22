@@ -53,7 +53,7 @@ end
 
 function _event:AddListener(handle)	
 	assert(handle)
-
+	Log.Print("注册event ： ")
 	if self.lock then		
 		table.insert(self.opList, function() self.list:pushnode(handle) end)		
 	else
@@ -122,7 +122,7 @@ CoLateUpdateBeat	= event("CoLateUpdate")
 CoFixedUpdateBeat 	= event("CoFixedUpdate")
 
 function Update(deltaTime, unscaledDeltaTime)
-	Time:SetDeltaTime(deltaTime, unscaledDeltaTime)
+	--Time:SetDeltaTime(deltaTime, unscaledDeltaTime)
 	UpdateBeat()
 	CoUpdateBeat()
 end
@@ -130,11 +130,11 @@ end
 function LateUpdate()
 	LateUpdateBeat()
 	CoLateUpdateBeat()
-	Time:SetFrameCount()
+	--Time:SetFrameCount()
 end
 
 function FixedUpdate(fixedDeltaTime)
-	Time:SetFixedDelta(fixedDeltaTime)
+	--Time:SetFixedDelta(fixedDeltaTime)
 	FixedUpdateBeat()
 	CoFixedUpdateBeat()
 end
