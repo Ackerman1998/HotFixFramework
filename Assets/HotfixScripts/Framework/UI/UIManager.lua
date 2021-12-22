@@ -1,6 +1,6 @@
 --[[
--- UpdateManager.lua
-绑定在UIRoot游戏物体上
+-- UIManager.lua
+-- ui管理器
 --]]
 local UIManager = BaseClass("UIManager", Singleton)
 
@@ -42,7 +42,7 @@ local function _init(self)
 		return type(v)=="table" and v.OrderInLayer ~= nil and v.Name ~= nil and type(v.Name) == "string" and #v.Name > 0
 	end)
 
-	--初始化ui层级 生成配置中所有层级的gameobject
+	--初始化生成所有ui层级：为UILayers配置中所有层级生成gameobject
 	table.walksort(layers,function(k,v)
 		return layers[k].OrderInLayer<layers[v].OrderInLayer
 	end,function(k,v)
@@ -92,7 +92,7 @@ local function InitWindow(self, ui_name, window)
 
 	return window
 end
-
+--获取ui窗体
 local function GetWindow(self, ui_name, active)
 	local window=self.windows[ui_name]
 	if window==nil then
@@ -171,6 +171,7 @@ local function OpenWindow(self, ui_name, ...)
     end
 	InnerCloseWindow(self,target)
 	InnerOpenWindow(self,target,...)
+	return target
 end
 
 UIManager._init=_init

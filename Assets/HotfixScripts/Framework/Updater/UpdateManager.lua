@@ -1,17 +1,18 @@
 --[[
 -- UpdateManager.lua
+-- 刷新:通过Unity Update LateUpdater FixedUpdate 来调用lua的方法
 --]]
 local UpdateManager=BaseClass("UpdateManager",Singleton)
 local function _init(self)
-	Log.Print("UpdateManager _init run...")
+	--Log.Print("UpdateManager _init run...")
 end
 
 local function _delete(self)
-	Log.Print("UpdateManager _delete run...")
+	--Log.Print("UpdateManager _delete run...")
 end
 
 local function StartUp(self)
-	Log.Print("UpdateManager StartUp..." .. self._class_type._cname)
+	--Log.Print("UpdateManager StartUp..." .. self._class_type._cname)
 end
 
 UpdateManager._init=_init

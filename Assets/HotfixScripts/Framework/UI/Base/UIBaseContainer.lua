@@ -27,11 +27,6 @@ end
 
 
 -- 添加组件
--- 1、直接添加Lua侧组件：inst:AddComponent(ComponentTypeClass, luaComponentInst)
--- 2、指定Lua侧组件类型和必要参数，新建组件并添加，多种重载方式：
---    A）inst:AddComponent(ComponentTypeClass, relative_path)
---    B）inst:AddComponent(ComponentTypeClass, child_index)
---    C）inst:AddComponent(ComponentTypeClass, unity_gameObject)
 local function AddComponent(self, component_target, var_arg, ...)
 	assert(component_target._ctype==ClassType.class)
 	local component_class =nil

@@ -8,7 +8,7 @@ local function _init(self,holder,var_arg,model,ctrl)
     --assert(ctrl~=nil)
     self.ctrl = ctrl
     self.model = model
-    	-- 窗口画布
+    -- 窗口画布
 	self.canvas = nil
 	-- 窗口基础order，窗口内添加的其它canvas设置的order都以它做偏移
 	self.base_order = 0
@@ -17,9 +17,7 @@ end
 -- 创建：资源加载完毕
 local function OnCreate(self)
 	base.OnCreate(self)
-	-- 窗口画布
-	--self.canvas = self:AddComponent(UICanvas, "", 0)
-	-- 回调管理，使其最长保持和View等同的生命周期
+	-- 回调
 	self.__ui_callback = {}
 	-- 初始化RectTransform
 	self.rectTransform.offsetMax = Vector2.zero

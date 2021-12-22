@@ -113,6 +113,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         Dispose();
         InitLuaEnv();
         StartLoad();
+        LuaUpdateManager.Instance.StartUp(_luaEnv);
     }
     /// <summary>
     /// 开始执行主方法,游戏开始运行

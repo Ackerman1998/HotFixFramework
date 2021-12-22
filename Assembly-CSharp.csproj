@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\GameLaunch.cs" />
     <Compile Include="Assets\Scripts\GameUtility.cs" />
     <Compile Include="Assets\Scripts\LuaCallCsharpFunc.cs" />
+    <Compile Include="Assets\Scripts\LuaUpdateManager.cs" />
     <Compile Include="Assets\Scripts\MD5Tools.cs" />
     <Compile Include="Assets\Scripts\Manifest.cs" />
     <Compile Include="Assets\Scripts\MonoSingleton.cs" />
