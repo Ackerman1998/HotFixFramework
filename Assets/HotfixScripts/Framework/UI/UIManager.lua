@@ -11,6 +11,8 @@ local EventSystemPath = "EventSystem"
 -- UICamera路径
 local UICameraPath = UIRootPath.."/UICamera"
 
+local GameResolution = Vector2.New(2160,1080)
+
 local function _init(self)
     -- 所有存活的窗体
 	self.windows = {}
@@ -22,7 +24,8 @@ local function _init(self)
 	self.__window_stack = {}
 	-- 是否启用记录
 	self.__enable_record = true
-
+	--屏幕分辨率
+	self.Resolution = GameResolution
 	-- 初始化组件
 	self.gameObject = CS.UnityEngine.GameObject.Find(UIRootPath)
 	self.transform = self.gameObject.transform
@@ -31,7 +34,7 @@ local function _init(self)
 	CS.UnityEngine.Object.DontDestroyOnLoad(self.gameObject)
 	local event_system = CS.UnityEngine.GameObject.Find(EventSystemPath)
 	CS.UnityEngine.Object.DontDestroyOnLoad(event_system)
-
+	
 	assert(not IsNull(self.transform))
 	assert(not IsNull(self.UICamera))
 	--过滤

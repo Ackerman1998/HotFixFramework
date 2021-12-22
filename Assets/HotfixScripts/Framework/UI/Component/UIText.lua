@@ -14,7 +14,6 @@ local function OnCreate(self)
 	base.OnCreate(self)
 	-- Unity侧原生组件
 	self.unity_uitext = UIUtil.FindText(self.transform)
-	
 	if IsNull(self.unity_uitext) and not IsNull(self.gameObject) then
 		self.gameObject = self.unity_uitext.gameObject
 		self.transform = self.unity_uitext.transform

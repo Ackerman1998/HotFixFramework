@@ -19,6 +19,10 @@ local function FindComponent(trans,ctype,path)
     end
     local componet = transtarget:GetComponent(ctype)
     if componet~=nil then
+        if trans.name=="UILoading" then
+            Log.Print(trans.name.."GetCompnent")
+            Log.Print("component.gameObject.name: "..componet.gameObject.name)
+        end
         return componet
     end
     return transtarget:GetComponentInChildren(ctype)

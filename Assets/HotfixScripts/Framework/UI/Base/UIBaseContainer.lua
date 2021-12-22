@@ -12,7 +12,7 @@ local function OnCreate(self)
 	self.length = 0
 end
 
--- 如果必要，创建新的记录，对应Unity下一个Transform下所有挂载脚本的记录表
+-- 记录Transform下所有挂载过的脚本
 local function AddNewRecordIfNeeded(self, name)
 	if self.components[name] == nil then
 		self.components[name] = {}
@@ -38,14 +38,14 @@ local function AddComponent(self, component_target, var_arg, ...)
 	local component_instance = nil
 	if type(var_arg)=="string" then 
 		component_class = component_target
-		component_instance = component_class:New(self,var_arg)
+		component_instance = component_class.New(self,var_arg)
 		component_instance:OnCreate(...)
 	else
 
 	end
 	local name = component_instance:GetName()
-	AddNewRecordIfNeeded(name)--存放/记录挂载过的控件
-
+	self:AddNewRecordIfNeeded(name)--存放/记录挂载过的控件
+	return component_instance
 end
 
 local function GetComponent(self, name, component_class)
@@ -59,5 +59,11 @@ local function GetComponent(self, name, component_class)
 		return components[component_class]
 	end
 end
+
+UIBaseContainer.GetComponent=GetComponent
+UIBaseContainer.RecordComponent=RecordComponent
+UIBaseContainer.AddNewRecordIfNeeded=AddNewRecordIfNeeded
+UIBaseContainer.OnCreate=OnCreate
+UIBaseContainer.AddComponent=AddComponent
 
 return UIBaseContainer

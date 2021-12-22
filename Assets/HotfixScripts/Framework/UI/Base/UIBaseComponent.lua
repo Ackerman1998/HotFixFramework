@@ -25,6 +25,10 @@ local function _init(self, holder, var_arg)
 	self:EnableUpdate(false)
 end
 
+local function GetName(self)
+	return self.__name
+end
+
 local function EnableUpdate(self,active)
 
 end
@@ -34,14 +38,10 @@ local function _delete(self)
 	
 end
 
--- 获取名字
-local function GetName(self)
-	return self.__name
-end
-
 local function OnCreate(self)
 	assert(not IsNull(self.holder), "Err : holder nil!")
 	assert(not IsNull(self.holder.transform), "Err : holder tansform nil!")
+	
 	-- 初始化view
 	if self._class_type == UILayer then
 		self.view = nil
@@ -77,8 +77,15 @@ local function OnCreate(self)
 	end
 	self.__name = self.gameObject.name
 	self.rectTransform=UIUtil.FindComponent(self.transform,typeof(CS.UnityEngine.RectTransform))
-	--Log.Print("OnCreate string void run :"..self.transform.name)
+	-- if self.rectTransform~=nil then
+	-- 	
+	-- 	self.rectTransform.offsetMax = Vector2.zero
+	-- 	self.rectTransform.offsetMin = Vector2.zero
+	-- 	self.rectTransform.localScale = Vector3.one
+	-- 	self.rectTransform.localPosition = Vector3.zero
+	-- end
 	self.__var_arg = nil
+
 end
 
 -- 销毁
@@ -99,4 +106,5 @@ UIBaseComponent._delete = _delete
 UIBaseComponent.OnCreate = OnCreate
 UIBaseComponent.OnDestroy = OnDestroy
 UIBaseComponent.EnableUpdate = EnableUpdate
+UIBaseComponent.GetName = GetName
 return UIBaseComponent

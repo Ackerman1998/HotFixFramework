@@ -60,4 +60,10 @@ local function GetComponent(self, name, component_class)
 	end
 end
 
+UIBaseContainer.GetComponent=GetComponent
+UIBaseContainer.RecordComponent=RecordComponent
+UIBaseContainer.AddNewRecordIfNeeded=AddNewRecordIfNeeded
+UIBaseContainer.OnCreate=OnCreate
+UIBaseContainer.AddComponent=AddComponent
+
 return UIBaseContainer

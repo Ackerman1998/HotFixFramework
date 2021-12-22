@@ -11,6 +11,8 @@ local EventSystemPath = "EventSystem"
 -- UICamera路径
 local UICameraPath = UIRootPath.."/UICamera"
 
+local GameResolution = Vector2.New(2160,1080)
+
 local function _init(self)
     -- 所有存活的窗体
 	self.windows = {}
@@ -22,7 +24,8 @@ local function _init(self)
 	self.__window_stack = {}
 	-- 是否启用记录
 	self.__enable_record = true
-
+	--屏幕分辨率
+	self.Resolution = GameResolution
 	-- 初始化组件
 	self.gameObject = CS.UnityEngine.GameObject.Find(UIRootPath)
 	self.transform = self.gameObject.transform
@@ -31,7 +34,7 @@ local function _init(self)
 	CS.UnityEngine.Object.DontDestroyOnLoad(self.gameObject)
 	local event_system = CS.UnityEngine.GameObject.Find(EventSystemPath)
 	CS.UnityEngine.Object.DontDestroyOnLoad(event_system)
-
+	
 	assert(not IsNull(self.transform))
 	assert(not IsNull(self.UICamera))
 	--过滤
@@ -80,7 +83,7 @@ local function InitWindow(self, ui_name, window)
 	end
 
 	if ui_config.View then
-		window.View = ui_config.View:New(layer,window.Name,window.Model,window.Ctrl)
+		window.View = ui_config.View.New(layer,window.Name,window.Model,window.Ctrl)
 	end
 
 	window.Active =false
@@ -101,8 +104,8 @@ local function GetWindow(self, ui_name, active)
 end
 --激活
 local function ActivateWindow(self,window,...)
-	window.Model:Activate(...)
-	window.View:SetActive(true)
+	-- window.Model:Activate(...)
+	-- window.View:SetActive(true)
 end
 
 --反激活窗口
@@ -130,13 +133,14 @@ local function InnerOpenWindow(self, target, ...)
 		target.IsLoading = true
 		local params = SafePack(...)
 		GameObjectPool:GetInstance():GetGameObjectAsync(target.PrefabPath,function(go)
+			Log.Print("生成ui的回调执行...")
 			if IsNull(go) then
 				return
 			end
-
+			Log.Print("初始化ui prefab ui.name :"..target.Name)
 			local tran_go = go.transform
 			tran_go:SetParent(target.Layer.transform)
-			tran_go.name =target.name
+			tran_go.name =target.Name
 			target.IsLoading=false
 			target.View:OnCreate()
 			if target.Active then

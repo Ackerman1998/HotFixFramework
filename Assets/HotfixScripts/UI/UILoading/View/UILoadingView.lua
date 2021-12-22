@@ -4,15 +4,17 @@
 
 local UILoadingView = BaseClass("UILoadingView",UIBaseView)
 local base = UIBaseView
-local loading_text_path = "ContentRoot/LoadingDesc"
+local loading_text_path = "Content/LoadText"
 local loading_slider_path = "ContentRoot/SliderBar"
 
 local function OnCreate(self)
 	base.OnCreate(self)
 	-- 初始化各个组件
-	-- self.loading_text = self:AddComponent(UIText, loading_text_path)
-	-- self.loading_slider = self:AddComponent(UISlider, loading_slider_path)
-	-- self.loading_slider:SetValue(0.0)
+	self.loading_text = self:AddComponent(UIText, loading_text_path)
+	Log.Print(self.loading_text:GetText())
+	self.loading_text:SetText("Loading...")
+	--self.loading_slider = self:AddComponent(UISlider, loading_slider_path)
+	--self.loading_slider:SetValue(0.0)
 	
 	-- 定时器
 	-- 这里一定要对回调函数持有引用，否则随时可能被GC，引起定时器失效

@@ -2,10 +2,10 @@
 --UIBaseView - ui view层基类
 ]]
 local UIBaseView = BaseClass("UIBaseView",UIBaseContainer)
-
+local base = UIBaseContainer
 local function _init(self,holder,var_arg,model,ctrl)
     assert(model~=nil)
-    assert(ctrl~=nil)
+    --assert(ctrl~=nil)
     self.ctrl = ctrl
     self.model = model
     	-- 窗口画布
@@ -18,7 +18,7 @@ end
 local function OnCreate(self)
 	base.OnCreate(self)
 	-- 窗口画布
-	self.canvas = self:AddComponent(UICanvas, "", 0)
+	--self.canvas = self:AddComponent(UICanvas, "", 0)
 	-- 回调管理，使其最长保持和View等同的生命周期
 	self.__ui_callback = {}
 	-- 初始化RectTransform
@@ -43,4 +43,9 @@ end
 local function OnRemoveListener(self)
 end
 
+UIBaseView._init = _init
+UIBaseView.OnCreate = OnCreate
+UIBaseView.OnEnable = OnEnable
+UIBaseView.OnAddListener = OnAddListener
+UIBaseView.OnRemoveListener = OnRemoveListener
 return UIBaseView

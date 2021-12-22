@@ -165,7 +165,7 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
         XLuaManager.Instance.Restart();
         XLuaManager.Instance.StartGame();
         UINoticeTip.Instance.Destroy();
-        Destroy(gameObject,0.5f);
+        Destroy(gameObject);
         yield break;
     }
 
