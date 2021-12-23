@@ -28,6 +28,7 @@ local function CoInnerSwitchScene(self, scene_config)
 	coroutine.waitforseconds(1)
 	window_model.value = window_model.value+0.1
 	
+	
 end
 
 local function SwitchScene(self,scene_config)
@@ -37,7 +38,7 @@ local function SwitchScene(self,scene_config)
 		return
 	end
 	self.busing=true
-	--coroutine.start(CoInnerSwitchScene,self,scene_config)
+	coroutine.start(CoInnerSwitchScene,self,scene_config)
 end
 SceneManager._init=_init
 SceneManager.SwitchScene=SwitchScene

@@ -31,6 +31,7 @@ local function OnEnable(self)
 end
 
 local function Update(self)
+	
 	--刷新Loading页的进度条
 	--self.loading_slider:SetValue(self.model.value)
 end
