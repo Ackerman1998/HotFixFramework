@@ -71,15 +71,15 @@ end
 --添加--
 
 --移除--
-local function RmoveUpdate(self,func)
+local function RemoveUpdate(self,func)
 	self.ui_message_center:RemoveListener(UpdateMsg,func)
 end
 
-local function RmoveLateUpdate(self,func)
+local function RemoveLateUpdate(self,func)
 	self.ui_message_center:RemoveListener(LateUpdateMsg,func)
 end
 
-local function RmoveFixUpdate(self,func)
+local function RemoveFixUpdate(self,func)
 	self.ui_message_center:RemoveListener(FixedUpdateMsg,func)
 end
 --移除--
@@ -91,7 +91,7 @@ UpdateManager.StartUp=StartUp
 UpdateManager.AddUpdate=AddUpdate
 UpdateManager.AddLateUpdate=AddLateUpdate
 UpdateManager.AddFixUpdate=AddFixUpdate
-UpdateManager.RmoveUpdate=RmoveUpdate
-UpdateManager.RmoveLateUpdate=RmoveLateUpdate
-UpdateManager.RmoveFixUpdate=RmoveFixUpdate
+UpdateManager.RemoveUpdate=RemoveUpdate
+UpdateManager.RemoveLateUpdate=RemoveLateUpdate
+UpdateManager.RemoveFixUpdate=RemoveFixUpdate
 return UpdateManager

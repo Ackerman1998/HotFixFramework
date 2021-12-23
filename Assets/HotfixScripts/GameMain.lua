@@ -74,8 +74,9 @@ local function Start()
 	--foo(1,2,3,4)
 	--TestCoroutine()
 	coroutine.start(function()
-		Log.Print("******************************Enter Game******************************")
 		EnterGame()
+		Log.Print("******************************Enter Game******************************")
+
 	end)
 	
 	--LuaTest.TestFunction()

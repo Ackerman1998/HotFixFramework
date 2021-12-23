@@ -27,7 +27,7 @@ local function FindComponent(trans,ctype,path)
     end
     return transtarget:GetComponentInChildren(ctype)
 end
-
+--查找组件--text
 local function FindText(trans)
     local ui_text = trans:GetComponent(typeof(CS.UnityEngine.UI.Text))
     if ui_text~=nil then
@@ -36,8 +36,18 @@ local function FindText(trans)
         return nil
     end
 end
+--查找组件--进度条
+local function FindSlider(trans)
+    local ui_Slider = trans:GetComponent(typeof(CS.UnityEngine.UI.Slider))
+    if ui_Slider~=nil then
+        return ui_Slider
+    else 
+        return nil
+    end
+end
 
 UIUtil.FindTransform=FindTransform
 UIUtil.FindComponent=FindComponent
 UIUtil.FindText=FindText
+UIUtil.FindSlider=FindSlider
 return UIUtil

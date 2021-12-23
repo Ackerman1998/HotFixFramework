@@ -29,10 +29,6 @@ local function GetName(self)
 	return self.__name
 end
 
-local function EnableUpdate(self,active)
-
-end
-
 --析构函数
 local function _delete(self)
 	
@@ -100,11 +96,32 @@ local function OnDestroy(self)
 	self.__name = nil
 	self.__bind_data = nil
 end
+--启用组件
+local function OnEnable(self)
+	self:EnableUpdate(true)
+end
+--禁用组件
+local function OnDisable(self)
+	self:EnableUpdate(false)
+end
+
+-- 设置组件状态
+local function SetActive(self, active)
+	if active then
+		self.gameObject:SetActive(active)
+		self:OnEnable()
+	else
+		self:OnDisable()
+		self.gameObject:SetActive(active)
+	end
+end
 
 UIBaseComponent._init = _init
 UIBaseComponent._delete = _delete
 UIBaseComponent.OnCreate = OnCreate
 UIBaseComponent.OnDestroy = OnDestroy
-UIBaseComponent.EnableUpdate = EnableUpdate
+UIBaseComponent.OnEnable = OnEnable
+UIBaseComponent.OnDisable = OnDisable
+UIBaseComponent.SetActive = SetActive
 UIBaseComponent.GetName = GetName
 return UIBaseComponent

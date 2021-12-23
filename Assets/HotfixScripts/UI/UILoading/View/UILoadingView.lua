@@ -11,7 +11,6 @@ local function OnCreate(self)
 	base.OnCreate(self)
 	-- 初始化各个组件
 	self.loading_text = self:AddComponent(UIText, loading_text_path)
-	Log.Print(self.loading_text:GetText())
 	self.loading_text:SetText("Loading...")
 	self.loading_slider = self:AddComponent(UISlider, loading_slider_path)
 	self.loading_slider:SetValue(0.0)
@@ -33,7 +32,7 @@ end
 
 local function Update(self)
 	--刷新Loading页的进度条
-	self.loading_slider:SetValue(self.model.value)
+	--self.loading_slider:SetValue(self.model.value)
 end
 
 local function OnDestroy(self)
