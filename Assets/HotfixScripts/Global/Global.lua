@@ -17,6 +17,8 @@ UILayers = require "UILayers"
 
 UIWindow = require "UIWindow"
 UIUtil = require "UIUtil"
+Updatable = require "Framework.Common.Updatable"
+
 UIBaseComponent = require "UIBaseComponent"
 UIText =require "UIText"
 UISlider = require "UISlider"
@@ -27,7 +29,7 @@ UILayer = require "UILayer"
 SceneManager = require "SceneManager"
 UIWindowNames = require "UI.UIWindowNames"
 Messenger = require "Framework.Common.Messenger"
-Updatable = require "Framework.Common.Updatable"
+
 UpdateManager = require "Framework.Updater.UpdateManager"
 UIConfig = require "UIConfig"
 

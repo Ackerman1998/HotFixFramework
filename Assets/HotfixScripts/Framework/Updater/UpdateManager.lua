@@ -25,18 +25,18 @@ end
 
 -- Update回调
 local function UpdateHandle(self)
-	Log.Print("调用:")
-	self.ui_message_center:Broadcast(UpdateMsgName)
+	--Log.Print("Update Run:")
+	self.ui_message_center:Broadcast(UpdateMsg)
 end
 
 -- LateUpdate回调
 local function LateUpdateHandle(self)
-	--self.ui_message_center:Broadcast(LateUpdateMsgName)
+	--self.ui_message_center:Broadcast(LateUpdateMsg)
 end
 
 -- FixedUpdate回调
 local function FixedUpdateHandle(self)
-	--self.ui_message_center:Broadcast(FixedUpdateMsgName)
+	--self.ui_message_center:Broadcast(FixedUpdateMsg)
 end
 
 local function _delete(self)
@@ -44,22 +44,54 @@ local function _delete(self)
 end
 
 local function StartUp(self)
-	--注册
-
+	--注册刷新方法
 	-- Update
 	self._update_handle = UpdateBeat:CreateListener(UpdateHandle,UpdateManager:GetInstance())
 	-- LateUpdate
 	self._lateupdate_handle = LateUpdateBeat:CreateListener(LateUpdateHandle,UpdateManager:GetInstance())
 	-- FixedUpdate
 	self._fixedupdate_handle = FixedUpdateBeat:CreateListener(FixedUpdateHandle,UpdateManager:GetInstance())
-	Log.Print("register startup")
 	UpdateBeat:AddListener(self._update_handle)
 	LateUpdateBeat:AddListener(self._lateupdate_handle)
 	FixedUpdateBeat:AddListener(self._fixedupdate_handle)
 
 end
+--添加--
+local function AddUpdate(self,func)
+	self.ui_message_center:AddListener(UpdateMsg,func)
+end
+
+local function AddLateUpdate(self,func)
+	self.ui_message_center:AddListener(LateUpdateMsg,func)
+end
+
+local function AddFixUpdate(self,func)
+	self.ui_message_center:AddListener(FixedUpdateMsg,func)
+end
+--添加--
+
+--移除--
+local function RmoveUpdate(self,func)
+	self.ui_message_center:RemoveListener(UpdateMsg,func)
+end
+
+local function RmoveLateUpdate(self,func)
+	self.ui_message_center:RemoveListener(LateUpdateMsg,func)
+end
+
+local function RmoveFixUpdate(self,func)
+	self.ui_message_center:RemoveListener(FixedUpdateMsg,func)
+end
+--移除--
+
 
 UpdateManager._init=_init
 UpdateManager._delete=_delete
 UpdateManager.StartUp=StartUp
+UpdateManager.AddUpdate=AddUpdate
+UpdateManager.AddLateUpdate=AddLateUpdate
+UpdateManager.AddFixUpdate=AddFixUpdate
+UpdateManager.RmoveUpdate=RmoveUpdate
+UpdateManager.RmoveLateUpdate=RmoveLateUpdate
+UpdateManager.RmoveFixUpdate=RmoveFixUpdate
 return UpdateManager

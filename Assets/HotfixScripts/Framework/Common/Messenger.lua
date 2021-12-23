@@ -13,30 +13,29 @@ local function _delete(self)
 	self.error_handle = nil
 end
 
---添加监听
+--添加消息监听
 local function AddListener(self, e_type, e_listener, ...)
 	local event = self.events[e_type]
 	if event == nil then
 		event = setmetatable({},{__mode="k"})
 	end
-	--判断是否已经添加过了
 	for k,v in pairs(event) do
-		if k==e_listener then
-			error("Aready cotains listener : "..tostring(e_listener))
+		if k == e_listener then
+			Log.Print(tostring(e_listener).."already exist...")
 			return 
 		end
 	end
-	event[e_listener] = setmetatable(SafePack(...), {__mode = "kv"}) 
+	event[e_listener] = setmetatable(SafePack(...),{__mode="kv"})
 	self.events[e_type]=event
 end
---发送消息
+--执行监听的方法
 local function Broadcast(self, e_type, ...)
 	local event = self.events[e_type]
-	if event == nil then
+	if event==nil then
+		Log.Print(e_type.."not exist...")
 		return
 	end
 	for k,v in pairs(event) do
-		assert(k ~= nil)
 		local args = ConcatSafePack(v, SafePack(...))
 		k(SafeUnpack(args))
 	end

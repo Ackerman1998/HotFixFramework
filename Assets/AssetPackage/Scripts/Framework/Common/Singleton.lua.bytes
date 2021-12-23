@@ -1,5 +1,6 @@
 --[[
--- 单例
+-- 鍗曚緥
+-- Singleton.lua
 --]]
 local Singleton = BaseClass("Singleton")
 local function _init(self)
@@ -10,7 +11,7 @@ end
 local function _delete(self)
 	Log.Print("Singleton _delete run...")
 end
---获取实例
+--鑾峰彇瀹炰緥
 local function GetInstance(self)
 	if rawget(self,"Instance")==nil then
 		rawset(self,"Instance",self.New())
