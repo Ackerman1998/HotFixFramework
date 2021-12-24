@@ -53,10 +53,12 @@ end
 
 function _event:AddListener(handle)	
 	assert(handle)
-	Log.Print("注册event ： ")
-	if self.lock then		
+
+	if self.lock then	
+	
 		table.insert(self.opList, function() self.list:pushnode(handle) end)		
 	else
+		print("注册event ： self.lock:")	
 		self.list:pushnode(handle)
 	end	
 end
@@ -96,6 +98,7 @@ _event.__call = function(self, ...)
 	end
 	
 	local opList = self.opList
+	
 	self.lock = false
 
 	for i, op in ipairs(opList) do
@@ -130,7 +133,7 @@ end
 function LateUpdate()
 	LateUpdateBeat()
 	CoLateUpdateBeat()
-	--Time:SetFrameCount()
+	Time:SetFrameCount()
 end
 
 function FixedUpdate(fixedDeltaTime)

@@ -2,10 +2,7 @@
 -- UpdateManager.lua
 -- 刷新:通过Unity Update LateUpdater FixedUpdate 来调用lua的方法
 --]]
-list = require "list"
-Time = require "Time"
-require "event"
-local Messenger = require "Messenger" 
+
 local UpdateManager=BaseClass("UpdateManager",Singleton)
 
 --unity 三种刷新方法

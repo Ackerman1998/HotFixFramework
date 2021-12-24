@@ -65,4 +65,6 @@ UIBaseModel.OnDisable = OnDisable
 UIBaseModel.OnDestroy = OnDestroy
 UIBaseModel.OnAddListener = OnAddListener
 UIBaseModel.OnRemoveListener = OnRemoveListener
+UIBaseModel.Activate =Activate
+UIBaseModel.Deactivate =Deactivate
 return UIBaseModel

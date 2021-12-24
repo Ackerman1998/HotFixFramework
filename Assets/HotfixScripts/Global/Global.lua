@@ -18,6 +18,12 @@ SceneConfig = require "SceneConfig"
 ResourcesManager = require "ResourcesManager"
 GameObjectPool = require "GameObjectPool"
 require "Tools.LuaUtil"
+list = require "list"
+Time = require "Time"
+require "event"
+Timer = require "Timer"
+TimeManager = require "TimeManager"
+Messenger = require "Messenger" 
 --配置,工具加载
 
 
@@ -42,6 +48,7 @@ Messenger = require "Framework.Common.Messenger"
 UpdateManager = require "Framework.Updater.UpdateManager"
 UIConfig = require "UIConfig"
 UIManager=require "UIManager"
+
 -- UI
 
 --测试用

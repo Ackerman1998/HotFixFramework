@@ -18,6 +18,8 @@ scripts.assetbundle,Scripts/Test/LuaTest.lua.bytes
 scripts.assetbundle,Scripts/Global/Global.lua.bytes
 scripts.assetbundle,Scripts/Global/SortingLayerNames.lua.bytes
 scripts.assetbundle,Scripts/Framework/Updater/Coroutine.lua.bytes
+scripts.assetbundle,Scripts/Framework/Updater/TimeManager.lua.bytes
+scripts.assetbundle,Scripts/Framework/Updater/Timer.lua.bytes
 scripts.assetbundle,Scripts/Framework/Updater/UpdateManager.lua.bytes
 scripts.assetbundle,Scripts/Framework/UI/Util/UIUtil.lua.bytes
 scripts.assetbundle,Scripts/Framework/UI/Component/UIButton.lua.bytes

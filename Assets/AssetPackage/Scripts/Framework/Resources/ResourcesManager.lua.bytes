@@ -67,10 +67,8 @@ local function CoLoadAsync(self, path, res_type, progress_callback)
 	-- return asset
 
 	--coroutine.waitforasyncop(loader, progress_callback)
-	Log.Print("path:"..type(path))
 	local asset = CS.LuaCallCsharpFunc.GetAsset(path)
 	--progress_callback(asset)
-	Log.Print("asset:"..(asset.name))
 	return asset
 end
 

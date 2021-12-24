@@ -92,6 +92,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         {
             string newPath = path + ".lua";
             string file = AssetBundleManager.Instance.GetFilePathInAssetMappingForEditor(newPath);
+         
             string pp = Application.dataPath + "/HotfixScripts/" + file;
             string content = File.ReadAllText(pp);
             return System.Text.Encoding.UTF8.GetBytes(content);

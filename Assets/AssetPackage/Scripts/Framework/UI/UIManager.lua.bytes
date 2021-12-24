@@ -26,6 +26,7 @@ local function _init(self)
 	self.__enable_record = true
 	--屏幕分辨率
 	self.Resolution = GameResolution
+	self.MaxOrderPerWindow = 10
 	-- 初始化组件
 	self.gameObject = CS.UnityEngine.GameObject.Find(UIRootPath)
 	self.transform = self.gameObject.transform
@@ -104,8 +105,8 @@ local function GetWindow(self, ui_name, active)
 end
 --激活
 local function ActivateWindow(self,window,...)
-	-- window.Model:Activate(...)
-	-- window.View:SetActive(true)
+	 window.Model:Activate(...)
+	 window.View:SetActive(true)
 end
 
 --反激活窗口
