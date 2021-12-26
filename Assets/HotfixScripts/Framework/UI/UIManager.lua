@@ -160,6 +160,26 @@ local function InnerCloseWindow(self, target)
 	end
 end
 
+local function InnerDelete(plugin)
+	if plugin.__ctype == ClassType.instance then
+		plugin:Delete()
+	end
+end
+
+--销毁目标窗体
+local function InnerDestroyWindow(self, ui_name, target, include_keep_model)
+	GameObjectPool:GetInstance():RecycleGameObject(self.windows[ui_name].PrefabPath, target.View.gameObject)
+	if include_keep_model then
+		self.keep_model[ui_name] = nil
+		InnerDelete(target.Model)
+	elseif not self.keep_model[ui_name] then
+		InnerDelete(target.Model)
+	end
+	InnerDelete(target.Ctrl)
+	InnerDelete(target.View)
+	self.windows[ui_name] = nil
+end
+
 local function OpenWindow(self, ui_name, ...)
     local target = self:GetWindow(ui_name)
     if not target then
@@ -171,6 +191,14 @@ local function OpenWindow(self, ui_name, ...)
 	InnerCloseWindow(self,target)
 	InnerOpenWindow(self,target,...)
 	return target
+end
+--销毁除了这个层级以外的窗口(不销毁层级)
+local function DestroyWindowExceptLayer(self,layer)
+	for k,v in pairs(self.windows) do
+		if v.Layer:GetName() ~= layer.Name then
+			InnerCloseWindow(self,v)
+		end
+	end
 end
 
 UIManager._init=_init
