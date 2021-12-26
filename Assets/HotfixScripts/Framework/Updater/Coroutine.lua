@@ -6,6 +6,8 @@ local coroutine_pool={}
 
 local action_map = {}
 
+local action_pool = {}
+
 local function _RecycleCoroutine(cor)
 	if not coroutine.status(cor) == "suspended" then
 		error("recycle coroutine failed , coroutine not suspended...")
@@ -33,9 +35,22 @@ local function _GetCoroutine()
 	return co
 end
 
+local function __RecycleAction(action)
+	action.co = false
+	action.timer = false
+	action.func = false
+	action.args = false
+	action.result = false
+	table.insert(action_pool, action)
+end
+
 local function __GetAction(co, timer, func, args, result)
 	local action = nil
-	action = {false, false, false, false, false}
+	if table.length(action_pool) > 0 then
+		action = table.remove(action_pool)
+	else
+		action = {false, false, false, false, false}
+	end
 	action.co = co and co or false
 	action.timer = timer and timer or false
 	action.func = func and func or false
@@ -44,16 +59,28 @@ local function __GetAction(co, timer, func, args, result)
 	return action
 end
 
-local function __Action(action, abort, ...)
-
-end
-
 --继续
 local function _ResumeCoroutine(co,callback,...)
 	coroutine.resume(co,callback,...)
 end
 
--------------------------------调用方法--------------------------------------
+local function __Action(action, abort, ...)
+	assert(action.timer)
+	if not action.func then
+		abort = true
+	end
+
+	if abort then
+		action.timer:Stop()
+		action_map[action.co]=nil
+		_ResumeCoroutine(action.co,...)
+		__RecycleAction(action)
+	end
+end
+
+
+
+-------------------------------外部调用方法--------------------------------------
 
 --等待times秒 类似于 yield return new WaitingForSeconds(1f)
 local function waitforseconds(times)
@@ -65,8 +92,16 @@ local function waitforseconds(times)
 	action_map[co] = action
 	return coroutine.yield()
 end
-
-
+--等frameNum帧
+local function waitforframes(frameNum)
+	local co = coroutine.running()
+	local timer = TimeManager:GetInstance():GetCoTimer()
+	local action =__GetAction(co,timer)
+	timer:Init(frameNum, __Action, action, true,true)
+	timer:Start()
+	action_map[co] = action
+	return coroutine.yield()
+end
 
 local function start(callback,...)
 	local co = _GetCoroutine()
@@ -79,5 +114,6 @@ end
 --Log.Print("resume2:"..coroutine.resume(cor,200))
 
 coroutine.waitforseconds = waitforseconds
+coroutine.waitforframes = waitforframes
 coroutine.start = start
 

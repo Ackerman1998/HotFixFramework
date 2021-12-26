@@ -8,15 +8,15 @@ local Updatable = BaseClass("Updatable")
 local function AddUpdate(self)
 	
 	if self.Update~=nil then 
-		self._update_handle = self.Update
+		self._update_handle = BindCallback(self,self.Update)
 		UpdateManager:GetInstance():AddUpdate(self._update_handle)
 	end
 	if self.LateUpdate ~=nil then
-		self._lateupdate_handle = self.LateUpdate
+		self._lateupdate_handle = BindCallback(self,self.LateUpdate)
 		UpdateManager:GetInstance():AddLateUpdate(self._lateupdate_handle)
 	end
 	if self.FixedUpdate ~=nil then
-		self._fixedupdate_handle = self.FixedUpdate
+		self._fixedupdate_handle = BindCallback(self,self.FixedUpdate)
 		UpdateManager:GetInstance():AddFixUpdate(self._fixedupdate_handle)
 	end
 end

@@ -40,9 +40,10 @@ local function Update(self,isFix)
     if not self.started or self.over then
         return
     end
+    --是否结束了
     local timeover = false
     if self.use_frame then
-        timeup = (Time.frameCount >= self.start_frame_count + self.delay)
+        timeover = (Time.frameCount >= self.start_frame_count + self.delay)
     else 
         local deltaTime = nil
         if isFix then
@@ -55,6 +56,7 @@ local function Update(self,isFix)
     end
 
     if timeover then
+    
         if self.target.func~=nil then
             if not self.one_shot then
 
@@ -75,6 +77,8 @@ local function Update(self,isFix)
             self.over = true
         end
     end 
+
+  
 end
 
 local function Start(self)
@@ -89,11 +93,11 @@ local function Start(self)
 end
 
 local function Resume(self)
-
+    self.started = true
 end
 
 local function Pause(self)
-
+    self.started = false
 end
 
 local function Stop(self)

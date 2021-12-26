@@ -10,6 +10,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
     private LuaEnv _luaEnv = null;
     private string mainLuaName = "GameMain";//主入口
     private string hotFixLuaName = "HotfixMain";
+    private string commonLoadLuaName = "CommonLoad";
     public override void Awake()
     {
         base.Awake();
@@ -28,6 +29,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
         if (_luaEnv != null)
         {
             _luaEnv.AddLoader(CustomLoader);
+            DoRequire(commonLoadLuaName);
         }
         else {
             Debug.LogError("Init LuaEnv Failed...");

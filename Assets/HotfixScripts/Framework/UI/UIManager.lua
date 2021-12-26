@@ -134,11 +134,9 @@ local function InnerOpenWindow(self, target, ...)
 		target.IsLoading = true
 		local params = SafePack(...)
 		GameObjectPool:GetInstance():GetGameObjectAsync(target.PrefabPath,function(go)
-			Log.Print("生成ui的回调执行...")
 			if IsNull(go) then
 				return
 			end
-			Log.Print("初始化ui prefab ui.name :"..target.Name)
 			local tran_go = go.transform
 			tran_go:SetParent(target.Layer.transform)
 			tran_go.name =target.Name

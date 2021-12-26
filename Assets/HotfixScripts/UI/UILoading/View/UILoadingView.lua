@@ -14,7 +14,7 @@ local function OnCreate(self)
 	self.loading_text:SetText("Loading...")
 	self.loading_slider = self:AddComponent(UISlider, loading_slider_path)
 	self.loading_slider:SetValue(0.0)
-	
+	self.testvalue = 111
 	-- 定时器
 	-- 这里一定要对回调函数持有引用，否则随时可能被GC，引起定时器失效
 	-- 或者使用成员函数，它的生命周期是和对象绑定在一块的
@@ -31,9 +31,9 @@ local function OnEnable(self)
 end
 
 local function Update(self)
-	
+	--print("testvalue:"..self.testvalue)
 	--刷新Loading页的进度条
-	--self.loading_slider:SetValue(self.model.value)
+	self.loading_slider:SetValue(self.model.value)
 end
 
 local function OnDestroy(self)

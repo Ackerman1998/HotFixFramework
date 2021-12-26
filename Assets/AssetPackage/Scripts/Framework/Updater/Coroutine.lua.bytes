@@ -4,6 +4,10 @@
 --coroutine池子
 local coroutine_pool={}
 
+local action_map = {}
+
+local action_pool = {}
+
 local function _RecycleCoroutine(cor)
 	if not coroutine.status(cor) == "suspended" then
 		error("recycle coroutine failed , coroutine not suspended...")
@@ -30,6 +34,46 @@ local function _GetCoroutine()
 	end
 	return co
 end
+
+local function __RecycleAction(action)
+	action.co = false
+	action.timer = false
+	action.func = false
+	action.args = false
+	action.result = false
+	table.insert(action_pool, action)
+end
+
+local function __GetAction(co, timer, func, args, result)
+	local action = nil
+	if table.length(action_pool) > 0 then
+		action = table.remove(action_pool)
+	else
+		action = {false, false, false, false, false}
+	end
+	action.co = co and co or false
+	action.timer = timer and timer or false
+	action.func = func and func or false
+	action.args = args and args or false
+	action.result = result and result or false
+	return action
+end
+
+local function __Action(action, abort, ...)
+	assert(action.timer)
+	if not action.func then
+		abort = true
+	end
+
+	if abort then
+		print("abort = true")
+		action.timer:Stop()
+		action_map[co]=nil
+		_ResumeCoroutine(action.co,...)
+		__RecycleAction(action)
+	end
+end
+
 --继续
 local function _ResumeCoroutine(co,callback,...)
 	coroutine.resume(co,callback,...)
@@ -39,9 +83,18 @@ end
 
 --等待times秒 类似于 yield return new WaitingForSeconds(1f)
 local function waitforseconds(times)
+	print("waitforseconds111...")
 	local co = coroutine.running()
+	print("waitforseconds222...")
+	local timer = TimeManager:GetInstance():GetCoTimer()
+	print("waitforseconds333...")
+	local action =__GetAction(co,timer)
 
-	
+	timer:Init(times, __Action, action, true)
+	timer:Start()
+	action_map[co] = action
+
+	return coroutine.yield()
 end
 
 
@@ -50,7 +103,6 @@ local function start(callback,...)
 	local co = _GetCoroutine()
 	print(co)
 	_ResumeCoroutine(co,callback)
-
 	return co
 end
 

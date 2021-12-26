@@ -15,6 +15,7 @@ scripts.assetbundle,Scripts/Tools/Log.lua.bytes
 scripts.assetbundle,Scripts/Tools/LuaUtil.lua.bytes
 scripts.assetbundle,Scripts/Tools/TableUtil.lua.bytes
 scripts.assetbundle,Scripts/Test/LuaTest.lua.bytes
+scripts.assetbundle,Scripts/Global/CommonLoad.lua.bytes
 scripts.assetbundle,Scripts/Global/Global.lua.bytes
 scripts.assetbundle,Scripts/Global/SortingLayerNames.lua.bytes
 scripts.assetbundle,Scripts/Framework/Updater/Coroutine.lua.bytes

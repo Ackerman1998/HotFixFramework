@@ -50,11 +50,13 @@ local function Update(self,isFix)
         else 
             deltaTime=not self.unscaled and Time.deltaTime or Time.unscaledDeltaTime
         end
+        print("timeover:deltaTime:"..deltaTime)
         self.left=self.left-deltaTime
         timeover = self.left<=0
     end
 
     if timeover then
+    
         if self.target.func~=nil then
             if not self.one_shot then
 
@@ -75,10 +77,19 @@ local function Update(self,isFix)
             self.over = true
         end
     end 
+
+  
 end
 
 local function Start(self)
-
+    if self.over then
+		error("You can't start a overed timer, try add a new one!")
+	end
+	if not self.started then
+		self.left = self.delay
+		self.started = true
+		self.start_frame_count = Time.frameCount
+	end
 end
 
 local function Resume(self)

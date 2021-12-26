@@ -21,11 +21,11 @@ local function CoInnerSwitchScene(self, scene_config)
 	window_model.value = 0
 	coroutine.waitforseconds(1)
 	window_model.value = window_model.value+0.1
-	coroutine.waitforseconds(1)
+	coroutine.waitforframes(1)
 	window_model.value = window_model.value+0.1
-	coroutine.waitforseconds(1)
+	coroutine.waitforframes(1)
 	window_model.value = window_model.value+0.1
-	coroutine.waitforseconds(1)
+	coroutine.waitforframes(1)
 	window_model.value = window_model.value+0.1
 	
 	
