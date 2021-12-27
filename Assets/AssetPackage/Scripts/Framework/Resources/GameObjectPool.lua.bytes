@@ -124,6 +124,22 @@ local function RecycleGameObject(self, path, inst)
 	__instCache[path] = cachedInst
 end
 
+-- 清理缓存
+local function Cleanup(self, includePooledGo)
+	for _,cachedInst in pairs(__instCache) do
+		for _,inst in pairs(cachedInst) do
+			if not IsNull(inst) then
+				CS.UnityEngine.GameObject.Destroy(inst)
+			end
+		end
+	end
+	__instCache = {}
+	
+	if includePooledGo then
+		__goPool = {}
+	end
+end
+
 GameObjectPool._init = _init
 GameObjectPool.CheckHasCached = CheckHasCached
 GameObjectPool.TryGetFromCache = TryGetFromCache
@@ -132,4 +148,5 @@ GameObjectPool.CoPreLoadGameObjectAsync = CoPreLoadGameObjectAsync
 GameObjectPool.GetGameObjectAsync = GetGameObjectAsync
 GameObjectPool.CoGetGameObjectAsync = CoGetGameObjectAsync
 GameObjectPool.RecycleGameObject = RecycleGameObject
+GameObjectPool.Cleanup = Cleanup
 return GameObjectPool

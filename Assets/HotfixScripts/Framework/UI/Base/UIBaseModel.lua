@@ -1,5 +1,6 @@
 --[[
 UI Model基类    
+存放数据
 ]]
 
 local UIBaseModel = BaseClass("UIBaseModel")

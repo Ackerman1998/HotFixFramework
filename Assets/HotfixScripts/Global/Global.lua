@@ -26,6 +26,7 @@ Messenger = require "Messenger"
 
 
 -- UI 模块加载
+SceneConfig = require "SceneConfig"
 UILayers = require "UILayers"
 UIWindow = require "UIWindow"
 UIUtil = require "UIUtil"
@@ -40,6 +41,7 @@ UIBaseModel = require "UIBaseModel"
 UILayer = require "UILayer"
 --TimeManager = require "TimeManager"
 Coroutine = require "Framework.Updater.Coroutine"
+
 SceneManager = require "SceneManager"
 UIWindowNames = require "UI.UIWindowNames"
 Messenger = require "Framework.Common.Messenger"
@@ -52,4 +54,5 @@ UIManager=require "UIManager"
 --测试用
 LuaTest = require "Test.LuaTest"
 --测试用
+
 

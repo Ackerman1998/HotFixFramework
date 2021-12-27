@@ -105,8 +105,6 @@ local function GetGameObjectAsync(self, path, callback, ...)
     PreLoadGameObjectAsync(self,path,1,function(callback, ...)
         local go = TryGetFromCache(self, path)
         InitInst(go)
-		Log.Print("go.name:"..go.name)
-		Log.Print("Output:"..type(callback))
         callback(go,...)
     end, callback, ...)
 end
@@ -148,4 +146,5 @@ GameObjectPool.CoPreLoadGameObjectAsync = CoPreLoadGameObjectAsync
 GameObjectPool.GetGameObjectAsync = GetGameObjectAsync
 GameObjectPool.CoGetGameObjectAsync = CoGetGameObjectAsync
 GameObjectPool.RecycleGameObject = RecycleGameObject
+GameObjectPool.Cleanup = Cleanup
 return GameObjectPool

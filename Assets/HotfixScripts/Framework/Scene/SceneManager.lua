@@ -8,6 +8,8 @@ local function _init(self)
 	self.current_scene = nil
 	--是否繁忙
 	self.busing = false
+	--存放场景容器
+	self.scenes = {}
 end
 --析构函数
 local function _delete(self)
@@ -25,23 +27,41 @@ local function CoInnerSwitchScene(self, scene_config)
 	--if self.current_scene~=nil then
 		--clear current scene
 	--end
-	window_model.value = window_model.value+0.1
+	
 	coroutine.waitforframes(1)
+	window_model.value = window_model.value+0.1
+
 	--clear ui layer
 	uimgr_instance:DestroyWindowExceptLayer(UILayers.TopLayer)
-	window_model.value = window_model.value+0.1
 	coroutine.waitforframes(1)
+	window_model.value = window_model.value+0.1
 	--clear gameobjectpool
 	GameObjectPool:GetInstance():Cleanup(true)
-	model.value = model.value + 0.01
 	coroutine.waitforframes(1)
-
+	window_model.value = window_model.value + 0.1
 	--enter loading scene
-	CS.UnityEngine.SceneManagement.SceneManager.LoadScene(SceneConfig.LoadingScene.Level)
-	model.value = model.value + 0.01
+	local sceneMgr = CS.UnityEngine.SceneManagement.SceneManager
+	sceneMgr.LoadScene(SceneConfig.LoadingScene.Level)
 	coroutine.waitforframes(1)
-
+	window_model.value = window_model.value + 0.1
 	--clear gc
+
+	--init scene
+	-- local login_scene =self.scenes[scene_config.Name]
+	-- if login_scene==nil then
+	-- 	login_scene = scene_config.Type.New(scene_config)
+	-- 	self.scenes[scene_config.Name] = login_scene
+	-- end
+
+	-- login_scene:OnEnter()
+	coroutine.waitforframes(1)
+	window_model.value = window_model.value + 0.1
+
+	--async load scene
+	local model_CurrentValue = window_model.value
+	coroutine.waitforasyncop(sceneMgr.LoadSceneAsync(scene_config.Level),function(co,progress)
+		window_model.value = model_CurrentValue + 0.2*progress
+	end)
 end
 
 local function SwitchScene(self,scene_config)

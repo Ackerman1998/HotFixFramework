@@ -40,9 +40,10 @@ local function Update(self,isFix)
     if not self.started or self.over then
         return
     end
+    --是否结束了
     local timeover = false
     if self.use_frame then
-        timeup = (Time.frameCount >= self.start_frame_count + self.delay)
+        timeover = (Time.frameCount >= self.start_frame_count + self.delay)
     else 
         local deltaTime = nil
         if isFix then
@@ -50,7 +51,6 @@ local function Update(self,isFix)
         else 
             deltaTime=not self.unscaled and Time.deltaTime or Time.unscaledDeltaTime
         end
-        print("timeover:deltaTime:"..deltaTime)
         self.left=self.left-deltaTime
         timeover = self.left<=0
     end
@@ -59,10 +59,16 @@ local function Update(self,isFix)
     
         if self.target.func~=nil then
             if not self.one_shot then
-
+              
             else 
                 self.over = true
             end
+            -- if self.over then
+            --     Log.Print("one shot =false , over = true")
+            -- else
+            --     Log.Print("one shot =false , over = false")
+            -- end
+           
             local status,err
             if self.target.obj~=nil then
                 status,err = pcall(self.target.func,self.target.obj)
@@ -93,11 +99,11 @@ local function Start(self)
 end
 
 local function Resume(self)
-
+    self.started = true
 end
 
 local function Pause(self)
-
+    self.started = false
 end
 
 local function Stop(self)

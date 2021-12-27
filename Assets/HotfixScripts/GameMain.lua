@@ -26,7 +26,8 @@ local function Initilize()
 end
 
 local function EnterGame()
-	SceneManager:GetInstance():SwitchScene(SceneConfig.LoginScene)
+	local sceneMgr_instance = SceneManager:GetInstance()
+	sceneMgr_instance:SwitchScene(SceneConfig.LoginScene)
 end
 
 

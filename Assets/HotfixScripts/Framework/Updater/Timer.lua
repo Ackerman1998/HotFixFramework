@@ -59,10 +59,16 @@ local function Update(self,isFix)
     
         if self.target.func~=nil then
             if not self.one_shot then
-
+              
             else 
                 self.over = true
             end
+            -- if self.over then
+            --     Log.Print("one shot =false , over = true")
+            -- else
+            --     Log.Print("one shot =false , over = false")
+            -- end
+           
             local status,err
             if self.target.obj~=nil then
                 status,err = pcall(self.target.func,self.target.obj)

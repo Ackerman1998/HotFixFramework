@@ -43,6 +43,7 @@ scripts.assetbundle,Scripts/Framework/UI/Base/UIBaseView.lua.bytes
 scripts.assetbundle,Scripts/Framework/UI/UILayers.lua.bytes
 scripts.assetbundle,Scripts/Framework/UI/UIManager.lua.bytes
 scripts.assetbundle,Scripts/Framework/UI/UIWindow.lua.bytes
+scripts.assetbundle,Scripts/Framework/Scene/BaseScene.lua.bytes
 scripts.assetbundle,Scripts/Framework/Scene/SceneConfig.lua.bytes
 scripts.assetbundle,Scripts/Framework/Scene/SceneManager.lua.bytes
 scripts.assetbundle,Scripts/Framework/Resources/GameObjectPool.lua.bytes

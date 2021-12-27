@@ -19,7 +19,7 @@ local function DelayRecycle(self, timers)
     for k,v in pairs(timers) do
         if k:IsOver() then
             k:Stop()
-            table.insert(timer_pool,k)
+            table.insert(self.timer_pool,k)
             timers[k]=nil
         end
     end
@@ -52,19 +52,16 @@ end
 --获取定时器
 local function GetTimer(self, delay, func, obj, one_shot, use_frame, unscaled)
     local timer = nil
-    print("GetTimer111...")
     if #self.timer_pool>0 then
         timer = table.remove(self.timer_pool)
         timer:Init(delay, func, obj, one_shot, use_frame, unscaled)
     else
         timer = Timer.New(delay, func, obj, one_shot, use_frame, unscaled)
     end
-    print("GetTimer222...")
     return timer
 end
 
 local function GetCoTimer(self, delay, func, obj, one_shot, use_frame, unscaled)
-    print("GetCoTimer...")
     local timer = GetTimer(self, delay, func, obj, one_shot, use_frame, unscaled)
     self.__coupdate_toadd[timer] = true
     return timer

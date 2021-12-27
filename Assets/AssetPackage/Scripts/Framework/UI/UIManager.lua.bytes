@@ -134,11 +134,9 @@ local function InnerOpenWindow(self, target, ...)
 		target.IsLoading = true
 		local params = SafePack(...)
 		GameObjectPool:GetInstance():GetGameObjectAsync(target.PrefabPath,function(go)
-			Log.Print("生成ui的回调执行...")
 			if IsNull(go) then
 				return
 			end
-			Log.Print("初始化ui prefab ui.name :"..target.Name)
 			local tran_go = go.transform
 			tran_go:SetParent(target.Layer.transform)
 			tran_go.name =target.Name
@@ -162,6 +160,26 @@ local function InnerCloseWindow(self, target)
 	end
 end
 
+local function InnerDelete(plugin)
+	if plugin.__ctype == ClassType.instance then
+		plugin:Delete()
+	end
+end
+
+--销毁目标窗体
+local function InnerDestroyWindow(self, ui_name, target, include_keep_model)
+	GameObjectPool:GetInstance():RecycleGameObject(self.windows[ui_name].PrefabPath, target.View.gameObject)
+	if include_keep_model then
+		self.keep_model[ui_name] = nil
+		InnerDelete(target.Model)
+	elseif not self.keep_model[ui_name] then
+		InnerDelete(target.Model)
+	end
+	InnerDelete(target.Ctrl)
+	InnerDelete(target.View)
+	self.windows[ui_name] = nil
+end
+
 local function OpenWindow(self, ui_name, ...)
     local target = self:GetWindow(ui_name)
     if not target then
@@ -174,6 +192,14 @@ local function OpenWindow(self, ui_name, ...)
 	InnerOpenWindow(self,target,...)
 	return target
 end
+--销毁除了这个层级以外的窗口(不销毁层级)
+local function DestroyWindowExceptLayer(self,layer)
+	for k,v in pairs(self.windows) do
+		if v.Layer:GetName() ~= layer.Name then
+			InnerCloseWindow(self,v)
+		end
+	end
+end
 
 UIManager._init=_init
 UIManager._delete=_delete
@@ -185,4 +211,5 @@ UIManager.Deactivate=Deactivate
 UIManager.ActivateWindow=ActivateWindow
 UIManager.GetWindow=GetWindow
 UIManager.InitWindow=InitWindow
+UIManager.DestroyWindowExceptLayer=DestroyWindowExceptLayer
 return UIManager

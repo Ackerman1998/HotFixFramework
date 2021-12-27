@@ -211,4 +211,5 @@ UIManager.Deactivate=Deactivate
 UIManager.ActivateWindow=ActivateWindow
 UIManager.GetWindow=GetWindow
 UIManager.InitWindow=InitWindow
+UIManager.DestroyWindowExceptLayer=DestroyWindowExceptLayer
 return UIManager

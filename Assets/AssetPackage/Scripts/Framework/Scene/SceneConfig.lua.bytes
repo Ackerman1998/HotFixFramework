@@ -1,10 +1,10 @@
 --[[
+-- SceneConfig
 -- 场景配置
 --]]
 local SceneConfig = {
 	-- 启动场景
 	LaunchScene = {
-		-- level、name对应于BuldSetting中添加的场景
 		Level = 0,
 		Name = "LaunchScene",
 		Type = nil,
@@ -20,7 +20,7 @@ local SceneConfig = {
 		Level = 2,
 		Name = "LoginScene",
 		Type = nil,
-		--Type = require "Scenes.LoginScene",
+		--Type = require "LoginScene",
 	},
 	-- 主页场景
 	HomeScene = {
