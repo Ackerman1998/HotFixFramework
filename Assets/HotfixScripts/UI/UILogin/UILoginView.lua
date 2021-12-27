@@ -14,11 +14,9 @@ local function OnCreate(self)
 	self.btn_login_text = self:AddComponent(UIText,btn_login_text_path)
 	self.btn_login_text:SetText("开始")
 	self.btn_login = self:AddComponent(UIButton,btn_login_path)
-	print("click 1111...")
 	self.btn_login:SetOnClick(function()
-		print("click button ...")
+		self.ctrl:Button_Start()
 	end)
-	print("click 2222...")
 
 end
 

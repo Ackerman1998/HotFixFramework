@@ -142,13 +142,11 @@ local function InnerOpenWindow(self, target, ...)
 			tran_go:SetParent(target.Layer.transform)
 			tran_go.name =target.Name
 			target.IsLoading=false
-			print("create ui success:"..target.Name)
 			target.View:OnCreate()
-		
 			if target.Active then
+
 				ActivateWindow(self, target, SafeUnpack(params))
 			end
-			
 		end)
 	end
 end
@@ -207,7 +205,7 @@ end
 
 local function CloseWindow(self,ui_name)
 	local target = self:GetWindow(ui_name)
-	if not target then 
+	if target~=nil then 
 		InnerCloseWindow(self,target)
 		InnerDestroyWindow(self,ui_name,target)
 	end

@@ -1,8 +1,8 @@
 --[[
 加载页面UI Model层
 ]]
-local UILoginModel = BaseClass("UILoginModel")
-local base = UILoginModel
+local UILoginModel = BaseClass("UILoginModel",UIBaseModel)
+local base = UIBaseModel
 
 local function _init(self)
 end

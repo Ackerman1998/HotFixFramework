@@ -59,7 +59,6 @@ local function OnCreate(self)
 	-- 初始化其它基本信息
 	if type((self.__var_arg)) == "string" then
 		--根据路径名获取
-		print("self.__var_arg:"..(self.__var_arg))
 		self.transform = UIUtil.FindTransform(self.holder.transform,self.__var_arg)
 
 		self.gameObject = self.transform.gameObject

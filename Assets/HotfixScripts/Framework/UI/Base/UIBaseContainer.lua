@@ -31,7 +31,6 @@ local function AddComponent(self, component_target, var_arg, ...)
 	local component_instance = nil
 
 	if type(var_arg)=="string" then 
-		print("AddComponentvar_argvar_argvar_arg:"..var_arg)
 		component_class = component_target
 		component_instance = component_class.New(self,var_arg)
 		component_instance:OnCreate(...)
