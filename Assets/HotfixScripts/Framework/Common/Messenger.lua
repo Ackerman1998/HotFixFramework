@@ -32,7 +32,6 @@ end
 local function Broadcast(self, e_type, ...)
 	local event = self.events[e_type]
 	if event==nil then
-		Log.Print(e_type.."not exist...")
 		return
 	end
 	for k,v in pairs(event) do

@@ -12,6 +12,7 @@ local function FindComponent(trans,ctype,path)
     assert(ctype~=nil)
     local transtarget = trans
     if path~=nil and #path>0 and type(path)=="string" then
+        print("path:"..path)
         transtarget = trans:Find(path)
     end
     if transtarget==nil then
@@ -19,7 +20,7 @@ local function FindComponent(trans,ctype,path)
     end
     local componet = transtarget:GetComponent(ctype)
     if componet~=nil then
-        -- if trans.name=="UILoading" then
+        -- if trans.name=="UILogin" then
         --     Log.Print(trans.name.."GetCompnent")
         --     Log.Print("component.gameObject.name: "..componet.gameObject.name)
         -- end
@@ -46,8 +47,19 @@ local function FindSlider(trans)
     end
 end
 
+local function FindButton(trans,path)
+    print("finbtn:gameobject.name:"..trans.gameObject.name)
+     local target_button = trans:GetComponent(typeof(CS.UnityEngine.UI.Button))
+     if target_button~=nil then
+        return target_button
+    else 
+        return nil
+    end
+end
+
 UIUtil.FindTransform=FindTransform
 UIUtil.FindComponent=FindComponent
 UIUtil.FindText=FindText
 UIUtil.FindSlider=FindSlider
+UIUtil.FindButton=FindButton
 return UIUtil

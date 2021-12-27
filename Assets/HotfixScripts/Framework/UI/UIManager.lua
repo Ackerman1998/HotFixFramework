@@ -137,14 +137,18 @@ local function InnerOpenWindow(self, target, ...)
 			if IsNull(go) then
 				return
 			end
+		
 			local tran_go = go.transform
 			tran_go:SetParent(target.Layer.transform)
 			tran_go.name =target.Name
 			target.IsLoading=false
+			print("create ui success:"..target.Name)
 			target.View:OnCreate()
+		
 			if target.Active then
 				ActivateWindow(self, target, SafeUnpack(params))
 			end
+			
 		end)
 	end
 end
@@ -201,6 +205,14 @@ local function DestroyWindowExceptLayer(self,layer)
 	end
 end
 
+local function CloseWindow(self,ui_name)
+	local target = self:GetWindow(ui_name)
+	if not target then 
+		InnerCloseWindow(self,target)
+		InnerDestroyWindow(self,ui_name,target)
+	end
+end
+
 UIManager._init=_init
 UIManager._delete=_delete
 UIManager.StartUp=StartUp
@@ -211,5 +223,6 @@ UIManager.Deactivate=Deactivate
 UIManager.ActivateWindow=ActivateWindow
 UIManager.GetWindow=GetWindow
 UIManager.InitWindow=InitWindow
+UIManager.CloseWindow=CloseWindow
 UIManager.DestroyWindowExceptLayer=DestroyWindowExceptLayer
 return UIManager

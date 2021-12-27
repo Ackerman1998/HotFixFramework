@@ -19,8 +19,7 @@ local SceneConfig = {
 	LoginScene = {
 		Level = 2,
 		Name = "LoginScene",
-		Type = nil,
-		--Type = require "LoginScene",
+		Type = require "LoginScene",
 	},
 	-- 主页场景
 	HomeScene = {

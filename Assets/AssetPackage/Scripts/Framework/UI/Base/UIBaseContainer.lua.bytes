@@ -24,8 +24,6 @@ local function RecordComponent(self, name, component_class, component)
 	self.components[name][component_class]=component
 end
 
-
-
 -- 添加组件
 local function AddComponent(self, component_target, var_arg, ...)
 	assert(component_target._ctype==ClassType.class)

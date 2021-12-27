@@ -127,6 +127,10 @@ local function waitforasyncop(asyncOperation,callback)
 	return coroutine.yield()
 end
 
+local function yieldstart(func,callback)
+	
+end
+
 local function start(callback,...)
 	local co = _GetCoroutine()
 	_ResumeCoroutine(co,callback,...)

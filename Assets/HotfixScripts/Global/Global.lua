@@ -34,21 +34,21 @@ Updatable = require "Framework.Common.Updatable"
 UIBaseComponent = require "UIBaseComponent"
 UIText =require "UIText"
 UISlider = require "UISlider"
+
 UICanvas = require "UICanvas"
 UIBaseContainer = require "UIBaseContainer"
 UIBaseView = require "UIBaseView"
 UIBaseModel = require "UIBaseModel"
+UIButton = require "UIButton"
+UIImage = require "UIImage"
 UILayer = require "UILayer"
---TimeManager = require "TimeManager"
 Coroutine = require "Framework.Updater.Coroutine"
-
 SceneManager = require "SceneManager"
 UIWindowNames = require "UI.UIWindowNames"
 Messenger = require "Framework.Common.Messenger"
 UpdateManager = require "Framework.Updater.UpdateManager"
 UIConfig = require "UIConfig"
 UIManager=require "UIManager"
-
 -- UI
 
 --测试用

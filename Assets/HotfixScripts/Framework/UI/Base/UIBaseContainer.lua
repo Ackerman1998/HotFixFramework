@@ -24,14 +24,14 @@ local function RecordComponent(self, name, component_class, component)
 	self.components[name][component_class]=component
 end
 
-
-
 -- 添加组件
 local function AddComponent(self, component_target, var_arg, ...)
 	assert(component_target._ctype==ClassType.class)
 	local component_class =nil
 	local component_instance = nil
+
 	if type(var_arg)=="string" then 
+		print("AddComponentvar_argvar_argvar_arg:"..var_arg)
 		component_class = component_target
 		component_instance = component_class.New(self,var_arg)
 		component_instance:OnCreate(...)

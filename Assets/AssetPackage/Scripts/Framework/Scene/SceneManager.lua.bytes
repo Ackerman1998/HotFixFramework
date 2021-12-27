@@ -47,21 +47,24 @@ local function CoInnerSwitchScene(self, scene_config)
 	--clear gc
 
 	--init scene
-	-- local login_scene =self.scenes[scene_config.Name]
-	-- if login_scene==nil then
-	-- 	login_scene = scene_config.Type.New(scene_config)
-	-- 	self.scenes[scene_config.Name] = login_scene
-	-- end
-
-	-- login_scene:OnEnter()
+	local login_scene =self.scenes[scene_config.Name]
+	if login_scene==nil then
+		login_scene = scene_config.Type.New(scene_config)
+		self.scenes[scene_config.Name] = login_scene
+	end
 	coroutine.waitforframes(1)
 	window_model.value = window_model.value + 0.1
-
 	--async load scene
 	local model_CurrentValue = window_model.value
 	coroutine.waitforasyncop(sceneMgr.LoadSceneAsync(scene_config.Level),function(co,progress)
 		window_model.value = model_CurrentValue + 0.2*progress
 	end)
+	coroutine.waitforframes(3)
+	window_model.value = window_model.value + 0.1
+	--load login ui
+	login_scene:OnComplete()
+	print("open login ui success22...")
+	uimgr_instance:CloseWindow(UIWindowNames.UILoading)
 end
 
 local function SwitchScene(self,scene_config)
@@ -71,7 +74,6 @@ local function SwitchScene(self,scene_config)
 		return
 	end
 	self.busing=true
-	Log.Print("scene_config.Level:"..scene_config.Level)
 	coroutine.start(CoInnerSwitchScene,self,scene_config)
 end
 SceneManager._init=_init

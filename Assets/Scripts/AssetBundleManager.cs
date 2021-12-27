@@ -59,30 +59,26 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     }
     //load assetbundle 
     public IEnumerator Initialize() {
-
-#if UNITY_EDITOR
-        if (EditorConfig.SelectMode == 0)
-        {//Editor Mode,skip
-           
-        }
-#endif
-        //load assetbundlemanifest and assetmapping
         manifest = new Manifest();
         var createrManifest = RequestAssetBundleAsync(StreamingRootFolderName,false);
-        var createrAssetMapping = RequestAssetBundleHasEndAsync(assetMappingName,false);
         yield return createrManifest;
         AssetBundle assetbundle_Manifest = createrManifest.assetbundle;
         manifest.LoadFromAssetbundle(assetbundle_Manifest);
         assetbundle_Manifest.Unload(false);
         createrManifest.Dispose();
+#if UNITY_EDITOR
+        if (EditorConfig.SelectMode == 0)
+        {
+            //when editor mode，read assetpackage mappingfile
+            LoadAssetMappingByAssetPackage();
+            yield break;
+        }
+#endif
+        var createrAssetMapping = RequestAssetBundleHasEndAsync(assetMappingName,false);
         yield return createrAssetMapping;
         AssetBundle assetbundle_Mapping = createrAssetMapping.assetbundle;
         ReadAssetsMapping(assetbundle_Mapping);
         createrAssetMapping.Dispose();
-        //string[] allAssetbundle = manifest.GetAllAssetBundleNames();
-        //foreach (string ab in allAssetbundle) {
-        //    AddResidentAssetBundle(ab);
-        //}
         yield break;
     }
     //clear all assetbundle
@@ -196,6 +192,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     }
     //read analysis assetsmapping file
     public void ReadAssetsMapping(AssetBundle assetbundle_Mapping) {
+      
         TextAsset ts = assetbundle_Mapping.LoadAsset(assetMappingRealName) as TextAsset;
         //load assets mapping 
         string mapping_texts = ts.text;
@@ -221,7 +218,27 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         //    print(assetMapping.assetbundleName + ",,," + assetMapping.assetName + "..." + assetMapping.loadPath);
         //}
     }
-    
+    //从本地读取AssetMapping配置文件
+    private void LoadAssetMappingByAssetPackage(){
+        string finalPath = Path.Combine(Application.dataPath,"AssetPackage",assetMappingRealName+".bytes");
+        string mapping_texts = File.ReadAllText(finalPath);
+        string[] mapping_text = mapping_texts.Split('\n');
+        for (int i = 0; i < mapping_text.Length; i++)
+        {
+            string assetbundle_name = mapping_text[i].Split(',')[0];
+            int first = mapping_text[i].Split(',')[1].LastIndexOf('/')+1;
+            int end = mapping_text[i].Split(',')[1].LastIndexOf('.');
+            string file_name = mapping_text[i].Split(',')[1].Substring(first, end-first);
+            int first_index = mapping_text[i].Split(',')[1].FirstIndexOf('/')+1;
+            string path_name = mapping_text[i].Split(',')[1].Substring(first_index, end-first_index);
+            AssetMapping assetMapping = new AssetMapping();
+            assetMapping.assetbundleName = assetbundle_name;
+            assetMapping.assetName = file_name;
+            assetMapping.loadPath = path_name;
+            mapping_List.Add(assetMapping);
+        }
+    }
+
     #region Load Assets
     /// <summary>
     /// 异步请求常规资源(非Assetbundle资源) 如：文本文件
