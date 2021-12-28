@@ -45,7 +45,10 @@ local function CoInnerSwitchScene(self, scene_config)
 	coroutine.waitforframes(1)
 	window_model.value = window_model.value + 0.1
 	--clear gc
-
+	collectgarbage("collect")
+	CS.System.GC.Collect()
+	collectgarbage("collect")
+	CS.System.GC.Collect()
 	--init scene
 	local login_scene =self.scenes[scene_config.Name]
 	if login_scene==nil then
@@ -59,12 +62,12 @@ local function CoInnerSwitchScene(self, scene_config)
 	coroutine.waitforasyncop(sceneMgr.LoadSceneAsync(scene_config.Level),function(co,progress)
 		window_model.value = model_CurrentValue + 0.2*progress
 	end)
-	coroutine.waitforframes(3)
+	
 	window_model.value = window_model.value + 0.1
+	coroutine.waitforseconds(0.5)
 	--load login ui
-	coroutine.waitforframes(5)
 	window_model.value = 1
-	coroutine.waitforframes(5)
+	coroutine.waitforseconds(0.1)
 	login_scene:OnComplete()
 	uimgr_instance:CloseWindow(UIWindowNames.UILoading)
 end

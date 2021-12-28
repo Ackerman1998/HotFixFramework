@@ -12,7 +12,6 @@ local function OnCreate(self)
 	base.OnCreate(self)
 	--初始化
 	self.btn_login_text = self:AddComponent(UIText,btn_login_text_path)
-	self.btn_login_text:SetText("开始")
 	self.btn_login = self:AddComponent(UIButton,btn_login_path)
 	self.btn_login:SetOnClick(function()
 		self.ctrl:Button_Start()

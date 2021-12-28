@@ -69,7 +69,6 @@ public class AssetBundleTools : IEditorWindow
             }
         }
         FileTools.WriteText(assetsMappingFilePath, sb.ToString());
-        AssetDatabase.Refresh();
     }
 
     /// <summary>

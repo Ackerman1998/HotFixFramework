@@ -1,10 +1,5 @@
 --[[
--- added by wsh @ 2017-11-30
--- UIWindow数据，用以表示一个窗口
--- 注意：
--- 1、窗口名字必须和预设名字一致
--- UIWindow是一种结构体类型的数据表
--- 主要存放了 名字，m,v,c
+-- UIWindow数据:表示一个窗口
 --]]
 
 local UIWindow = {

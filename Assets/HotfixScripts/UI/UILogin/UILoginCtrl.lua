@@ -2,7 +2,7 @@
 --UILogin Ctrl层
 --]]
 
-local UILoginCtrl = BaseClass("UILoginCtrl",UILoginCtrl)
+local UILoginCtrl = BaseClass("UILoginCtrl",UIBaseCtrl)
 
 local function Button_Start(self)
     print("Click Button test...")
