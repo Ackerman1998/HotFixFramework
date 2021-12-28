@@ -11,6 +11,13 @@ public class XLuaManager : MonoSingleton<XLuaManager>
     private string mainLuaName = "GameMain";//主入口
     private string hotFixLuaName = "HotfixMain";
     private string commonLoadLuaName = "CommonLoad";
+    public string LuaAssetBundleName
+    {
+        get {
+            return "scripts";
+        }
+        private set { }
+    }
     public override void Awake()
     {
         base.Awake();
@@ -18,18 +25,20 @@ public class XLuaManager : MonoSingleton<XLuaManager>
     public LuaEnv GetLuaEnv() {
         return _luaEnv;
     }
+    /// <summary>
+    /// 启动
+    /// </summary>
     public override void Init()
     {
         base.Init();
         InitLuaEnv();
-        StartLoad();
     }
     private void InitLuaEnv() {
         _luaEnv = new LuaEnv();
         if (_luaEnv != null)
         {
             _luaEnv.AddLoader(CustomLoader);
-            DoRequire(commonLoadLuaName);
+         
         }
         else {
             Debug.LogError("Init LuaEnv Failed...");
@@ -108,6 +117,7 @@ public class XLuaManager : MonoSingleton<XLuaManager>
     /// </summary>
     public void StartLoad() {
         if (_luaEnv != null) {
+            DoRequire(commonLoadLuaName);
             DoRequire(mainLuaName);
         }
     }

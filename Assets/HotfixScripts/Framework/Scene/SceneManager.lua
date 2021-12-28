@@ -62,7 +62,9 @@ local function CoInnerSwitchScene(self, scene_config)
 	coroutine.waitforframes(3)
 	window_model.value = window_model.value + 0.1
 	--load login ui
-
+	coroutine.waitforframes(5)
+	window_model.value = 1
+	coroutine.waitforframes(5)
 	login_scene:OnComplete()
 	uimgr_instance:CloseWindow(UIWindowNames.UILoading)
 end

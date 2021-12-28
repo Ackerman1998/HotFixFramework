@@ -9,6 +9,7 @@ public class GameLaunch : MonoSingleton<GameLaunch>
 {
     private string appversionPath = "app_version.bytes";
     private string launchUIName = "UILaunch";
+    private string fontName = "font";
     private string noticeTipsUIName = "UINoticeTip";
     //更新器
     private AssetBundleUpdater bundleUpdater=null;
@@ -19,34 +20,66 @@ public class GameLaunch : MonoSingleton<GameLaunch>
     IEnumerator Start()
     {
         var start = DateTime.Now;
-        //yield return InitAppVersion();
-        //Debug.Log(string.Format("InitAppVersion use {0}ms", (DateTime.Now - start).Milliseconds));
-        //start = DateTime.Now;
         yield return AssetBundleManager.Instance.Initialize();
         Debug.Log(string.Format("AssetBundleManager Initialize use {0}ms", (DateTime.Now - start).Milliseconds));
-        Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
-        foreach (string assetbundle in manifest.GetAllAssetBundleNames()) {
-            start = DateTime.Now;
-            var request = AssetBundleManager.Instance.RequestAssetBundleAsync(assetbundle, true);
-            yield return request;
-            Debug.Log(string.Format("Load AssetBundle {0} use {1}ms", assetbundle, (DateTime.Now - start).Milliseconds));
-            request.Dispose();
-        }
+        start = DateTime.Now;
+
+        yield return InitFont();
+        Debug.Log(string.Format("Init Font use {0}ms", (DateTime.Now - start).Milliseconds));
+        start = DateTime.Now;
+        yield return InitLaunchUI();
+        Debug.Log(string.Format("InitLaunchUI use {0}ms", (DateTime.Now - start).Milliseconds));
+        start = DateTime.Now;
+
         XLuaManager.Instance.Init();
-        //XLuaManager.Instance.StartHotFix();暂不开启热修复
-        Debug.Log(string.Format("XLuaManager init use {0}ms", (DateTime.Now - start).Milliseconds));
-        InitLaunchUI();
-        InitNoticeTipUI();
-        if (bundleUpdater!=null) {
+        string luaAssetbundleName = XLuaManager.Instance.LuaAssetBundleName;
+        AssetBundleManager.Instance.SetAssetBundleResident(luaAssetbundleName, true);
+        var loader = AssetBundleManager.Instance.LoadAssetBundleAsync(luaAssetbundleName);
+        yield return loader;
+        loader.Dispose();
+        Debug.Log(string.Format("LUAManager Initialize use {0}ms", (DateTime.Now - start).Milliseconds));
+        start = DateTime.Now;
+        XLuaManager.Instance.StartLoad();
+     
+        yield return InitNoticeTipUI();
+        yield return null;
+        Debug.Log(string.Format("InitNoticeTipUI use {0}ms", (DateTime.Now - start).Milliseconds));
+        if (bundleUpdater != null)
+        {
             AssetBundleUpdater.Instance.CheckUpdate();
         }
-       
         yield break;
     }
-
-    private void InitLaunchUI() {
-        var ui = AssetBundleManager.Instance.LoadAssets<GameObject>(launchUIName);
+    [System.Obsolete]
+    private void OldLoad() {
+        //Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
+        //foreach (string assetbundle in manifest.GetAllAssetBundleNames()) {
+        //    start = DateTime.Now;
+        //    var request = AssetBundleManager.Instance.RequestAssetBundleAsync(assetbundle, true);
+        //    yield return request;
+        //    Debug.Log(string.Format("Load AssetBundle {0} use {1}ms", assetbundle, (DateTime.Now - start).Milliseconds));
+        //    request.Dispose();
+        //}
+        //XLuaManager.Instance.Init();
+        //XLuaManager.Instance.StartHotFix();暂不开启热修复
+        //Debug.Log(string.Format("XLuaManager init use {0}ms", (DateTime.Now - start).Milliseconds));
+    }
+    //init font
+    private IEnumerator InitFont() {
+        var loader = AssetBundleManager.Instance.LoadAssetBundleAsync(fontName);
+        yield return loader;
+        loader.Dispose();
+        yield break;
+    }
+    //load launch ui
+    private IEnumerator InitLaunchUI() {
+        var loader = AssetBundleManager.Instance.LoadAssetAsync(launchUIName);
+        yield return loader;
+        GameObject ui = loader.asset as GameObject;
+        loader.Dispose();
         GameObject obj = InstantiateUI(ui);
+        //var ui = AssetBundleManager.Instance.LoadAssets<GameObject>(launchUIName);
+        //GameObject obj = InstantiateUI(ui);
         if (obj.GetComponent<AssetBundleUpdater>() == null)
         {
             bundleUpdater = obj.AddComponent<AssetBundleUpdater>();
@@ -55,11 +88,17 @@ public class GameLaunch : MonoSingleton<GameLaunch>
         {
             bundleUpdater = obj.GetComponent<AssetBundleUpdater>();
         }
+        yield break;
     }
-    private void InitNoticeTipUI() {
-        var ui = AssetBundleManager.Instance.LoadAssets<GameObject>(noticeTipsUIName);
+    private IEnumerator InitNoticeTipUI() {
+        var loader = AssetBundleManager.Instance.LoadAssetAsync(noticeTipsUIName);
+        yield return loader;
+        GameObject ui = loader.asset as GameObject;
+        loader.Dispose();
+        //var ui = AssetBundleManager.Instance.LoadAssets<GameObject>(noticeTipsUIName);
         GameObject obj = InstantiateUI(ui);
         obj.AddComponent<UINoticeTip>();
+        yield break;
     }
     public GameObject InstantiateUI(GameObject prefab_ui) {
         GameObject obj = Instantiate(prefab_ui);

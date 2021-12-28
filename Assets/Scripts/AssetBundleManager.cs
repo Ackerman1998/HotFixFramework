@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Security.Cryptography;
 using System.Text;
 using XLua;
-
+using DateTime = System.DateTime;
 
 public class AssetBundleManager : MonoSingleton<AssetBundleManager>
 {
@@ -28,6 +28,9 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     List<ResourceWebRequester> prosessingWebRequester = new List<ResourceWebRequester>();
     //常驻Assetbundle
     List<string> residentAssetBundle = new List<string>();
+    // 逻辑层正在等待的ab加载异步句柄
+    List<AssetBundleAsyncLoader> prosessingAssetBundleAsyncLoader = new List<AssetBundleAsyncLoader>();
+    List<AssetAsyncLoader> assetAsyncLoaders = new List<AssetAsyncLoader>();
     int currentNum = 0;
     public string StreamingRootFolderName
     {
@@ -66,6 +69,15 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         manifest.LoadFromAssetbundle(assetbundle_Manifest);
         assetbundle_Manifest.Unload(false);
         createrManifest.Dispose();
+        var allAssetbundleNames = manifest.GetAllAssetBundleNames();
+        foreach (var curAssetbundleName in allAssetbundleNames)
+        {
+            if (string.IsNullOrEmpty(curAssetbundleName))
+            {
+                continue;
+            }
+            SetAssetBundleResident(curAssetbundleName, true);
+        }
 #if UNITY_EDITOR
         if (EditorConfig.SelectMode == 0)
         {
@@ -81,6 +93,19 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         createrAssetMapping.Dispose();
         yield break;
     }
+
+    public void SetAssetBundleResident(string assetbundleName,bool resident) {
+        bool exist = residentAssetBundle.Contains(assetbundleName);
+        if (exist&& !resident)
+        {
+            residentAssetBundle.Remove(assetbundleName);
+        }
+        else if (!exist && resident)
+        {
+            residentAssetBundle.Add(assetbundleName);
+        }
+    }
+
     //clear all assetbundle
     public IEnumerator Clear() {
         yield return new WaitUntil(()=> {
@@ -97,15 +122,9 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         prosessingWebRequester.Clear();
         residentAssetBundle.Clear();
         mapping_List.Clear();
-
         yield break;
     }
-    public void AddResidentAssetBundle(string abName) {
-        if (!residentAssetBundle.Contains(abName)) {
-            residentAssetBundle.Add(abName);
-            RequestAssetBundleAsync(abName,true);
-        }
-    }
+    
     public void LoadAssetbundle(string abName) {
         string finalPath = Path.Combine(assetbundleRootPath, abName + "." + assetbundleEndName);
         string key = abName;
@@ -115,6 +134,19 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         RequestTools.Instance.LoadAsset<AssetBundle>(finalPath, (obj) => {
             assetBundle_Container.Add(key, obj);
         });
+    }
+
+    public string GetAssetBundleNameForAsset(string assetName)
+    {
+        AssetMapping assetMapping = mapping_List.Find((x) => (x.assetName == assetName));
+        if (assetMapping.assetbundleName.Length != 0 && assetMapping.assetName.Length != 0 && assetMapping.loadPath.Length != 0)
+        {
+            string newStr = assetMapping.assetbundleName.Replace(".assetbundle", "");
+            return newStr;
+        }
+        else {
+            return null;
+        }
     }
    
     /// <summary>
@@ -135,7 +167,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             }
             else
             {
-                Debug.LogError("asset bundle:[" + assetMapping.assetbundleName + "] not exist,please check asset content"+ assetBundle_Container.Count);
+                Debug.LogError("asset bundle:[" + assetMapping.assetbundleName + "] not exist,please check asset content："+ assetName);
             }
         }
         else {
@@ -206,7 +238,8 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             int first_index = mapping_text[i].Split(',')[1].FirstIndexOf('/')+1;
             string path_name = mapping_text[i].Split(',')[1].Substring(first_index, end-first_index);
             AssetMapping assetMapping = new AssetMapping();
-            assetMapping.assetbundleName = assetbundle_name;
+            string newStr = assetbundle_name.Replace(".assetbundle", "");
+            assetMapping.assetbundleName = newStr;
             assetMapping.assetName = file_name;
             assetMapping.loadPath = path_name;
             mapping_List.Add(assetMapping);
@@ -232,14 +265,48 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             int first_index = mapping_text[i].Split(',')[1].FirstIndexOf('/')+1;
             string path_name = mapping_text[i].Split(',')[1].Substring(first_index, end-first_index);
             AssetMapping assetMapping = new AssetMapping();
-            assetMapping.assetbundleName = assetbundle_name;
+            string newStr = assetbundle_name.Replace(".assetbundle", "");
+            assetMapping.assetbundleName = newStr;
             assetMapping.assetName = file_name;
             assetMapping.loadPath = path_name;
             mapping_List.Add(assetMapping);
         }
     }
 
-    #region Load Assets
+    public AssetBundle GetAssetBundleCache(string name)
+    {
+        if (assetBundle_Container.ContainsKey(name))
+        {
+            return assetBundle_Container[name];
+        }
+        return null;
+    }
+
+    public UnityEngine.Object GetAssetCache(string assetName) {
+        UnityEngine.Object result = LoadAssets<UnityEngine.Object>(assetName);
+        return result;
+    }
+    //检测资源是否存在
+    public bool AssetCacheIsExisted(string assetName) {
+        AssetMapping assetMapping = mapping_List.Find((x) => (x.assetName == assetName));
+        if (assetMapping.assetbundleName.Length != 0 && assetMapping.assetName.Length != 0 && assetMapping.loadPath.Length != 0)
+        {
+            if (assetBundle_Container.ContainsKey(assetMapping.assetbundleName))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    #region Async Load Assets
     /// <summary>
     /// 异步请求常规资源(非Assetbundle资源) 如：文本文件
     /// </summary>
@@ -280,12 +347,45 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         webRequesterQueue.Enqueue(creater);
         return creater;
     }
+    /// <summary>
+    /// 异步加载assetbundle
+    /// </summary>
+    public BaseAssetBundleAsyncLoader LoadAssetBundleAsync(string name) {
+        var loader = AssetBundleAsyncLoader.Get();
+        loader.Init(name);
+        RequestAssetBundleHasEndAsync(name);
+        prosessingAssetBundleAsyncLoader.Add(loader);
+        return loader;
+    }
+
+    public BaseAssetAsyncLoader LoadAssetAsync(string assetName) {
+        var loader = AssetAsyncLoader.Get();
+        bool isExist = AssetCacheIsExisted(assetName);
+        assetAsyncLoaders.Add(loader);
+        
+        if (isExist) {//target asset is existed 
+            loader.Init(assetName, GetAssetCache(assetName));
+        }
+        else {
+            //获取packageName
+            string assetBundleName = GetAssetBundleNameForAsset(assetName);
+            var abLoader = LoadAssetBundleAsync(assetBundleName);
+            loader.Init(assetName, abLoader);
+        }
+      
+        return loader;
+    }
+    
+
+    
     #endregion
 
     #region Mono Function
     private void Update()
     {
         OnProsessingWebRequester();
+        OnProsessingAssetBundleAsyncLoader();
+        OnProsessingAssetAsyncLoader();
     }
     
     //处理加载资源的请求
@@ -303,7 +403,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
                     if (creater.Cache)
                     {
                         AddAssetBundleCache(creater.assetbundleName, creater.assetbundle);
-                        //creater.Dispose();
+                        creater.Dispose();
                     }
                     else
                     {
@@ -321,9 +421,36 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         }
         currentNum = 0;
     }
+    //处理异步加载AssetBundle的请求
+    private void OnProsessingAssetBundleAsyncLoader() {
+        if (prosessingAssetBundleAsyncLoader.Count > 0) {
+            for (int i= prosessingAssetBundleAsyncLoader.Count-1;i>=0;i--) {
+                prosessingAssetBundleAsyncLoader[i].Update();
+                if (prosessingAssetBundleAsyncLoader[i].IsDone()) {
+                    prosessingAssetBundleAsyncLoader.RemoveAt(i);
+                }
+            }
+        }
+    }
+    //处理异步加载Asset的请求
+    private void OnProsessingAssetAsyncLoader()
+    {
+        if (assetAsyncLoaders.Count > 0)
+        {
+            for (int i = assetAsyncLoaders.Count - 1; i >= 0; i--)
+            {
+                assetAsyncLoaders[i].Update();
+                if (assetAsyncLoaders[i].IsDone())
+                {
+                    assetAsyncLoaders.RemoveAt(i);
+                }
+            }
+        }
+    }
     private void AddAssetBundleCache(string name,AssetBundle ab) {
-        if (!assetBundle_Container.ContainsKey(name)) {
-            assetBundle_Container.Add(name, ab);
+        string newStr = name.Replace(".assetbundle", "");
+        if (!assetBundle_Container.ContainsKey(newStr)) {
+            assetBundle_Container.Add(newStr, ab);
         }
     }
     //获取映射文件中的目标文件路径(Editor下用)
