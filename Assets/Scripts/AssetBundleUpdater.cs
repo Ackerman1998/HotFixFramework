@@ -162,6 +162,7 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
             yield return request;
             request.Dispose();
         }
+        yield return new WaitForSeconds(0.5f);
         XLuaManager.Instance.Restart();
         XLuaManager.Instance.StartGame();
         UINoticeTip.Instance.Destroy();

@@ -42,7 +42,7 @@ public class GameLaunch : MonoSingleton<GameLaunch>
         XLuaManager.Instance.StartLoad();
      
         yield return InitNoticeTipUI();
-        yield return null;
+        yield return new WaitForSeconds(0.2f);
         Debug.Log(string.Format("InitNoticeTipUI use {0}ms", (DateTime.Now - start).Milliseconds));
         if (bundleUpdater != null)
         {
