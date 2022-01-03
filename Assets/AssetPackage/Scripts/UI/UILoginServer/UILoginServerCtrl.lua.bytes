@@ -1,0 +1,12 @@
+--[[
+--UILogin Ctrl层
+--]]
+
+local UILoginServerCtrl = BaseClass("UILoginServerCtrl",UIBaseCtrl)
+
+local function Button_Start(self)
+    print("Click Button test...")
+end
+
+UILoginServerCtrl.Button_Start=Button_Start
+return UILoginCtrl

@@ -5,6 +5,7 @@
 local UIWindowNames = {
 	-- 登陆模块
 	UILogin = "UILogin",
+	--服务器选择面板
 	UILoginServer = "UILoginServer",
 	-- 场景加载模块
 	UILoading = "UILoading",

@@ -6,7 +6,7 @@ local UILoginView = BaseClass("UILoginView",UIBaseView)
 local base = UIBaseView
 local btn_login_path = "Content/LoginBtn"
 local btn_login_text_path ="Content/LoginBtn/Text"
-
+local btn_loginServer_path = "Content/SelectBtn"
 
 local function OnCreate(self)
 	base.OnCreate(self)
@@ -16,7 +16,10 @@ local function OnCreate(self)
 	self.btn_login:SetOnClick(function()
 		self.ctrl:Button_Start()
 	end)
-
+	self.btn_selectServer = self:AddComponent(UIButton,btn_loginServer_path)
+	self.btn_selectServer:SetOnClick(function()
+		self.ctrl:Button_SelectServer()
+	end)
 end
 
 local function OnEnable(self)

@@ -1,0 +1,34 @@
+--[[
+--UILogin View层
+--]]
+
+local UILoginServerView = BaseClass("UILoginServerView",UIBaseView)
+local base = UIBaseView
+local btn_login_path = "Content/LoginBtn"
+local btn_login_text_path ="Content/LoginBtn/Text"
+
+
+local function OnCreate(self)
+	base.OnCreate(self)
+	
+
+end
+
+local function OnEnable(self)
+	base.OnEnable(self)
+end
+
+local function Update(self)
+
+end
+
+local function OnDestroy(self)
+
+	base.OnDestroy(self)
+end
+
+UILoginServerView.OnCreate = OnCreate
+UILoginServerView.OnEnable = OnEnable
+UILogUILoginServerViewinView.Update = Update
+UILoginServerView.OnDestroy = OnDestroy
+return UILoginServerView

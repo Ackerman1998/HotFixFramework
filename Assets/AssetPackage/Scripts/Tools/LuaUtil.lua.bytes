@@ -1,11 +1,5 @@
 --[[
--- added by wsh @ 2017-12-01
 -- Lua全局工具类，全部定义为全局函数、变量
--- TODO:
--- 1、SafePack和SafeUnpack会被大量使用，到时候看需要需要做记忆表降低GC
-select函数
-select(n, ...)  --数字n表示起点，select(n, ...)返回从起点n到结束的可变参数，
-select('#', ...)  --返回可变参数的数量
 --]]
 
 local unpack = unpack or table.unpack

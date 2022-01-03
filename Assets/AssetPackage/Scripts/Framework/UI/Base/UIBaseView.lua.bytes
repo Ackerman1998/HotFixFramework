@@ -1,5 +1,6 @@
 --[[
 --UIBaseView - ui view层基类
+--刷新UI,读取Model层的数据并展示
 ]]
 local UIBaseView = BaseClass("UIBaseView",UIBaseContainer)
 local base = UIBaseContainer
