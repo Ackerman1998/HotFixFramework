@@ -61,6 +61,14 @@ local function CoLoadAsync(self, path, res_type, progress_callback)
 	return asset
 end
 
+local function LoadAppVersionCode(self)
+	local appversion_code = nil
+	local loader =  CS.LuaCallCsharpFunc.GetResourceAsync("app_version.bytes")
+	appversion_code = loader.text
+	loader.Dispose()
+	return appversion_code
+end
+
 -- 清理资源：切换场景时调用
 local function Cleanup(self)
 	AssetBundleManager:ClearAssetsCache()
@@ -78,5 +86,5 @@ ResourcesManager.CoLoadAssetBundleAsync = CoLoadAssetBundleAsync
 ResourcesManager.LoadAsync = LoadAsync
 ResourcesManager.CoLoadAsync = CoLoadAsync
 ResourcesManager.Cleanup = Cleanup
-
+ResourcesManager.LoadAppVersionCode = LoadAppVersionCode
 return ResourcesManager

@@ -7,7 +7,8 @@ local base = UIBaseView
 local btn_login_path = "Content/LoginBtn"
 local btn_login_text_path ="Content/LoginBtn/Text"
 local btn_loginServer_path = "Content/SelectBtn"
-
+local appversion_text_path = "BgContent/AppVersion"
+local resversion_text_path = "BgContent/ResVersion"
 local function OnCreate(self)
 	base.OnCreate(self)
 	--初始化
@@ -20,6 +21,8 @@ local function OnCreate(self)
 	self.btn_selectServer:SetOnClick(function()
 		self.ctrl:Button_SelectServer()
 	end)
+	self.text_appversioncode = self:AddComponent(UIText,appversion_text_path)
+	self.text_appversioncode:SetText(self.model.appversion_code)
 end
 
 local function OnEnable(self)

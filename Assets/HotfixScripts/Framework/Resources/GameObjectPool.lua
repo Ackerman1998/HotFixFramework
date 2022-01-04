@@ -113,7 +113,7 @@ end
 local function RecycleGameObject(self, path, inst)
 	assert(not IsNull(inst))
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
-	assert(string.endswith(path, ".prefab", true), "GameObject must be prefab : "..path)
+	--assert(string.endswith(path, ".prefab", true), "GameObject must be prefab : "..path)
 	
 	inst.transform:SetParent(__cacheTransRoot)
 	inst:SetActive(false)

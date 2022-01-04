@@ -6,7 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using XLua;
 using DateTime = System.DateTime;
-
+[Hotfix]
+[LuaCallCSharp]
 public class AssetBundleManager : MonoSingleton<AssetBundleManager>
 {
     //可同时创建的数量
@@ -313,6 +314,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     /// <param name="filePath"></param>
     /// <param name="streamingAssetsOnly"></param>
     public ResourceWebRequester RequestAssetFileAsync(string filePath) {
+        print("load bendi :"+ filePath);
         var creater = ResourceWebRequester.Get();
         string path = Path.Combine(assetbundleRootPath, filePath);
         creater.Init(filePath, path,false);

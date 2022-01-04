@@ -5,6 +5,7 @@
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="CSharpExtension" preserve="all"/>
 		<type fullname="LuaCallCsharpFunc" preserve="all"/>
+		<type fullname="AssetBundleManager" preserve="all"/>
 		<type fullname="CSharpExtension" preserve="all"/>
 		<type fullname="LuaCallCsharpFunc" preserve="all"/>
 		<type fullname="Tutorial.BaseClass" preserve="all"/>

@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\XLuaManager.cs" />
     <Compile Include="Assets\Scripts\XLuaMenu.cs" />
     <Compile Include="Assets\Test.cs" />
+    <Compile Include="Assets\XLua\Gen\AssetBundleManagerWrap.cs" />
     <Compile Include="Assets\XLua\Gen\CSharpExtensionWrap.cs" />
     <Compile Include="Assets\XLua\Gen\DelegatesGensBridge.cs" />
     <Compile Include="Assets\XLua\Gen\EnumWrap.cs" />
