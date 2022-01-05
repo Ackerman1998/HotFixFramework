@@ -100,6 +100,7 @@ local function GetGameObjectAsync(self, path, callback, ...)
     if not IsNull(go) then
         InitInst(go)
         callback(go,...)
+		return
     end
 
     PreLoadGameObjectAsync(self,path,1,function(callback, ...)

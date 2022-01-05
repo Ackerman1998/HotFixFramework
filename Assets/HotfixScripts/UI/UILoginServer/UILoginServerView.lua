@@ -28,7 +28,8 @@ local function Update(self)
 end
 
 local function OnDestroy(self)
-
+	self.back_button=nil
+	self.ok_button=nil
 	base.OnDestroy(self)
 end
 

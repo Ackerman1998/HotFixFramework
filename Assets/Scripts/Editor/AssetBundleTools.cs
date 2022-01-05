@@ -24,7 +24,7 @@ public class AssetBundleTools : IEditorWindow
     [MenuItem("AssetBundle/AssetBundle Config")]
     public static void  OpenAssetBundleTools() {
         EditorWindow editorWindow = EditorWindow.GetWindow(typeof(AssetBundleTools),false, "AssetBundle Config");
-        editorWindow.position = new Rect(Screen.width/2,Screen.height/2, Screen.width , Screen.height );
+        editorWindow.position = new Rect(Screen.width/2,Screen.height/2, Screen.width/2 , Screen.height/2 );
         editorWindow.Show();
     }
 

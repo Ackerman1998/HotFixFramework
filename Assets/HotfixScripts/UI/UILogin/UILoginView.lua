@@ -13,6 +13,7 @@ local function OnCreate(self)
 	base.OnCreate(self)
 	--初始化
 	self.btn_login_text = self:AddComponent(UIText,btn_login_text_path)
+	self.btn_login_text:SetText("登陆")
 	self.btn_login = self:AddComponent(UIButton,btn_login_path)
 	self.btn_login:SetOnClick(function()
 		self.ctrl:Button_Start()
@@ -22,7 +23,10 @@ local function OnCreate(self)
 		self.ctrl:Button_SelectServer()
 	end)
 	self.text_appversioncode = self:AddComponent(UIText,appversion_text_path)
-	self.text_appversioncode:SetText(self.model.appversion_code)
+	self.text_appversioncode:SetText("AppVersion："..self.model.appversion_code)
+
+	self.text_resversioncode = self:AddComponent(UIText,resversion_text_path)
+	self.text_resversioncode:SetText("ResVersion："..self.model.resversion_code)
 end
 
 local function OnEnable(self)
@@ -34,7 +38,11 @@ local function Update(self)
 end
 
 local function OnDestroy(self)
-
+	self.btn_login_text=nil
+	self.btn_login=nil
+	self.btn_selectServer=nil
+	self.text_appversioncode=nil
+	self.text_resversioncode=nil
 	base.OnDestroy(self)
 end
 

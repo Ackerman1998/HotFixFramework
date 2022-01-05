@@ -69,7 +69,7 @@ local function CoInnerSwitchScene(self, scene_config)
 	window_model.value = 1
 	coroutine.waitforseconds(0.1)
 	login_scene:OnComplete()
-	uimgr_instance:CloseWindow(UIWindowNames.UILoading)
+	uimgr_instance:RecyleWindow(UIWindowNames.UILoading)
 end
 
 local function SwitchScene(self,scene_config)

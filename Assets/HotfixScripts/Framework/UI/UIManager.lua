@@ -201,6 +201,13 @@ local function CloseWindow(self,ui_name)
 	local target = self:GetWindow(ui_name)
 	if target~=nil then 
 		InnerCloseWindow(self,target)
+	end
+end
+
+local function RecyleWindow(self,ui_name)
+	local target = self:GetWindow(ui_name)
+	if target~=nil then 
+		InnerCloseWindow(self,target)
 		InnerDestroyWindow(self,ui_name,target)
 	end
 end
@@ -216,5 +223,6 @@ UIManager.ActivateWindow=ActivateWindow
 UIManager.GetWindow=GetWindow
 UIManager.InitWindow=InitWindow
 UIManager.CloseWindow=CloseWindow
+UIManager.RecyleWindow=RecyleWindow
 UIManager.DestroyWindowExceptLayer=DestroyWindowExceptLayer
 return UIManager

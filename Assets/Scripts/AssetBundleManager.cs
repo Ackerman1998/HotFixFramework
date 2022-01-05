@@ -314,7 +314,6 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     /// <param name="filePath"></param>
     /// <param name="streamingAssetsOnly"></param>
     public ResourceWebRequester RequestAssetFileAsync(string filePath) {
-        print("load bendi :"+ filePath);
         var creater = ResourceWebRequester.Get();
         string path = Path.Combine(assetbundleRootPath, filePath);
         creater.Init(filePath, path,false);

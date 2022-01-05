@@ -60,12 +60,13 @@ local function CoLoadAsync(self, path, res_type, progress_callback)
 	local asset = CS.LuaCallCsharpFunc.GetAsset(path)
 	return asset
 end
-
-local function LoadAppVersionCode(self)
+--加载本地Text文件中的字符串(例如：Appversion,ResVersion)
+local function LoadTextForLocalFile(self,fileName)
 	local appversion_code = nil
-	local loader =  CS.LuaCallCsharpFunc.GetResourceAsync("app_version.bytes")
+	local loader =  CS.LuaCallCsharpFunc.GetResourceAsync(fileName)
+	coroutine.waitforasyncop(loader,nil)
 	appversion_code = loader.text
-	loader.Dispose()
+	loader:Dispose()
 	return appversion_code
 end
 
@@ -86,5 +87,5 @@ ResourcesManager.CoLoadAssetBundleAsync = CoLoadAssetBundleAsync
 ResourcesManager.LoadAsync = LoadAsync
 ResourcesManager.CoLoadAsync = CoLoadAsync
 ResourcesManager.Cleanup = Cleanup
-ResourcesManager.LoadAppVersionCode = LoadAppVersionCode
+ResourcesManager.LoadTextForLocalFile = LoadTextForLocalFile
 return ResourcesManager
