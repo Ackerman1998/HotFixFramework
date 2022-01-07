@@ -97,6 +97,9 @@ public class FileTools
         FileStream fs = File.Create(path);
         byte [] buffer = System.Text.Encoding.UTF8.GetBytes(content);
         fs.Write(buffer,0, buffer.Length);
+        fs.Flush();
+        fs.Close();
+        
     }
     public static bool CheckContentExist(string content) {
         if (Directory.Exists(content)) {
@@ -142,4 +145,43 @@ public class FileTools
         byte[] buff = Encoding.UTF8.GetBytes(versioncode);
         fs.Write(buff,0, buff.Length);
     }
+
+    public static bool SafeWriteAllLines(string outFile, string[] outLines)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(outFile))
+            {
+                return false;
+            }
+
+            CheckFileAndCreateDirWhenNeeded(outFile);
+            if (File.Exists(outFile))
+            {
+                File.SetAttributes(outFile, FileAttributes.Normal);
+            }
+            File.WriteAllLines(outFile, outLines);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            return false;
+        }
+    }
+
+    public static void CheckFileAndCreateDirWhenNeeded(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            return;
+        }
+
+        FileInfo file_info = new FileInfo(filePath);
+        DirectoryInfo dir_info = file_info.Directory;
+        if (!dir_info.Exists)
+        {
+            Directory.CreateDirectory(dir_info.FullName);
+        }
+    }
+
 }

@@ -15,11 +15,13 @@ public class AssetBundleTools : IEditorWindow
     private static string endName = "bytes";
     private static string assetbundleEndName = "assetbundle";
     private static string assetsMappingFilePath = Application.dataPath + "/AssetPackage/AssetsMapping.bytes";
+    private static string assetsMappingFileImporterPath = "Assets/AssetPackage/AssetsMapping.bytes";
     private static string appversionPath =  "app_version.bytes";
     private static string resversionPath = "res_version.bytes";
     private static string assetbundleOutputPath = Application.streamingAssetsPath + "/Assetbundle";
     private static List<string> unUsedExtension = new List<string>() {".meta" };//ignore extension 
     private string[] modes = new string[] {"Editor Mode","Real Mode" };
+    private static string subStringPath = "Assets/AssetPackage/";
     private int currentSelectNum = 1;
     [MenuItem("AssetBundle/AssetBundle Config")]
     public static void  OpenAssetBundleTools() {
@@ -38,7 +40,7 @@ public class AssetBundleTools : IEditorWindow
     }
 
     //生成资源映射文件
-    [MenuItem("AssetBundle/GenAssetsMapping")]
+    //[MenuItem("AssetBundle/GenAssetsMapping")]
     public static void GenAssetsMapping() {
         GetAllFilePath1(assetbundleRootPath);
     }
@@ -161,7 +163,7 @@ public class AssetBundleTools : IEditorWindow
             {
                 ai.assetBundleName = dir.Name.Replace(".", "_")+ "."+ assetbundleEndName;
                 ai.assetBundleVariant = "";
-                Debug.Log("标记" + ai.assetBundleName + "成功");
+                Debug.Log(path+"标记" + ai.assetBundleName + "成功");
             }
             else
             {
@@ -186,6 +188,10 @@ public class AssetBundleTools : IEditorWindow
         AssetBundleManifest assetBundleManifest = BuildPipeline.BuildAssetBundles(directory, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
         if (assetBundleManifest != null)
         {
+            //生成资源映射文件
+            GenAssetMapFile(assetBundleManifest);
+            //重新打一次AB
+            BuildPipeline.BuildAssetBundles(directory, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
             Debug.Log("Build Assetbundle Success：" + directory);
         }
         // DirectoryInfo代表文件夹的一个类 可实例化 ,Directory 静态类 不可实例化
@@ -223,6 +229,60 @@ public class AssetBundleTools : IEditorWindow
         string sourcePath = Path.Combine(System.IO.Directory.GetParent(Application.dataPath).ToString(), "AssetBundle");
         GameUtility.SafeDeleteDir(targetPath);
         FileUtil.CopyFileOrDirectoryFollowSymlinks(sourcePath, targetPath);
+        AssetDatabase.Refresh();
+    }
+    #endregion
+
+    #region AssetBundle Function 
+    private static void GenAssetMapFile(AssetBundleManifest assetBundleManifest) {
+        List<string> mapping = new List<string>();
+        string[] abPackageNames = assetBundleManifest.GetAllAssetBundles();
+        foreach (string ab in abPackageNames)
+        {
+            string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(ab);
+            foreach (string ass in assets)
+            {
+                //Debug.Log(ab+","+ass.Replace(subStringPath,""));
+                mapping.Add(string.Format("{0}{1}{2}", ab, ",", ass.Replace(subStringPath, "")));
+            }
+        }
+        
+        string assetsRootPath = assetbundleRootPath;
+        if (!Directory.Exists(assetsRootPath))
+        {
+            return;
+        }
+        List<string> fileMapping = new List<string>(mapping);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < fileMapping.Count; i++)
+        {
+            if (i == fileMapping.Count - 1)
+            {
+                sb.Append(fileMapping[i]);
+            }
+            else
+            {
+                sb.Append(fileMapping[i] + "\n");
+            }
+        }
+        
+        bool success = FileTools.SafeWriteAllLines(assetsMappingFilePath, mapping.ToArray());
+        if (success)
+        {
+            AssetDatabase.Refresh();
+            //设置映射文件
+            AssetImporter assetImporter = AssetImporter.GetAtPath(assetsMappingFileImporterPath);
+            if (assetImporter != null)
+            {
+                assetImporter.assetBundleName = "assetsmapping_bytes.assetbundle";
+            }
+            else {
+
+            }
+        }
+        else { 
+        
+        }
         AssetDatabase.Refresh();
     }
     #endregion
