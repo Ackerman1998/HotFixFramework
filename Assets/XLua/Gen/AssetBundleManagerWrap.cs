@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(AssetBundleManager);
-			Utils.BeginObjectRegister(type, L, translator, 0, 17, 3, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 18, 3, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Awake", _m_Awake);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Initialize", _m_Initialize);
@@ -39,7 +39,8 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RequestAssetBundleHasEndAsync", _m_RequestAssetBundleHasEndAsync);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadAssetBundleAsync", _m_LoadAssetBundleAsync);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LoadAssetAsync", _m_LoadAssetAsync);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetFilePathInAssetMappingForEditor", _m_GetFilePathInAssetMappingForEditor);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "ReadEditorAssetMapping", _m_ReadEditorAssetMapping);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetAssetPathByEditorAssetMapping", _m_GetAssetPathByEditorAssetMapping);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "StreamingRootFolderName", _g_get_StreamingRootFolderName);
@@ -598,7 +599,7 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_GetFilePathInAssetMappingForEditor(RealStatePtr L)
+        static int _m_ReadEditorAssetMapping(RealStatePtr L)
         {
 		    try {
             
@@ -610,9 +611,36 @@ namespace XLua.CSObjectWrap
             
                 
                 {
-                    string _fileName = LuaAPI.lua_tostring(L, 2);
                     
-                        var gen_ret = gen_to_be_invoked.GetFilePathInAssetMappingForEditor( _fileName );
+                    gen_to_be_invoked.ReadEditorAssetMapping(  );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetAssetPathByEditorAssetMapping(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                AssetBundleManager gen_to_be_invoked = (AssetBundleManager)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    string _asset = LuaAPI.lua_tostring(L, 2);
+                    
+                        var gen_ret = gen_to_be_invoked.GetAssetPathByEditorAssetMapping( _asset );
                         LuaAPI.lua_pushstring(L, gen_ret);
                     
                     

@@ -1,3 +1,4 @@
+assetsmapping_bytes.assetbundle,AssetsMapping.bytes
 eventsystem_prefab.assetbundle,EventSystem.prefab
 font.assetbundle,Font/BenMoZhuHei-2.ttf
 scripts.assetbundle,Scripts/Common/Tools/cjson/util.lua.bytes

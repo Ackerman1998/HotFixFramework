@@ -101,9 +101,8 @@ public class XLuaManager : MonoSingleton<XLuaManager>
 #if UNITY_EDITOR
         if (EditorConfig.SelectMode == 0)//Editor Mode ： 方便调试用
         {
-            string newPath = path + ".lua";
+            string newPath = path;
             string file = AssetBundleManager.Instance.GetFilePathInAssetMappingForEditor(newPath);
-         
             string pp = Application.dataPath + "/HotfixScripts/" + file;
             string content = File.ReadAllText(pp);
             return System.Text.Encoding.UTF8.GetBytes(content);

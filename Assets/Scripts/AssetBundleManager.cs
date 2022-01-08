@@ -14,7 +14,9 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     private int maxCreateAssetBundleNum = 5;
     private string assetbundleEndName = "assetbundle";//后缀名
     private string assetMappingName = "assetsmapping_bytes";//映射文件名
+    private string assetMappingEditorName = "EditorAssetsMapping.bytes";//映射文件(Editor用)
     private string assetMappingRealName = "AssetsMapping";
+    private string assetEditorPath = "AssetPackage";
     private string assetbundleRootPath = Application.streamingAssetsPath + "/Assetbundle";
     private Manifest manifest;
     //常驻Assetbundle容器
@@ -32,6 +34,8 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     // 逻辑层正在等待的ab加载异步句柄
     List<AssetBundleAsyncLoader> prosessingAssetBundleAsyncLoader = new List<AssetBundleAsyncLoader>();
     List<AssetAsyncLoader> assetAsyncLoaders = new List<AssetAsyncLoader>();
+    //编辑器模式下的文件映射
+    Dictionary<string, string> editorAssetMappingDict = new Dictionary<string, string>();
     int currentNum = 0;
     public string StreamingRootFolderName
     {
@@ -360,6 +364,17 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     }
 
     public BaseAssetAsyncLoader LoadAssetAsync(string assetName) {
+        //editor mode
+#if UNITY_EDITOR
+        if (EditorConfig.SelectMode==0) {
+            ReadEditorAssetMapping();
+            string path = GetAssetPathByEditorAssetMapping(assetName);
+            print(path);
+            UnityEngine.Object obj = UnityEditor.AssetDatabase.LoadAssetAtPath(path,typeof(UnityEngine.Object));
+            print(obj==null);
+            return new EditorAssetAsyncLoader(obj);
+        }
+#endif
         var loader = AssetAsyncLoader.Get();
         bool isExist = AssetCacheIsExisted(assetName);
         assetAsyncLoaders.Add(loader);
@@ -454,13 +469,51 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             assetBundle_Container.Add(newStr, ab);
         }
     }
-    //获取映射文件中的目标文件路径(Editor下用)
-    public string GetFilePathInAssetMappingForEditor(string fileName) {
-        AssetMapping assetMapping = mapping_List.Find((x) => (x.assetName == fileName));
-        if (assetMapping.assetbundleName.Length != 0 && assetMapping.assetName.Length != 0 && assetMapping.loadPath.Length != 0)
+    
+    #endregion
+
+    #region Unity Editor Read Asset
+    public void ReadEditorAssetMapping() {
+        if (editorAssetMappingDict.Count <= 0)
         {
-            return assetMapping.loadPath;
+            string targetPath = Path.Combine(Application.dataPath, assetEditorPath, assetMappingEditorName);
+            //read
+            string [] editorAssetMappings = File.ReadAllLines(targetPath);
+            foreach (string asm in editorAssetMappings) {
+                string [] asName = asm.Split(',');
+                if (!editorAssetMappingDict.ContainsKey(asName[0])) {
+                    editorAssetMappingDict.Add(asName[0], asName[1]);
+                }
+            }
         }
+    }
+    public string GetAssetPathByEditorAssetMapping(string asset) {
+        if (editorAssetMappingDict.ContainsKey(asset))
+        {
+            return editorAssetMappingDict[asset];
+        }
+        return null;
+    }
+    [BlackList]
+    //获取映射文件中的目标文件路径(Editor下用)
+    public string GetFilePathInAssetMappingForEditor(string fileName)
+    {
+        //AssetMapping assetMapping = mapping_List.Find((x) => (x.assetName == fileName));
+        //if (assetMapping.assetbundleName.Length != 0 && assetMapping.assetName.Length != 0 && assetMapping.loadPath.Length != 0)
+        //{
+        //    return assetMapping.loadPath;
+        //}
+        //return null;
+#if UNITY_EDITOR
+        if (EditorConfig.SelectMode == 0)
+        {
+            ReadEditorAssetMapping();
+            string path = GetAssetPathByEditorAssetMapping(fileName);
+            string newPath = path.Replace("Assets/AssetPackage/Scripts/", "");
+            string newPath2 = newPath.Substring(0,newPath.IndexOf("."))+".lua";
+            return newPath2;
+        }
+#endif
         return null;
     }
     #endregion

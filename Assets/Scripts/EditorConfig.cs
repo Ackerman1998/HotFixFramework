@@ -6,7 +6,7 @@ public class EditorConfig
 {
 #if UNITY_EDITOR
     /// <summary>
-    /// 模式
+    /// 模式 0=Editor,1=Real
     /// </summary>
     public static int SelectMode
     {

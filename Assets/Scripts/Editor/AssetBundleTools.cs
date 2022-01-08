@@ -15,6 +15,7 @@ public class AssetBundleTools : IEditorWindow
     private static string endName = "bytes";
     private static string assetbundleEndName = "assetbundle";
     private static string assetsMappingFilePath = Application.dataPath + "/AssetPackage/AssetsMapping.bytes";
+    private static string assetsMappingEditorFilePath = Application.dataPath + "/AssetPackage/EditorAssetsMapping.bytes";
     private static string assetsMappingFileImporterPath = "Assets/AssetPackage/AssetsMapping.bytes";
     private static string appversionPath =  "app_version.bytes";
     private static string resversionPath = "res_version.bytes";
@@ -39,39 +40,81 @@ public class AssetBundleTools : IEditorWindow
         });
     }
 
-    //生成资源映射文件
-    //[MenuItem("AssetBundle/GenAssetsMapping")]
+    //生成资源映射文件(仅用于Editor模式加载资源)
+    [MenuItem("AssetBundle/GenAssetsMappingForEditor")]
     public static void GenAssetsMapping() {
-        GetAllFilePath1(assetbundleRootPath);
+        GenAssetsMappingForEditor(assetbundleRootPath);
     }
-    public static void GetAllFilePath1(string assetsRootPath) {
+    public static void GenAssetsMappingForEditor(string assetsRootPath) {
         if (!Directory.Exists(assetsRootPath))
         {
             return;
         }
         List<string> fileMapping = new List<string>();
-        string[] allFilePackage = Directory.GetDirectories(assetsRootPath);
+  
+        string[] aaa = Directory.GetDirectories(assetsRootPath);
+        List<string> allFilePackage = new List<string>();
+        allFilePackage.Add(assetsRootPath);
         foreach (string package in allFilePackage)
         {
             string packName = Path.GetFileName(package);
-            List<string> ff = GetAllFilePath(package.Replace(@"\", "/"), packName);
+            List<string> ff = GetAllFilePathForEditor(package.Replace(@"\", "/"), packName);
             if (ff.Count > 0)
             {
                 fileMapping.InsertRange(0, ff);
             }
         }
         StringBuilder sb = new StringBuilder();
-        for (int i=0;i<fileMapping.Count;i++) {
+        for (int i = 0; i < fileMapping.Count; i++)
+        {
             if (i == fileMapping.Count - 1)
             {
                 sb.Append(fileMapping[i]);
             }
-            else {
+            else
+            {
                 sb.Append(fileMapping[i] + "\n");
             }
         }
-        FileTools.WriteText(assetsMappingFilePath, sb.ToString());
+        FileTools.WriteText(assetsMappingEditorFilePath, sb.ToString());
+        AssetDatabase.Refresh();
     }
+
+    public static List<string> GetAllFilePathForEditor(string assetsRootPath, string packName)
+    {
+        List<string> fileMapping = new List<string>();
+        if (!Directory.Exists(assetsRootPath))
+        {
+            return fileMapping;
+        }
+        else
+        {
+            string[] allFile = Directory.GetFiles(assetsRootPath);
+            foreach (string file in allFile)
+            {
+                if (!unUsedExtension.Contains(Path.GetExtension(file)))
+                {
+                    string pathName = file.Replace(assetbundleRootPath, "");
+                    string rootPath = Application.dataPath;
+                    rootPath = rootPath.Substring(0,rootPath.LastIndexOf("/")+1);
+                    string newPath = file.Replace(@"\", "/").Replace(rootPath,"");
+                    fileMapping.Add(file.Substring(file.LastIndexOf(@"\") + 1,file.IndexOf(".")-1- file.LastIndexOf(@"\")) +","+ newPath);
+                }
+            }
+            string[] allFilePackage = Directory.GetDirectories(assetsRootPath);
+            foreach (string package in allFilePackage)
+            {
+                //check next son root path 
+                List<string> ff = GetAllFilePathForEditor(package.Replace(@"\", "/"), packName);
+                if (ff.Count > 0)
+                {
+                    fileMapping.InsertRange(0, ff);
+                }
+            }
+            return fileMapping;
+        }
+    }
+
 
     /// <summary>
     /// 获取目录下所有文件路径并生成映射
@@ -265,23 +308,13 @@ public class AssetBundleTools : IEditorWindow
                 sb.Append(fileMapping[i] + "\n");
             }
         }
-        
-        bool success = FileTools.SafeWriteAllLines(assetsMappingFilePath, mapping.ToArray());
-        if (success)
+        File.WriteAllText(assetsMappingFilePath,sb.ToString());
+        AssetDatabase.Refresh();
+        //设置映射文件
+        AssetImporter assetImporter = AssetImporter.GetAtPath(assetsMappingFileImporterPath);
+        if (assetImporter != null)
         {
-            AssetDatabase.Refresh();
-            //设置映射文件
-            AssetImporter assetImporter = AssetImporter.GetAtPath(assetsMappingFileImporterPath);
-            if (assetImporter != null)
-            {
-                assetImporter.assetBundleName = "assetsmapping_bytes.assetbundle";
-            }
-            else {
-
-            }
-        }
-        else { 
-        
+            assetImporter.assetBundleName = "assetsmapping_bytes.assetbundle";
         }
         AssetDatabase.Refresh();
     }
