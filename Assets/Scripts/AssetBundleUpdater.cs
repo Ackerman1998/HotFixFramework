@@ -104,11 +104,12 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
             }
             else {
                 //res version is lastest , start game
-                yield return StartGame();
+               
             }
         }
-        else { 
+        else {
             //Real Mode Get 
+            yield return StartGame();
         }
         
         yield break;//相当于return，直接结束当前方法
@@ -155,23 +156,24 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
     }
     IEnumerator StartGame() {
         transform.FindAll(loadTextPath).GetComponent<Text>().text = "Loading core data....";
-        yield return AssetBundleManager.Instance.Clear();
+        //yield return AssetBundleManager.Instance.Clear();
 
-        Debug.Log("clear assetbundle completed...");
-        yield return AssetBundleManager.Instance.Initialize();
+        //Debug.Log("clear assetbundle completed...");
+        //yield return AssetBundleManager.Instance.Initialize();
 
-        Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
-        foreach (string assetbundle in manifest.GetAllAssetBundleNames())
-        {
-            var request = AssetBundleManager.Instance.RequestAssetBundleAsync(assetbundle, true);
-            yield return request;
-            request.Dispose();
-        }
+        //Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
+        //foreach (string assetbundle in manifest.GetAllAssetBundleNames())
+        //{
+        //    var request = AssetBundleManager.Instance.RequestAssetBundleAsync(assetbundle, true);
+        //    yield return request;
+        //    request.Dispose();
+        //}
         yield return new WaitForSeconds(0.5f);
         XLuaManager.Instance.Restart();
         XLuaManager.Instance.StartGame();
         UINoticeTip.Instance.Destroy();
         Destroy(gameObject);
+
         yield break;
     }
 

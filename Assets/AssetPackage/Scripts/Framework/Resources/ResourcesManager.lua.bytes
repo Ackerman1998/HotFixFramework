@@ -47,17 +47,22 @@ local function LoadAsync(self, path, res_type, callback, ...)
 	assert(callback ~= nil and type(callback) == "function", "Need to provide a function as callback")
 	local args = SafePack(nil, ...)
 
-    --coroutine.start(function()
+    coroutine.start(function()
 		local asset = self:CoLoadAsync(path, res_type, nil)
 		args[1] = asset
 		callback(SafeUnpack(args))
-	--end)
+	end)
 end
 
 -- 异步加载Asset
 local function CoLoadAsync(self, path, res_type, progress_callback)
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
-	local asset = CS.LuaCallCsharpFunc.GetAsset(path)
+	print("CoLoadAsync LoadAssetAsync:"..path)
+	local loader = CS.LuaCallCsharpFunc.LoadAssetAsync(path)
+	coroutine.waitforasyncop(loader,progress_callback)
+	asset = loader.asset
+	loader:Dispose()
+	--local asset = CS.LuaCallCsharpFunc.GetAsset(path)
 	return asset
 end
 --加载本地Text文件中的字符串(例如：Appversion,ResVersion)

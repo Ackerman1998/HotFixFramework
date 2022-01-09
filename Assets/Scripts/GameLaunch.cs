@@ -118,6 +118,13 @@ public class GameLaunch : MonoSingleton<GameLaunch>
         }
         yield break;
     }
+    public IEnumerator InitLoginUI() {
+        var loader = AssetBundleManager.Instance.LoadAssetAsync("UILogin");
+        yield return loader;
+        GameObject ui = loader.asset as GameObject;
+        loader.Dispose();
+        GameObject obj = InstantiateUI(ui);
+    }
     private IEnumerator InitNoticeTipUI() {
         var loader = AssetBundleManager.Instance.LoadAssetAsync(noticeTipsUIName);
         yield return loader;

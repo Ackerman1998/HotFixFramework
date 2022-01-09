@@ -45,10 +45,10 @@ local function CoInnerSwitchScene(self, scene_config)
 	coroutine.waitforframes(1)
 	window_model.value = window_model.value + 0.1
 	--clear gc
-	collectgarbage("collect")
-	CS.System.GC.Collect()
-	collectgarbage("collect")
-	CS.System.GC.Collect()
+	-- collectgarbage("collect")
+	-- CS.System.GC.Collect()
+	-- collectgarbage("collect")
+	-- CS.System.GC.Collect()
 	--init scene
 	local login_scene =self.scenes[scene_config.Name]
 	if login_scene==nil then

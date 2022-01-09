@@ -366,6 +366,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
 
     public BaseAssetAsyncLoader LoadAssetAsync(string assetName) {
         //editor mode
+        //Debug.LogError(assetName);
 #if UNITY_EDITOR
         if (EditorConfig.SelectMode==0) {
             ReadEditorAssetMapping();
@@ -417,7 +418,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
                 {
                     //load success，recycle creater
                     prosessingWebRequester.RemoveAt(i);
-                    if (creater.Cache)
+                    if (creater.Cache&& JudgeCanAddCache(creater.assetbundleName))
                     {
                         AddAssetBundleCache(creater.assetbundleName, creater.assetbundle);
                         creater.Dispose();
@@ -470,7 +471,17 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             assetBundle_Container.Add(newStr, ab);
         }
     }
-    
+    /// <summary>
+    /// 判断是否已经添加到了内存中
+    /// </summary>
+    private bool JudgeCanAddCache(string name) {
+        string newStr = name.Replace(".assetbundle", "");
+        if (!assetBundle_Container.ContainsKey(newStr))
+        {
+            return true;
+        }
+        return false;
+    }
     #endregion
 
     #region Unity Editor Read Asset

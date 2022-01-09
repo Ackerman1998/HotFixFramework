@@ -117,6 +117,7 @@ local function waitforframes(frameNum)
 end
 --等待异步完成，执行回调
 local function waitforasyncop(asyncOperation,callback)
+	print("waitforasyncop start")
 	assert(asyncOperation)
 	local co = coroutine.running()
 	local timer = TimeManager:GetInstance():GetCoTimer()

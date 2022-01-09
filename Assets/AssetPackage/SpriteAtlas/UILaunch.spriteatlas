@@ -17,13 +17,13 @@ SpriteAtlas:
       textureCompression: 0
       filterMode: 1
       generateMipMaps: 0
-      readable: 0
+      readable: 1
       crunchedCompression: 0
       sRGB: 1
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: Android
-      m_MaxTextureSize: 2048
+      m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
       m_TextureFormat: 47
       m_TextureCompression: 1
@@ -48,12 +48,38 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 38197330d8a2bfb44824027c36fbf38f, type: 3}
   - {fileID: 21300000, guid: 8006dc90d123ea649a065dbab98fa512, type: 3}
+  - {fileID: 21300000, guid: f90fa1b0e23630a4382c0f189469e392, type: 3}
+  - {fileID: 21300000, guid: b15b66d099766944dad73ebbd3ed70f7, type: 3}
+  - {fileID: 21300000, guid: 941e5d22131ad5645a065b31a75325f0, type: 3}
+  - {fileID: 21300000, guid: 8269f272d98863640bb4abf53fae1ac8, type: 3}
+  - {fileID: 21300000, guid: 76020b72176678c4f8bb76f85e2bb7e9, type: 3}
+  - {fileID: 21300000, guid: e67f8753ad0ceae4085c18469e86b84b, type: 3}
+  - {fileID: 21300000, guid: 1a706da4c1837c34ba5a32efa00d1602, type: 3}
+  - {fileID: 21300000, guid: 23ee6866e007ada45bd2c954a116f8c7, type: 3}
+  - {fileID: 21300000, guid: 03712557e521f5c41b8389d04c1b6739, type: 3}
+  - {fileID: 21300000, guid: 4d10d8288abdc59439f0db34d8bbcdf0, type: 3}
+  - {fileID: 21300000, guid: a1b6b3c9f8a5d854b988e5f0b7014b7f, type: 3}
+  - {fileID: 21300000, guid: 9d4496cae462392449cacf1ffbaa7120, type: 3}
   - {fileID: 21300000, guid: 190cacfa593fe5843a921cf25468079d, type: 3}
   - {fileID: 21300000, guid: 3ca938ab9f373b94f90b933c4e4b4705, type: 3}
+  - {fileID: 21300000, guid: ba2d4f9e2f899c346a45bba1f5103c99, type: 3}
   m_PackedSpriteNamesToIndex:
   - 101
   - 100
+  - ui_comm_btn_a
+  - ui_group_01
+  - login2_11
+  - login2_10
+  - ui_role_23
+  - ui_comm_bg_underlay_d
+  - ui_role_63
+  - ui_role_11
+  - ui_comm_bg_underlay_c
+  - Login_01
+  - ui_role_10
+  - login2_05
   - 102
   - loading_01
+  - "\u9000\u51FA\u6309\u94AE"
   m_Tag: UILaunch
   m_IsVariant: 0
