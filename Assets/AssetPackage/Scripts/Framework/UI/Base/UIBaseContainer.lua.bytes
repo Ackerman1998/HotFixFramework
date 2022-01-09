@@ -54,6 +54,11 @@ local function GetComponent(self, name, component_class)
 	end
 end
 
+local function OnDestroy(self)
+	self.components =nil
+	base.OnDestroy(self)
+end
+
 UIBaseContainer.GetComponent=GetComponent
 UIBaseContainer.RecordComponent=RecordComponent
 UIBaseContainer.AddNewRecordIfNeeded=AddNewRecordIfNeeded

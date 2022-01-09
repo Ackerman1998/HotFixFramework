@@ -8,5 +8,10 @@ local function Button_Start(self)
     print("Click Button test...")
 end
 
+local function ButtonClose(self)
+    UIManager:GetInstance():CloseWindow("UILoginServer")
+end
+
 UILoginServerCtrl.Button_Start=Button_Start
-return UILoginCtrl
+UILoginServerCtrl.ButtonClose=ButtonClose
+return UILoginServerCtrl

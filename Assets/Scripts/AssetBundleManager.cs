@@ -41,7 +41,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     {
         get
         {
-            return "Assetbundle";
+            return "AssetBundle";
         }
         private set { }
     }
@@ -333,6 +333,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     {
         var creater = ResourceWebRequester.Get();
         string path = Path.Combine(assetbundleRootPath, filePath);
+        Debug.Log(path);
         creater.Init(filePath, path, cache);
         webRequesterQueue.Enqueue(creater);
         return creater;

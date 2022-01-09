@@ -26,6 +26,7 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
     {
         base.Awake();
         InitUpdater();
+        
     }
     private void InitUpdater() {
         transform.FindAll(sliderPath).GetComponent<Slider>().value=0; 
@@ -51,6 +52,7 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
         yield return CheckAppVersion(isEditor);
         Debug.Log(string.Format("Init AppVersion use {0}ms", (DateTime.Now - start).Milliseconds));
         yield return CheckResVersion(isEditor);
+        yield return StartGame();
     }
     IEnumerator CheckAppVersion(bool isEditor)
     {
@@ -154,8 +156,10 @@ public class AssetBundleUpdater : MonoSingleton<AssetBundleUpdater>
     IEnumerator StartGame() {
         transform.FindAll(loadTextPath).GetComponent<Text>().text = "Loading core data....";
         yield return AssetBundleManager.Instance.Clear();
+
         Debug.Log("clear assetbundle completed...");
         yield return AssetBundleManager.Instance.Initialize();
+
         Manifest manifest = AssetBundleManager.Instance.GetAssetBundleManifest;
         foreach (string assetbundle in manifest.GetAllAssetBundleNames())
         {

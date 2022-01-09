@@ -100,6 +100,7 @@ local function GetGameObjectAsync(self, path, callback, ...)
     if not IsNull(go) then
         InitInst(go)
         callback(go,...)
+		return
     end
 
     PreLoadGameObjectAsync(self,path,1,function(callback, ...)
@@ -113,7 +114,7 @@ end
 local function RecycleGameObject(self, path, inst)
 	assert(not IsNull(inst))
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
-	assert(string.endswith(path, ".prefab", true), "GameObject must be prefab : "..path)
+	--assert(string.endswith(path, ".prefab", true), "GameObject must be prefab : "..path)
 	
 	inst.transform:SetParent(__cacheTransRoot)
 	inst:SetActive(false)

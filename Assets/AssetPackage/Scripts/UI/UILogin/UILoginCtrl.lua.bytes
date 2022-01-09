@@ -13,4 +13,5 @@ local function Button_SelectServer(self)
 end
 
 UILoginCtrl.Button_Start=Button_Start
+UILoginCtrl.Button_SelectServer=Button_SelectServer
 return UILoginCtrl

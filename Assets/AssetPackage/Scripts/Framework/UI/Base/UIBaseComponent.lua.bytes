@@ -31,7 +31,7 @@ end
 
 --析构函数
 local function _delete(self)
-	
+	self:OnDestroy()
 end
 
 local function OnCreate(self)

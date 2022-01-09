@@ -4,14 +4,19 @@
 
 local UILoginServerView = BaseClass("UILoginServerView",UIBaseView)
 local base = UIBaseView
-local btn_login_path = "Content/LoginBtn"
-local btn_login_text_path ="Content/LoginBtn/Text"
-
+local back_btn = "MaskContent/Bg/BackBtn"
+local ok_btn = "MaskContent/Bg/OkBtn"
 
 local function OnCreate(self)
 	base.OnCreate(self)
-	
-
+	self.back_button = self:AddComponent(UIButton,back_btn)
+	self.ok_button = self:AddComponent(UIButton,ok_btn)
+	self.back_button:SetOnClick(function()
+		self.ctrl:ButtonClose()
+	end)
+	self.ok_button:SetOnClick(function()
+		self.ctrl:ButtonClose()
+	end)
 end
 
 local function OnEnable(self)
@@ -23,12 +28,13 @@ local function Update(self)
 end
 
 local function OnDestroy(self)
-
+	self.back_button=nil
+	self.ok_button=nil
 	base.OnDestroy(self)
 end
 
 UILoginServerView.OnCreate = OnCreate
 UILoginServerView.OnEnable = OnEnable
-UILogUILoginServerViewinView.Update = Update
+UILoginServerView.Update = Update
 UILoginServerView.OnDestroy = OnDestroy
 return UILoginServerView

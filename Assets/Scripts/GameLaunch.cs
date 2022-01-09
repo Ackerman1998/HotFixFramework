@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.U2D;
 /// <summary>
 /// Game Launch Manager
 /// </summary>
@@ -11,18 +12,45 @@ public class GameLaunch : MonoSingleton<GameLaunch>
     private string launchUIName = "UILaunch";
     private string fontName = "font";
     private string noticeTipsUIName = "UINoticeTip";
+    private string spriteAtlasName = "spriteatlas";
     //更新器
     private AssetBundleUpdater bundleUpdater=null;
     public override void Awake()
     {
         base.Awake();
     }
+
+    void OnEnable()
+    {
+        UnityEngine.U2D.SpriteAtlasManager.atlasRequested += RequestAtlas;
+    }
+
+    void OnDisable()
+    {
+        UnityEngine.U2D.SpriteAtlasManager.atlasRequested -= RequestAtlas;
+    }
+    void RequestAtlas(string tag, System.Action<SpriteAtlas> callback)
+    {
+        Debug.Log("RequestAtlas:"+tag);
+        var sa = Resources.Load<SpriteAtlas>(tag);
+        callback(sa);
+    }
+
+
     IEnumerator Start()
     {
         var start = DateTime.Now;
+        Debug.Log("AssetBundleManager");
         yield return AssetBundleManager.Instance.Initialize();
         Debug.Log(string.Format("AssetBundleManager Initialize use {0}ms", (DateTime.Now - start).Milliseconds));
         start = DateTime.Now;
+
+        //var loaderSpriteAtlas = AssetBundleManager.Instance.LoadAssetBundleAsync(spriteAtlasName);
+        //yield return loaderSpriteAtlas;
+        //loaderSpriteAtlas.Dispose();
+        //Debug.Log(string.Format("Init SpriteAtlas use {0}ms", (DateTime.Now - start).Milliseconds));
+        //start = DateTime.Now;
+
 
         yield return InitFont();
         Debug.Log(string.Format("Init Font use {0}ms", (DateTime.Now - start).Milliseconds));

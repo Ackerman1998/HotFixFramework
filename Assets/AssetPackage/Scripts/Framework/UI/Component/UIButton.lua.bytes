@@ -14,7 +14,6 @@ local base = UIBaseContainer
 -- 创建
 local function OnCreate(self, relative_path)
 	base.OnCreate(self)
-	print("uibtn oncreate")
 	-- Unity侧原生组件
 	self.unity_uibutton = UIUtil.FindButton(self.transform, relative_path)
 	-- 记录点击回调

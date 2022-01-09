@@ -42,6 +42,14 @@ end
 local function OnRemoveListener(self)
 end
 
+--释放
+local function OnDestroy(self)
+	self.ctrl = nil
+    self.model = nil
+	self.canvas = nil
+	base.OnDestroy(self)
+end
+
 UIBaseView._init = _init
 UIBaseView.OnCreate = OnCreate
 UIBaseView.OnEnable = OnEnable

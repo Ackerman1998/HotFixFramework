@@ -4,7 +4,7 @@ UILoginConfig--Login窗口配置
 
 local UILoginConfig = {
 	Name = UIWindowNames.UILogin,
-	Layer = UILayers.TopLayer,
+	Layer = UILayers.BackgroudLayer,
 	Model = require "UILoginModel",
 	Ctrl = require "UILoginCtrl",
 	View = require "UILoginView",
