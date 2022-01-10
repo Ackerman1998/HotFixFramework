@@ -4,6 +4,7 @@
 local LoginScene = BaseClass("LoginScene",BaseScene)
 
 local function OnComplete(self)
+    print("LoginScene load ui:")
     UIManager:GetInstance():OpenWindow(UIWindowNames.UILogin)
 end
 

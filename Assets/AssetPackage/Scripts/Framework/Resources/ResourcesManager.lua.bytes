@@ -46,11 +46,13 @@ local function LoadAsync(self, path, res_type, callback, ...)
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
 	assert(callback ~= nil and type(callback) == "function", "Need to provide a function as callback")
 	local args = SafePack(nil, ...)
-
+	print("Resources.LoadAsync start:")
     coroutine.start(function()
+		print("Resources.LoadAsync:"..path)
 		local asset = self:CoLoadAsync(path, res_type, nil)
 		args[1] = asset
 		callback(SafeUnpack(args))
+		--print("Resources.LoadAsync ok:"..path)
 	end)
 end
 
@@ -60,18 +62,21 @@ local function CoLoadAsync(self, path, res_type, progress_callback)
 	print("CoLoadAsync LoadAssetAsync:"..path)
 	local loader = CS.LuaCallCsharpFunc.LoadAssetAsync(path)
 	coroutine.waitforasyncop(loader,progress_callback)
-	asset = loader.asset
+	local asset = loader.asset
 	loader:Dispose()
+	print("loader is dispose,Resources.LoadAsync ok:"..path)
 	--local asset = CS.LuaCallCsharpFunc.GetAsset(path)
 	return asset
 end
 --加载本地Text文件中的字符串(例如：Appversion,ResVersion)
 local function LoadTextForLocalFile(self,fileName)
+	print("start load text local :"..fileName)
 	local appversion_code = nil
 	local loader =  CS.LuaCallCsharpFunc.GetResourceAsync(fileName)
 	coroutine.waitforasyncop(loader,nil)
 	appversion_code = loader.text
 	loader:Dispose()
+	print("start load text local ok:"..fileName)
 	return appversion_code
 end
 

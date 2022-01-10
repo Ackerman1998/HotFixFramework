@@ -27,8 +27,10 @@ end
 local function _GetCoroutine()
 	local co =nil
 	if #coroutine_pool>0 then
+		print("get coroutine from copool"..#coroutine_pool)
 		co = table.remove(coroutine_pool)
 	else
+		print("get coroutine from create new co")
 		co = coroutine.create(_GenCoroutine)
 	end
 	return co
@@ -59,8 +61,26 @@ local function __GetAction(co, timer, func, args, result)
 end
 
 --继续
+--local function _ResumeCoroutine(co,func,...)
 local function _ResumeCoroutine(co,callback,...)
+	print("coroutine.resume run...+")
 	coroutine.resume(co,callback,...)
+	-- local resume_ret = nil
+	-- if func ~= nil then
+	-- 	resume_ret = SafePack(coroutine.resume(co, func, ...))
+	-- else
+	-- 	resume_ret = SafePack(coroutine.resume(co, ...))
+	-- end
+	-- local flag, msg = resume_ret[1], resume_ret[2]
+	-- if not flag then
+	-- 	print(msg.."\n"..debug.traceback(co))
+	-- elseif resume_ret.n > 1 then
+	-- 	table.remove(resume_ret, 1)
+	-- else
+	-- 	resume_ret = nil
+	-- end
+
+	-- return flag, resume_ret
 end
 --结束时执行的方法
 local function __Action(action, abort, ...)
@@ -107,7 +127,7 @@ local function waitforseconds(times)
 end
 --等frameNum帧
 local function waitforframes(frameNum)
-	local co = coroutine.running()
+	local co = coroutine.running() 
 	local timer = TimeManager:GetInstance():GetCoTimer()
 	local action =__GetAction(co,timer)
 	timer:Init(frameNum, __Action, action, true,true)
@@ -117,9 +137,8 @@ local function waitforframes(frameNum)
 end
 --等待异步完成，执行回调
 local function waitforasyncop(asyncOperation,callback)
-	print("waitforasyncop start")
 	assert(asyncOperation)
-	local co = coroutine.running()
+	local co = coroutine.running() or error ("coroutine.waitforasyncop must be run in coroutine")
 	local timer = TimeManager:GetInstance():GetCoTimer()
 	local action =__GetAction(co,timer,_CheckAsyncOperation,SafePack(co,asyncOperation,callback),true)
 	timer:Init(1, __Action, action, false,true)
@@ -133,6 +152,7 @@ local function yieldstart(func,callback)
 end
 
 local function start(callback,...)
+	print("coroutine.start start run...+")
 	local co = _GetCoroutine()
 	_ResumeCoroutine(co,callback,...)
 	return co

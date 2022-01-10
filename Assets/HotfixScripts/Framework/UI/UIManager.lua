@@ -157,7 +157,7 @@ local function InnerCloseWindow(self, target)
 end
 
 local function InnerDelete(plugin)
-	if plugin.__ctype == ClassType.instance then
+	if plugin._ctype == ClassType.instance then
 		plugin:Delete()
 	end
 end

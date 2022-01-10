@@ -14,10 +14,12 @@ public static class LuaCallCsharpFunc
 
     public static ResourceWebRequester GetResourceAsync(string name)
     {
+       
         var loader = AssetBundleManager.Instance.RequestAssetFileAsync(name);
         return loader;
     }
     public static BaseAssetAsyncLoader LoadAssetAsync(string assetName) {
+        Debug.Log("CsharpFunc LoadAssetAsync:"+ assetName);
         return AssetBundleManager.Instance.LoadAssetAsync(assetName);
     }
 }
