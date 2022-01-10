@@ -46,7 +46,12 @@ local function LoadAsync(self, path, res_type, callback, ...)
 	assert(path ~= nil and type(path) == "string" and #path > 0, "path err : "..path)
 	assert(callback ~= nil and type(callback) == "function", "Need to provide a function as callback")
 	local args = SafePack(nil, ...)
-	print("Resources.LoadAsync start:")
+
+	-- coroutine.start(function()
+
+	-- end)
+
+	print("Resources.LoadAsync11111111111:"..path)
     coroutine.start(function()
 		print("Resources.LoadAsync:"..path)
 		local asset = self:CoLoadAsync(path, res_type, nil)

@@ -15,15 +15,7 @@ local function OnCreate(self)
 	self.loading_slider = self:AddComponent(UISlider, loading_slider_path)
 	self.loading_slider:SetValue(0.0)
 	self.testvalue = 111
-	-- 定时器
-	-- 这里一定要对回调函数持有引用，否则随时可能被GC，引起定时器失效
-	-- 或者使用成员函数，它的生命周期是和对象绑定在一块的
-	-- local circulator = table.circulator({"loading", "loading.", "loading..", "loading..."})
-	-- self.timer_action = function(self)
-	-- 	self.loading_text:SetText(circulator())
-	-- end
-	-- self.timer = TimerManager:GetInstance():GetTimer(1, self.timer_action , self)
-	-- self.timer:Start()
+	
 end
 
 local function OnEnable(self)
@@ -37,11 +29,6 @@ local function Update(self)
 end
 
 local function OnDestroy(self)
-	self.timer:Stop()
-	self.loading_text = nil
-	self.loading_slider = nil
-	self.timer_action = nil
-	self.timer = nil
 	base.OnDestroy(self)
 end
 

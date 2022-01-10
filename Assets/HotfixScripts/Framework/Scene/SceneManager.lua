@@ -72,7 +72,9 @@ local function CoInnerSwitchScene(self, scene_config)
 
 	-- --load login ui
 	window_model.value = 1
-	coroutine.waitforseconds(0.1)
+	print("开始延时")
+	coroutine.waitforseconds(1)
+	print("延时了1s")
 	login_scene:OnComplete()
 	uimgr_instance:RecyleWindow(UIWindowNames.UILoading)
 end

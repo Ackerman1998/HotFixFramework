@@ -16,10 +16,12 @@ end
 --构造
 local function _GenCoroutine(callback,...)
 	local args = SafePack(...)
-	if callback~=nil then
+	while callback do
 		local ret = SafePack(callback(SafeUnpack(args)))
 		_RecycleCoroutine(coroutine.running())
-	 	args = SafePack(coroutine.yield())
+	 	args = SafePack(coroutine.yield(SafeUnpack(ret)))
+		 callback = args[1]
+		 table.remove(args, 1)
 	end
 end
 
@@ -62,25 +64,23 @@ end
 
 --继续
 --local function _ResumeCoroutine(co,func,...)
-local function _ResumeCoroutine(co,callback,...)
-	print("coroutine.resume run...+")
-	coroutine.resume(co,callback,...)
-	-- local resume_ret = nil
-	-- if func ~= nil then
-	-- 	resume_ret = SafePack(coroutine.resume(co, func, ...))
-	-- else
-	-- 	resume_ret = SafePack(coroutine.resume(co, ...))
-	-- end
-	-- local flag, msg = resume_ret[1], resume_ret[2]
-	-- if not flag then
-	-- 	print(msg.."\n"..debug.traceback(co))
-	-- elseif resume_ret.n > 1 then
-	-- 	table.remove(resume_ret, 1)
-	-- else
-	-- 	resume_ret = nil
-	-- end
+local function _ResumeCoroutine(co, func, ...)
+	local resume_ret = nil
+	if func ~= nil then
+		resume_ret = SafePack(coroutine.resume(co, func, ...))
+	else
+		resume_ret = SafePack(coroutine.resume(co, ...))
+	end
+	local flag, msg = resume_ret[1], resume_ret[2]
+	if not flag then
+		print(msg.."\n"..debug.traceback(co))
+	elseif resume_ret.n > 1 then
+		table.remove(resume_ret, 1)
+	else
+		resume_ret = nil
+	end
 
-	-- return flag, resume_ret
+	return flag, resume_ret
 end
 --结束时执行的方法
 local function __Action(action, abort, ...)
@@ -152,7 +152,6 @@ local function yieldstart(func,callback)
 end
 
 local function start(callback,...)
-	print("coroutine.start start run...+")
 	local co = _GetCoroutine()
 	_ResumeCoroutine(co,callback,...)
 	return co
