@@ -1,0 +1,3 @@
+E:\Ackerman\zhyz\Server\Server\Debug\Server.exe
+E:\Ackerman\zhyz\Server\Server\Debug\Server.pdb
+C:\Users\Administrator\Desktop\Server\Server\Debug\Server.exe

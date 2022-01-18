@@ -1,0 +1,3 @@
+﻿  LoginServer.cpp
+C:\Users\Administrator\Desktop\Server\Server\Net\LSNetSessionMgr.h(21,23): error C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\Administrator\Desktop\Server\Server\Net\LSNetSessionMgr.h(32,17): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
