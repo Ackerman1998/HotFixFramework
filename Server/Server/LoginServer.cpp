@@ -34,6 +34,7 @@ private:
 };
 
 bool LoadAllConfig();
+bool LoadServerList();
 void TestPointer();
 void TestPointer2();
 void TestChar(const char* ptr);
@@ -146,12 +147,15 @@ int main() {
 	才能调用进一步的Windows Sockets*/
 	cout << "start loginserver"<<endl;
 	csm = new CLSNetSessionMgr;
-	
-	if (LoadAllConfig()) {
+	if (!LoadAllConfig()) {
 		printf("Load StartUp.ini Failed...\n");
 		return false;
 	}
-	
+	if (!LoadServerList()) {
+		printf("Load ServerList.ini Failed...\n");
+		return false;
+	}
+	printf("Load ini Successed...\n");
 }
 
 void TestPointer() {
@@ -286,6 +290,37 @@ bool LoadAllConfig() {
 			}
 		}
 		cout << "=================================" << endl;
+	}
+	return true;
+}
+bool LoadServerList() {
+	int serverNumber = GetPrivateProfileInt(_T("MainList"),_T("ServerNum"),0,_T("LSConfig\\ServerList.ini"));
+	char server_name[32];
+	char server_addr[32];
+	char t_name[32];
+	char t_addr[32];
+	memset(server_name, 0, sizeof(server_name));
+	memset(server_addr, 0, sizeof(server_addr));
+	memset(t_name, 0, sizeof(t_name));
+	memset(t_addr, 0, sizeof(t_addr));
+	for (int i = 1; i <= serverNumber;i++) {
+		sServerAddr ssAddr;
+		memset(&ssAddr,0,sizeof(ssAddr));
+		_snprintf_s(t_name,sizeof(t_name),"Name%u",i);
+		GetPrivateProfileStringA("MainList", t_name,"", server_name,32, "LSConfig\\ServerList.ini");
+		_snprintf_s(t_addr, sizeof(t_addr), "Addr%u", i);
+		GetPrivateProfileStringA("MainList", t_addr, "", server_addr, 32, "LSConfig\\ServerList.ini");
+		char* portNum = strchr(server_addr,':');
+		portNum++;
+		ssAddr.str_port = atoi(portNum);//是把字符串转换成整型数的一个函数
+
+		string temp_addr = server_addr;
+		string temp_name = server_name;
+		cout << "temp_addr:" << temp_addr<<endl;
+		cout << "temp_name:" << temp_name <<endl;
+		ssAddr.str_name = temp_name;
+		ssAddr.str_addr = temp_addr;
+		loginServerAddrInfo[i] = ssAddr;
 	}
 	return true;
 }

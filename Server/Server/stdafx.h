@@ -20,5 +20,13 @@ struct sOneBsInfo
 	UINT32 bs_Port;
 	UINT32 bs_Id;
 };
+
+struct sServerAddr
+{
+	std::string str_name;
+	std::string str_addr;
+	UINT32 str_port;
+};
 extern std::map<UINT32, sOneBsInfo> gAllBsInfo;
+extern std::map<UINT32, sServerAddr> loginServerAddrInfo;
 extern sLSConfig slsconfig;

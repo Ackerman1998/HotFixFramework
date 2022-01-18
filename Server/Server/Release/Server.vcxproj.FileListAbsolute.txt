@@ -1,1 +1,2 @@
 C:\Users\Administrator\Desktop\Server\Server\Release\Server.exe
+D:\Ackerman\HotFixFramework\Server\Server\Release\Server.exe

@@ -166,12 +166,18 @@ cout << *intPtr << endl; 结果：2
 则只会打印当前指向的那一个值；打印int指针变量，会返回地址,加上星号打印返回的
 是当前指向的值
 ======================c++常用方法记录===========================
-1.GetPrivateProfileInt
-2._snprintf
-3.GetPrivateProfileStringA
-4.strchr
-5.atoi
+1.GetPrivateProfileInt(char *appName,char *keyName,int defualtvalue,char *path)
+读取path路径的文件，按照[appName]取模块，找到模块后，根据key来取对应的值，如果没找到则赋默认值defualtvalue
+2._snprintf_s(char num[64],int size,char* formatStr,...)
+将第四个字符串按照formatStr的格式转为字符串，并传递给第一个字符串
+3.GetPrivateProfileStringA(char *appName,char *keyName,char* defualtvalue,char* desStr,int size,char *path)
+读取path的文件，按照[appName]取模块，找到模块后，根据key来取对应的值，将得到的值赋值给desStr
+4.strchr(char* str,char targetChar) 根据给出的char字符截取字符串
+在str找到targetChar，并从这个字符开始截取字符串，并返回这个截取后的字符串
+5.atoi(char* str) 全称(ascii to integer)
+将字符串转换为整型
 6._T
+支持unicode
 ======================c++修饰符===========================
 
 
