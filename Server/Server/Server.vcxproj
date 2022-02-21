@@ -149,6 +149,7 @@
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\INetSession.h" />
     <ClInclude Include="Common\INetSessionMgr.h" />
     <ClInclude Include="Net\LSNetSessionMgr.h" />
     <ClInclude Include="stdafx.h" />
