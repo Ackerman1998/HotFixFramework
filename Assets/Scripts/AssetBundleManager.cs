@@ -19,7 +19,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     private string assetEditorPath = "AssetPackage";
     private string assetbundleRootPath = Application.streamingAssetsPath + "/Assetbundle";
     private Manifest manifest;
-    //常驻Assetbundle容器
+    //Assetbundle缓存
     private Dictionary<string, AssetBundle> assetBundle_Container = new Dictionary<string, AssetBundle>();
     //加载的资源映射表
     private List<AssetMapping> mapping_List = new List<AssetMapping>();
@@ -34,6 +34,8 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     // 逻辑层正在等待的ab加载异步句柄
     List<AssetBundleAsyncLoader> prosessingAssetBundleAsyncLoader = new List<AssetBundleAsyncLoader>();
     List<AssetAsyncLoader> assetAsyncLoaders = new List<AssetAsyncLoader>();
+    //assetbundle的引用计数
+    Dictionary<string, int> assetbundleRefCount = new Dictionary<string, int>();
     //编辑器模式下的文件映射
     Dictionary<string, string> editorAssetMappingDict = new Dictionary<string, string>();
     int currentNum = 0;
@@ -127,6 +129,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         prosessingWebRequester.Clear();
         residentAssetBundle.Clear();
         mapping_List.Clear();
+        assetbundleRefCount.Clear();
         yield break;
     }
     
@@ -287,6 +290,12 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         return null;
     }
 
+    public void RemoveAssetBundleCache(string name) {
+        if (assetBundle_Container.ContainsKey(name)) {
+            assetBundle_Container.Remove(name);
+        }
+    }
+
     public UnityEngine.Object GetAssetCache(string assetName) {
         UnityEngine.Object result = LoadAssets<UnityEngine.Object>(assetName);
         return result;
@@ -351,6 +360,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
         path= path.AddEndName(assetbundleEndName);
         creater.Init(filePath, path, cache);
         webRequesterQueue.Enqueue(creater);
+        InCreaseAssetBundleRef(filePath.AddEndName(assetbundleEndName));
         return creater;
     }
     /// <summary>
@@ -358,9 +368,25 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
     /// </summary>
     public BaseAssetBundleAsyncLoader LoadAssetBundleAsync(string name) {
         var loader = AssetBundleAsyncLoader.Get();
-        loader.Init(name);
-        RequestAssetBundleHasEndAsync(name);
+        
         prosessingAssetBundleAsyncLoader.Add(loader);
+        if (manifest != null)
+        {
+            //load manifest
+            string[] dependency = manifest.GetAllDependencies(name);
+            for (int i=0;i<dependency.Length;i++) {
+                if (dependency.Length>0&& !dependency[i].Equals(name)) {
+                    RequestAssetBundleHasEndAsync(dependency[i]);
+                    InCreaseAssetBundleRef(dependency[i]);
+                }
+            }
+            loader.Init(name);
+        }
+        else {
+            loader.Init(name);
+        }
+        RequestAssetBundleHasEndAsync(name);
+        InCreaseAssetBundleRef(name);
         return loader;
     }
 
@@ -393,9 +419,75 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
       
         return loader;
     }
-    
+    /// <summary>
+    /// 卸载
+    /// containerEnd ： 是否需要添加后缀(.assetbundle)
+    /// </summary>
+    /// <param name="assetbundleName"></param>
+    /// <param name="containerEnd"></param>
+    /// <returns></returns>
+    public bool UnLoadAssetBundle(string assetbundleName,bool containerEnd) {
+        string abName;
+        if (containerEnd)
+        {
+            abName=assetbundleName.AddEndName(assetbundleEndName);
+        }
+        else {
+            abName = assetbundleName;
+        }
+        if (GetAssetBundleRef(abName) >0) {
+            Debug.Log(string.Format("[UnLoadAssetBundle {0} Failed: AssetBundle RefNumber>0]", assetbundleName));
+            return false;
+        }
+        var assetbundle = GetAssetBundleCache(assetbundleName);
+        if (assetbundle!=null) {
+            assetbundle.Unload(false);
+            RemoveAssetBundleCache(assetbundleName);
+            Debug.Log(string.Format("[UnLoadAssetBundle {0} Completed ! ]", assetbundleName));
+            //remove dependence assetbundle
+            if (manifest!=null) {
+                string[] depedency = manifest.GetAllDependencies(abName);
+                if (depedency.Length>0) {
+                    for (int i=0;i<depedency.Length;i++) {
+                        int refCount = assetbundleRefCount[depedency[i]];
+                        //引用计数=0,移除
+                        if (refCount<=0) {
+                            UnLoadAssetBundle(depedency[i],false);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
-    
+    public int GetAssetBundleRef(string assetbundleName) {
+        int count = 0;
+        assetbundleRefCount.TryGetValue(assetbundleName, out count);
+        return count;
+    }
+
+    public void InCreaseAssetBundleRef(string assetbundleName) {
+        int count = 0;
+        assetbundleRefCount.TryGetValue(assetbundleName,out count);
+        count++;
+        assetbundleRefCount[assetbundleName] = count;
+    }
+
+    public int DeCreaseAssetBundleRef(string assetbundleName,bool autoUnLoad=false)
+    {
+        int count = 0;
+        assetbundleRefCount.TryGetValue(assetbundleName, out count);
+        count--;
+        if (count <= 0 && autoUnLoad)
+        {
+            UnLoadAssetBundle(assetbundleName,false);
+        }
+        else {
+            assetbundleRefCount[assetbundleName] = count;
+        }
+        return count;
+    }
     #endregion
 
     #region Mono Function
@@ -445,6 +537,7 @@ public class AssetBundleManager : MonoSingleton<AssetBundleManager>
             for (int i= prosessingAssetBundleAsyncLoader.Count-1;i>=0;i--) {
                 prosessingAssetBundleAsyncLoader[i].Update();
                 if (prosessingAssetBundleAsyncLoader[i].IsDone()) {
+                    DeCreaseAssetBundleRef(prosessingAssetBundleAsyncLoader[i].assetbundleName.AddEndName(assetbundleEndName),true);
                     prosessingAssetBundleAsyncLoader.RemoveAt(i);
                 }
             }

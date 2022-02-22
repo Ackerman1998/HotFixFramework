@@ -1,0 +1,9 @@
+**********************************************mat.assetbundle
+mat.assetbundle Depency:shader.assetbundle
+mat.assetbundle Depency:textures.assetbundle
+**********************************************prefabs.assetbundle
+prefabs.assetbundle Depency:mat.assetbundle
+prefabs.assetbundle Depency:shader.assetbundle
+prefabs.assetbundle Depency:textures.assetbundle
+**********************************************shader.assetbundle
+**********************************************textures.assetbundle

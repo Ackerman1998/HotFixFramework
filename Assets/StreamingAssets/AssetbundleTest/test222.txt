@@ -1,0 +1,50 @@
+**********************************************assetsmap_bytes.assetbundle
+**********************************************effect/common.assetbundle
+effect/common.assetbundle Depency:shaders.assetbundle
+**********************************************effect/prefab/ui/ef_ui_pet_rank_yellow_test_prefab.assetbundle
+effect/prefab/ui/ef_ui_pet_rank_yellow_test_prefab.assetbundle Depency:shaders.assetbundle
+**********************************************effect/prefab/ui/ef_ui_taskfinish_prefab.assetbundle
+effect/prefab/ui/ef_ui_taskfinish_prefab.assetbundle Depency:shaders.assetbundle
+effect/prefab/ui/ef_ui_taskfinish_prefab.assetbundle Depency:ui/ani.assetbundle
+**********************************************lua.assetbundle
+**********************************************models/1001.assetbundle
+**********************************************shaders.assetbundle
+**********************************************ui/ani.assetbundle
+**********************************************ui/atlas/comm.assetbundle
+**********************************************ui/atlas/group.assetbundle
+**********************************************ui/atlas/hyper.assetbundle
+**********************************************ui/atlas/login.assetbundle
+**********************************************ui/atlas/role.assetbundle
+**********************************************ui/fonts/system_art_ttf.assetbundle
+**********************************************ui/fonts/system_ttf.assetbundle
+**********************************************ui/prefabs/common/uinoticetip_prefab.assetbundle
+ui/prefabs/common/uinoticetip_prefab.assetbundle Depency:ui/ani.assetbundle
+ui/prefabs/common/uinoticetip_prefab.assetbundle Depency:ui/atlas/comm.assetbundle
+ui/prefabs/common/uinoticetip_prefab.assetbundle Depency:ui/fonts/system_art_ttf.assetbundle
+ui/prefabs/common/uinoticetip_prefab.assetbundle Depency:ui/fonts/system_ttf.assetbundle
+**********************************************ui/prefabs/view/uibattlemain_prefab.assetbundle
+**********************************************ui/prefabs/view/uilaunch_prefab.assetbundle
+ui/prefabs/view/uilaunch_prefab.assetbundle Depency:ui/atlas/comm.assetbundle
+ui/prefabs/view/uilaunch_prefab.assetbundle Depency:ui/atlas/role.assetbundle
+ui/prefabs/view/uilaunch_prefab.assetbundle Depency:ui/fonts/system_ttf.assetbundle
+**********************************************ui/prefabs/view/uiloading_prefab.assetbundle
+ui/prefabs/view/uiloading_prefab.assetbundle Depency:ui/atlas/comm.assetbundle
+ui/prefabs/view/uiloading_prefab.assetbundle Depency:ui/atlas/role.assetbundle
+ui/prefabs/view/uiloading_prefab.assetbundle Depency:ui/fonts/system_ttf.assetbundle
+**********************************************ui/prefabs/view/uilogin_prefab.assetbundle
+ui/prefabs/view/uilogin_prefab.assetbundle Depency:ui/ani.assetbundle
+ui/prefabs/view/uilogin_prefab.assetbundle Depency:ui/atlas/comm.assetbundle
+ui/prefabs/view/uilogin_prefab.assetbundle Depency:ui/fonts/system_art_ttf.assetbundle
+ui/prefabs/view/uilogin_prefab.assetbundle Depency:ui/fonts/system_ttf.assetbundle
+**********************************************ui/prefabs/view/uiloginserver_prefab.assetbundle
+ui/prefabs/view/uiloginserver_prefab.assetbundle Depency:ui/ani.assetbundle
+ui/prefabs/view/uiloginserver_prefab.assetbundle Depency:ui/atlas/comm.assetbundle
+ui/prefabs/view/uiloginserver_prefab.assetbundle Depency:ui/atlas/group.assetbundle
+ui/prefabs/view/uiloginserver_prefab.assetbundle Depency:ui/atlas/login.assetbundle
+ui/prefabs/view/uiloginserver_prefab.assetbundle Depency:ui/fonts/system_art_ttf.assetbundle
+ui/prefabs/view/uiloginserver_prefab.assetbundle Depency:ui/fonts/system_ttf.assetbundle
+**********************************************ui/prefabs/view/uitestmain_prefab.assetbundle
+ui/prefabs/view/uitestmain_prefab.assetbundle Depency:ui/ani.assetbundle
+ui/prefabs/view/uitestmain_prefab.assetbundle Depency:ui/atlas/comm.assetbundle
+ui/prefabs/view/uitestmain_prefab.assetbundle Depency:ui/fonts/system_art_ttf.assetbundle
+**********************************************variantsmap_bytes.assetbundle
