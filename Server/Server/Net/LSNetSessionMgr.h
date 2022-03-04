@@ -9,6 +9,9 @@ class CLSNetSessionMgr
 public:
 	CLSNetSessionMgr();
 	~CLSNetSessionMgr();
+	CLSNetSessionMgr operator==(const CLSNetSessionMgr csm) {
+		return *this;
+	}
 	bool GetNetIp(std::string& ipaddress, int port) {
 		char hostName[255]="";
 		//返回本地主机的标准主机名

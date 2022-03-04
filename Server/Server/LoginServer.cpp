@@ -29,6 +29,9 @@ public:
 		cout << "Destrot Message:"<< msg1 << endl;
 	}
 	 static inline std::string adress="ddd";
+	 /*Message& operator==(const Message &m) {
+		 return *this;
+	 }*/
 private:
 	int msg1;
 };
@@ -140,23 +143,23 @@ void signalHandler(int num) {
 
 #pragma endregion 测试类
 
-int main() {
-	WSADATA wsData;
-	::WSAStartup(MAKEWORD(2, 2), &wsData);
-	/*应用程序或DLL只能在一次成功的WSAStartup()调用之后
-	才能调用进一步的Windows Sockets*/
-	cout << "start loginserver"<<endl;
-	csm = new CLSNetSessionMgr;
-	if (!LoadAllConfig()) {
-		printf("Load StartUp.ini Failed...\n");
-		return false;
-	}
-	if (!LoadServerList()) {
-		printf("Load ServerList.ini Failed...\n");
-		return false;
-	}
-	printf("Load ini Successed...\n");
-}
+//int main() {
+//	WSADATA wsData;
+//	::WSAStartup(MAKEWORD(2, 2), &wsData);
+//	/*应用程序或DLL只能在一次成功的WSAStartup()调用之后
+//	才能调用进一步的Windows Sockets*/
+//	cout << "start loginserver"<<endl;
+//	csm = new CLSNetSessionMgr;
+//	if (!LoadAllConfig()) {
+//		printf("Load StartUp.ini Failed...\n");
+//		return false;
+//	}
+//	if (!LoadServerList()) {
+//		printf("Load ServerList.ini Failed...\n");
+//		return false;
+//	}
+//	printf("Load ini Successed...\n");
+//}
 
 void TestPointer() {
 	char str[] = "12345678", 
