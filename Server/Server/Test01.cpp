@@ -67,7 +67,7 @@ void Test() {
 	
 }
 
-int main() {
+void TestSTL() {
 	/*list<int>::iterator bianli;
 	list<int> testlist;
 	for (int i = 0; i < 10;i++) {
@@ -99,7 +99,11 @@ int main() {
 	//	cout << (testMapIterator->first) << "," << (testMapIterator->second)<<endl;
 	//	testMapIterator++;
 	//}
-	set<int, int> testset;
-	set<int, int>::iterator iteratorset;
-	
+	/*set<int, int> testset;
+	set<int, int>::iterator iteratorset;*/
 }
+
+//int main() {
+//	
+//	
+//}

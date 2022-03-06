@@ -19,6 +19,12 @@
     <Filter Include="Common">
       <UniqueIdentifier>{dcd45bdd-a9d6-4635-a400-6dc69ea36417}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Net">
+      <UniqueIdentifier>{e37e2594-5078-4e90-afb9-28a06ef46024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Net">
+      <UniqueIdentifier>{3815efd7-d1d2-4c7d-a9ba-7c0f6c5e9391}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LoginServer.cpp">
@@ -34,6 +40,15 @@
       <Filter>Net</Filter>
     </ClCompile>
     <ClCompile Include="Test01.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\TcpMgr.cpp">
+      <Filter>源文件\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="NetStart.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -52,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="Common\INetSession.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\TcpMgr.h">
+      <Filter>头文件\Net</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

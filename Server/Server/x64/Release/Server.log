@@ -1,0 +1,11 @@
+﻿  NetStart.cpp
+E:\Ackerman\GProject\HotFixFramework\Server\Server\NetStart.cpp(1,10): warning C4067: 预处理器指令后有意外标记 - 应输入换行符
+E:\Ackerman\GProject\HotFixFramework\Server\Server\NetStart.cpp(9,23): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\Ackerman\GProject\HotFixFramework\Server\Server\NetStart.cpp(17,32): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+  正在生成代码
+E:\Ackerman\GProject\HotFixFramework\Server\Server\NetStart.cpp(36): warning C4172: 返回局部变量或临时变量的地址: buf
+  4 of 257 functions ( 1.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  Server.vcxproj -> E:\Ackerman\GProject\HotFixFramework\Server\Server\x64\Release\Server.exe
