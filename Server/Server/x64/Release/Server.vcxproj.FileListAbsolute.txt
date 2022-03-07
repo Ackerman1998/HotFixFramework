@@ -1,1 +1,2 @@
 E:\Ackerman\GProject\HotFixFramework\Server\Server\x64\Release\Server.exe
+D:\Ackerman\HotFixFramework\Server\Server\x64\Release\Server.exe

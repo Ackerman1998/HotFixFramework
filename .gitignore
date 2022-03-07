@@ -2,3 +2,6 @@
 /Temp/
 /obj/
 /Server/Server/.vs/
+/Server/Server/x64/
+/Server/Server/x64/Release/
+/Server/Server/Release/

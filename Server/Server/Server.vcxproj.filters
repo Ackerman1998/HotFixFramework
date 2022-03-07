@@ -51,6 +51,9 @@
     <ClCompile Include="NetStart.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Net\MessageMgr.cpp">
+      <Filter>源文件\Net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tools.h">
@@ -69,6 +72,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Net\TcpMgr.h">
+      <Filter>头文件\Net</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\MessageMgr.h">
       <Filter>头文件\Net</Filter>
     </ClInclude>
   </ItemGroup>

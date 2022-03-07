@@ -1,80 +1,32 @@
+#include "Net/MessageMgr.h"
 #include "Net/TcpMgr.h";
-#include <vector>
 #define HTTPPORT 1212
-std::vector<std::string> split(std::string str, std::string pattern)
-{
-	std::string::size_type pos;
-	std::vector<std::string> result;
-	str += pattern;//扩展字符串以方便操作
-	int size = str.size();
-	for (int i = 0; i < size; i++)
-	{
-		pos = str.find(pattern, i);
-		if (pos < size)
-		{
-			std::string s = str.substr(i, pos - i);
-			result.push_back(s);
-			i = pos + pattern.size() - 1;
-		}
-	}
-	return result;
+
+template <typename T>
+inline T Max(const T &a, const T &b) {
+	return a > b ? a : b;
 }
 
-char* CreateMessage(char* msg,bool success=true) {
-	char buf[1024];
-	if (success) {
-		strcpy_s(buf, "HTTP/1.1 200 OK\r\n");
-	}
-	else {
-		strcpy_s(buf, "HTTP/1.1 404 NotFound\r\n");
-	}
-	strcat_s(buf,"Content-Type: text/html\r\n");
-	strcat_s(buf,"Connection: Close\r\n");
-	strcat_s(buf,"\r\n");
-	strcat_s(buf, msg);
-	cout << "Return msg: " << buf << endl;
-	return buf;
-}
-
-void ResolveData(char* msg,TcpMgr client) {
-	char* fengefu = "\r\n";
-	char* fengefuSpace = " ";
-	std::vector<std::string> strs =split(msg, fengefu);
-	if (sizeof(strs)<=0) {
-		
-	}
-	else {
-		cout << strs[0] << endl;
-		std::vector<std::string> firstline = split(strs[0], fengefuSpace);
-		if (firstline[0]=="GET") {
-			cout <<"GET URL: "<< firstline[1] << endl;
-			if (firstline[1]=="/geturl") {
-				char* str = "hello,i am ackerman";
-				char* sendMsg = CreateMessage(str);
-				client.Send(sendMsg);
-			}
-			else {
-				//no res ,return 404 html
-			}
-		}
-		else if (firstline[0] == "POST") {
-			//暂不处理POST
-		}
-	}
-
-	//std::vector<std::string>::iterator bianli;
-	//bianli = strs.begin();
-	//while (bianli!=strs.end()) {
-	//	cout << "get resolve data :" << *bianli<< "\n" << endl;
-	//	//printf("get resolve data : %s\n",*bianli);
-	//	bianli++;
-	//}
-}
+template <class T>
+class Container {
+public:
+	T Pop();
+	void Push(const T &a);
+private:
+	vector<T> sta;
+};
 
 int main() {
+	//get是智能指针的函数，返回当前当前智能指针对象，即用以判断是否为空 
+	unique_ptr<Container<int>> containers;
+	//containers.get()->
+	shared_ptr<Container<int>> shareContainer;
+	//shareContainer.use_count;
+	weak_ptr<Container<int>> weakContainer;
 	WSADATA ws;
 	WSAStartup(MAKEWORD(2, 2), &ws);
 	TcpMgr tMgr;
+	MessageMgr mg;
 	tMgr.Bind(HTTPPORT);
 	char buf[1024];
 	while (true) {
@@ -84,7 +36,7 @@ int main() {
 		}
 		else {
 			client.Recv(buf, sizeof(buf) - 1);
-			ResolveData(buf, client);
+			mg.ResolveMessage(buf, client);
 			client.Close();
 			//printf("Receive Msg:%s", buf);
 		}
