@@ -89,7 +89,7 @@ void Swap(int &a,int &b) 和void Swap(int a,int b)的区别
 *****************************c++模板****************************************
 c++模板：是用来实现代码重用的一种方式，可以实现类型参数化，将类型定义为参数，从而实现了
 代码的重用
-模板分类为函数模板，类模板
+模板分类为函数模板，类模板；本质就是泛型
 ======================c++模板方法===========================
 c++模板方法的使用：
 template <typename T>
@@ -228,3 +228,33 @@ List对于随机访问速度慢得多，因为可能要遍历整个链表才能�
 只需要改变指针的指向就可以了。另外对于新添加的元素，Vector有一套算法，而List可以任意加入。
 list:iterator 并不是一个指针，它提供 * , -> 等运算符的重载，所以可以类似地像指针一样取元素。
 初始化，插入元素(单个/多个)，删除元素，查找元素，排序，清除所有
+
+虚函数：
+虚函数，是指被virtual关键字修饰的成员函数。在某基类中声明为 virtual 并在一个或多个派生类中被重新定义的成员函数，
+用法格式为：virtual 函数返回类型 函数名（参数表） {函数体}；C++中的虚函数的作用主要是实现了多态的机制。
+菱形继承解决：给两个中间类加上virtual；
+定义一个函数为虚函数，不代表函数为不被实现的函数。
+定义他为虚函数是为了允许用基类的指针来调用子类的这个函数。
+定义一个函数为纯虚函数，才代表函数没有被实现。
+
+类的指针调用方法：tr->Move();多层继承：调用父类方法类似于c#中的base.Move();
+class RoleBase {
+public:
+	virtual void Move() {
+		cout << "Move..." << endl;
+	}
+};
+class SelfRole :public virtual RoleBase{
+public:
+	void Move() {
+		RoleBase::Move();
+		cout << "SelfRole Move..." << endl;
+	}
+};
+class TestRole : public SelfRole {
+public:
+	void Move() {
+		SelfRole::Move();
+		cout << "TestRole Move..." << endl;
+	}
+};

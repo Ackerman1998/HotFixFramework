@@ -16,7 +16,34 @@ private:
 	vector<T> sta;
 };
 
+class RoleBase {
+public:
+	virtual void Move() {
+		cout << "Move..." << endl;
+	}
+};
+class SelfRole :public virtual RoleBase{
+public:
+	void Move() {
+		RoleBase::Move();
+		cout << "SelfRole Move..." << endl;
+	}
+};
+//class EnemyRole :public virtual RoleBase {
+//
+//};
+class TestRole : public SelfRole {
+public:
+	void Move() {
+		SelfRole::Move();
+		cout << "TestRole Move..." << endl;
+	}
+};
+
 int main() {
+	
+	RoleBase* tr=new TestRole();
+	tr->Move();
 	//get是智能指针的函数，返回当前当前智能指针对象，即用以判断是否为空 
 	unique_ptr<Container<int>> containers;
 	//containers.get()->
